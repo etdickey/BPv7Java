@@ -1,25 +1,17 @@
 package BPv7.containers;
 
 import javax.naming.directory.InvalidAttributesException;
-import java.util.InvalidPropertiesFormatException;
 
 /**
  * Parent class for primary blocks and canonical blocks
  */
-public abstract class Block {
+public abstract class Block extends NetworkSerializable {
     /**
      * Hardset because we don't want to deal with anything else
      */
     protected static final int GLOBAL_CRC_TYPE = 1;
 
     //other functions
-    /**
-     * Returns a valid network encoding as a byte array
-     * @return networking encoding
-     * @throws InvalidPropertiesFormatException if block is not ready to be encoded
-     */
-    abstract byte[] getNetworkEncoding() throws InvalidPropertiesFormatException;
-
     /**
      * Checks if a block is completely ready to be encoded (all required fields are set)
      * @return if a block is ready to be encoded
