@@ -8,6 +8,8 @@ package BPv7.containers;
  *  encoding in bundles will nearly always exceed (232 - 1); the manner
  *  in which a DTN time value is represented in memory is an
  *  implementation matter."
+ *
+ * @implSpec CBOR unsigned int
  */
 public class DTNTime {
     /**
@@ -17,7 +19,8 @@ public class DTNTime {
 
     /**
      * MS since the DTN Epoch, 2000-01-01 00:00:00 +0000 (UTC)
-     * @implNote We choose to handle this by modding by 2^32
+     * @implNote We choose to handle this by modding by 2^32 because
+     *  we assume a bundle won't be stalled for more than 49 days
      */
     public final int timeInMS;
 
