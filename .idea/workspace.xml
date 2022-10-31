@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90b59575-3e68-47ac-9cc5-472e0452beb2" name="Changes" comment="Addition of new classes:&#10;AdminRecord&#10;BPA&#10;BPSec&#10;Block&#10;Bundle&#10;NodeID&#10;PrimaryBlock&#10;StatusReport&#10;Changed:&#10;Application Agent -&gt; Comments&#10;DTCP -&gt; Added parameters of classes now added">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="90b59575-3e68-47ac-9cc5-472e0452beb2" name="Changes" comment="Addition of ApplicationAgent interface">
+      <change afterPath="$PROJECT_DIR$/src/DTCP/containers/DTCP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BPv7/containers/AdminRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/containers/AdminRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BPv7/containers/StatusReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/containers/StatusReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DTCP/interfaces/DTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DTCP/interfaces/DTCP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +14,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -32,22 +31,26 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2G8nB9K34TcZc6YjQaDfvTyLv2N" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;Z:/Grad School/Classes/CS/Networking/groupproject/BPv7Java/src/Convergence&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "OverrideImplement.generate.javadoc": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/raushanpandey/Documents/GIT/BPv7Java",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="Z:\Grad School\Classes\CS\Networking\groupproject\BPv7Java\src\Convergence" />
@@ -65,6 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1665778941764</updated>
       <workItem from="1665778944174" duration="3426000" />
+      <workItem from="1667169370591" duration="2069000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1665779264373</created>
@@ -87,14 +91,7 @@
       <option name="project" value="LOCAL" />
       <updated>1666387585893</updated>
     </task>
-    <task id="LOCAL-00004" summary="Addition of new classes:&#10;AdminRecord&#10;BPA&#10;BPSec&#10;Block&#10;Bundle&#10;NodeID&#10;PrimaryBlock&#10;StatusReport&#10;Changed:&#10;Application Agent -&gt; Comments&#10;DTCP -&gt; Added parameters of classes now added">
-      <created>1666447755929</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1666447755929</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,7 +117,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Addition of ApplicationAgent interface" />
-    <MESSAGE value="Addition of new classes:&#10;AdminRecord&#10;BPA&#10;BPSec&#10;Block&#10;Bundle&#10;NodeID&#10;PrimaryBlock&#10;StatusReport&#10;Changed:&#10;Application Agent -&gt; Comments&#10;DTCP -&gt; Added parameters of classes now added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Addition of new classes:&#10;AdminRecord&#10;BPA&#10;BPSec&#10;Block&#10;Bundle&#10;NodeID&#10;PrimaryBlock&#10;StatusReport&#10;Changed:&#10;Application Agent -&gt; Comments&#10;DTCP -&gt; Added parameters of classes now added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Addition of ApplicationAgent interface" />
   </component>
 </project>
