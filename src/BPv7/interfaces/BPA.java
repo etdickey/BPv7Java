@@ -1,8 +1,10 @@
 package BPv7.interfaces;
 
+import BPv7.containers.StatusReport;
+
 public class BPA {
 
-    protected AdminRecord getAdminRecord() {
+    protected StatusReport getAdminRecord() {
     /*Returns the payload of the next admin bundle (which is just an admin record)*/
         StatusReport placeholder = new StatusReport();
         return placeholder;
