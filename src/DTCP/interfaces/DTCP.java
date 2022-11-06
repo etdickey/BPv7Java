@@ -1,7 +1,7 @@
 package DTCP.interfaces;
 
-import BPv7.interfaces.Bundle;
-import BPv7.interfaces.NodeID;
+import BPv7.containers.Bundle;
+import BPv7.containers.NodeID;
 
 /*
 To Do:

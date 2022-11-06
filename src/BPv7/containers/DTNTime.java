@@ -55,4 +55,8 @@ public class DTNTime {
      * @param t time to initialize to
      */
     protected DTNTime(int t){ timeInMS = t; }
+
+    public int getTimeInMS() {
+        return timeInMS;
+    }
 }

@@ -32,7 +32,9 @@ public class StatusReport extends AdminRecord{
 
     int lengthOfPayload; //length of the subject bundle's payload, present only if bundle whose status is reported contained fragment offset
 
-    StatusReport(BundleStatusItem received,BundleStatusItem forwarded,BundleStatusItem delivered,BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp, int rType) {
+    // TODO: remove it, created to avoid error in BPA class
+    StatusReport() {};
+    StatusReport(BundleStatusItem received, BundleStatusItem forwarded, BundleStatusItem delivered, BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp, int rType) {
         statusIndicator[0] = received;
         statusIndicator[1] = forwarded;
         statusIndicator[2] = delivered;
