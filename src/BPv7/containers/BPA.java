@@ -3,6 +3,8 @@ package BPv7.containers;
 
 import DTCP.containers.DTCP;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
@@ -10,11 +12,13 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static BPv7.containers.BundleStatus.*;
+
 public class BPA implements BPv7.interfaces.BPA {
 
-    public Queue<Bundle> adminQueue = new PriorityQueue<>();
-    public BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
-    public AtomicInteger bundleKey = new AtomicInteger(0);
+    protected Queue<Bundle> adminQueue = new PriorityQueue<>();
+    protected BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
+    private Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
     private DTCP dtcp = new DTCP();
 
     // TODO: implement sending from buffer to DTCP (sender thread)
@@ -35,6 +39,7 @@ public class BPA implements BPv7.interfaces.BPA {
      * @return byteStream of payload
      */
     public byte[] getPayload() throws InterruptedException {
+        // TODO: read from config file
         Bundle bundle = sendBuffer.poll(20, TimeUnit.SECONDS);
         if(bundle != null) {
             return bundle.getPayload().getPayload().getBytes();
@@ -45,15 +50,29 @@ public class BPA implements BPv7.interfaces.BPA {
     /**
      * saves the bundle to queue
      * @param bundle: bundle from User API
-     * @return: -1 if unable to save the bundle, else key (counter value) for the bundle in the buffer
+     * @return: -1 if unable to save the bundle, else key (timestamp) for the bundle
      */
     public int send(Bundle bundle) {
         if(bundle != null) {
             // save to queue
             sendBuffer.add(bundle);
-            return bundleKey.incrementAndGet();
+            int timeInMS = bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
+            bundleStatusMap.put(timeInMS, PENDING);
+            return timeInMS;
         }
         return -1;
+    }
+
+    /**
+     * Util function to check status of bundle
+     * @param key: bundle key
+     * @return: status of the bundle, NONE if invalid key
+     */
+    public BundleStatus getBundleStatus(int key) {
+        if(key > 0 && key <= System.currentTimeMillis() && bundleStatusMap.containsKey(key)) {
+            return bundleStatusMap.get(key);
+        }
+        return NONE;
     }
 
     /**
@@ -65,10 +84,4 @@ public class BPA implements BPv7.interfaces.BPA {
         long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
         return timeGap <= bundle.getPrimary().getLifetime() ? false : true;
     }
-
-    /*Notes on BPA:
-Maintains two buffers, one of admin bundles and one of normal bundles
-Needs asynchronous function that waits for new bundles
-Not declaring buffers as java seems to need buffer type and I'm unsure if its ByteBuffer type
-*/
 }
