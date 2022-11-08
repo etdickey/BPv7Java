@@ -7,7 +7,7 @@ public interface BPA {
 
     public StatusReport getAdminRecord();
 
-    public byte[] getPayload();
+    public byte[] getPayload() throws InterruptedException;
 
     public int send(Bundle bundle);
 

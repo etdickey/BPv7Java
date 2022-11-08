@@ -1,17 +1,28 @@
 package BPv7.containers;
 
 
-import DTCP.interfaces.DTCP;
+import DTCP.containers.DTCP;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BPA implements BPv7.interfaces.BPA {
 
-    Queue<Bundle> adminQueue = new PriorityQueue<>();
-    Queue<Bundle> sendBuffer = new PriorityQueue<>();
-    DTCP dtcp = new DTCP.containers.DTCP();
+    public Queue<Bundle> adminQueue = new PriorityQueue<>();
+    public BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
+    public AtomicInteger bundleKey = new AtomicInteger(0);
+    private DTCP dtcp = new DTCP();
 
+    // TODO: implement sending from buffer to DTCP (sender thread)
+
+    /**
+     * TODO: need to understand if we will implement admin record
+     * @return
+     */
     public StatusReport getAdminRecord() {
         // read from admin queue and pass to senderThread
         // Returns the payload of the next admin bundle (which is just an admin record)
@@ -19,47 +30,34 @@ public class BPA implements BPv7.interfaces.BPA {
         return placeholder;
     } // ::[blocking]
 
-    public byte[] getPayload() {
-        /*Returns the next bundle’s entire payload*/
-        byte[] abc = java.util.HexFormat.of().parseHex("e04fd020ea3a6910a2d808002b30309d");
-        return abc; /*variable and return placeholder for required return*/
+    /**
+     * Returns the next bundle’s entire payload
+     * @return byteStream of payload
+     */
+    public byte[] getPayload() throws InterruptedException {
+        Bundle bundle = sendBuffer.poll(20, TimeUnit.SECONDS);
+        if(bundle != null) {
+            return bundle.getPayload().getPayload().getBytes();
+        }
+        return null;
     }
 
     /**
-     * saves the bundle to queue and then sends bundles from queue to DTCP
+     * saves the bundle to queue
      * @param bundle: bundle from User API
-     * @return: -1 if unable to send the bundle, else 1
+     * @return: -1 if unable to save the bundle, else key (counter value) for the bundle in the buffer
      */
     public int send(Bundle bundle) {
         if(bundle != null) {
             // save to queue
             sendBuffer.add(bundle);
-            // send bundles from queue
-            while(!sendBuffer.isEmpty()) {
-                Bundle bundleToSend = sendBuffer.poll();
-                NodeID destNode = bundleToSend.getPrimary().getDestNode();
-                if (dtcp.canReach(destNode)) {
-                    if(dtcp.send(bundleToSend)) {
-                        return 1;
-                    } else {
-                        // check if we can delete the bundle, if not add back of the queue
-                        if(!canDelete(bundleToSend)) {
-                            sendBuffer.add(bundleToSend);
-                        }
-                    }
-                } else {
-                    if(!canDelete(bundleToSend)) {
-                        sendBuffer.add(bundleToSend);
-                    }
-                    return -1;
-                }
-            }
+            return bundleKey.incrementAndGet();
         }
         return -1;
     }
 
     /**
-     * Checks if bundle can be delete based on LifeTime set in Primary block
+     * Checks if bundle can be deleted based on LifeTime set in Primary block
      * @param bundle: bundle to be checked
      * @return: boolean(), true if we can delete it, else false.
      */
