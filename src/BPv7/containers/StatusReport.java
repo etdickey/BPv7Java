@@ -6,6 +6,7 @@ package BPv7.containers;
  *  Fragment offset and length of payload if fragment offset exists.
  * */
 public class StatusReport extends AdminRecord{
+    private static final int RECORD_TYPE_STATUS_REPORT = 1;//probably needs to be moved to AdminRecord so we can record all admin record types in one spot...
     /*Getters and setters for status report info*/
     BundleStatusItem statusIndicator[] = new BundleStatusItem[4]; //Array of 4 Bundle Status Item objects, 1 each for received, forwarded, delivered and deleted.
     int reasonCode; //An integer code explaining the reason for the status indicator values. Below are the possible values
@@ -34,7 +35,7 @@ public class StatusReport extends AdminRecord{
 
     // TODO: remove it, created to avoid error in BPA class
     StatusReport() {};
-    StatusReport(BundleStatusItem received, BundleStatusItem forwarded, BundleStatusItem delivered, BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp, int rType) {
+    StatusReport(BundleStatusItem received, BundleStatusItem forwarded, BundleStatusItem delivered, BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp) {
         statusIndicator[0] = received;
         statusIndicator[1] = forwarded;
         statusIndicator[2] = delivered;
@@ -42,7 +43,7 @@ public class StatusReport extends AdminRecord{
         reasonCode = rCode;
         sourceBundleNodeID = sBundleNodeID;
         creationTimestamp = cTimeStamp;
-        super.recordType = rType;
+        super.recordType = RECORD_TYPE_STATUS_REPORT;
     } //Constructor containing all but fragmenting variables as parameters, + recordType from parent abstract class
 
     void setFragmentOffset(int a) { //setter for fragment offset if present
