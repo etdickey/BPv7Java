@@ -69,7 +69,8 @@ public class BPA implements BPv7.interfaces.BPA {
      * @return: status of the bundle, NONE if invalid key
      */
     public BundleStatus getBundleStatus(int key) {
-        if(key > 0 && key <= System.currentTimeMillis() && bundleStatusMap.containsKey(key)) {
+        //DTN Epoch isn't the same as system Epoch, check DTNTime::timeInMS for specifics
+        if(key > 0 && key <= DTNTime.getCurrentDTNTime().timeInMS && bundleStatusMap.containsKey(key)) {
             return bundleStatusMap.get(key);
         }
         return NONE;
