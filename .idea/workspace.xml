@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90b59575-3e68-47ac-9cc5-472e0452beb2" name="Changes" comment="Addition of ApplicationAgent interface">
-      <change afterPath="$PROJECT_DIR$/src/DTCP/containers/DTCP.java" afterDir="false" />
+    <list default="true" id="d7513e40-e567-47e6-a704-78645e1c6d5e" name="Changes" comment="Added 4 variables (missing fragmentation) in Status Report&#10;Added record type in Admin record">
+      <change afterPath="$PROJECT_DIR$/src/BPv7/containers/BundleStatusItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DTCP/interfaces/DTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DTCP/interfaces/DTCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/containers/AdminRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/containers/AdminRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/containers/StatusReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/containers/StatusReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/interfaces/BPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/interfaces/BPA.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,19 +40,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "OverrideImplement.generate.javadoc": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/raushanpandey/Documents/GIT/BPv7Java",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;OverrideImplement.generate.javadoc&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/raushanpandey/Documents/GIT/BPv7Java&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="Z:\Grad School\Classes\CS\Networking\groupproject\BPv7Java\src\Convergence" />
@@ -62,7 +64,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="90b59575-3e68-47ac-9cc5-472e0452beb2" name="Changes" comment="" />
+      <changelist id="d7513e40-e567-47e6-a704-78645e1c6d5e" name="Changes" comment="Added 4 variables (missing fragmentation) in Status Report&#10;Added record type in Admin record" />
       <created>1665778941764</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -91,7 +93,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666387585893</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added 4 variables (missing fragmentation) in Status Report&#10;Added record type in Admin record">
+      <created>1667183023559</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1667183023559</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +126,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Addition of ApplicationAgent interface" />
-    <option name="LAST_COMMIT_MESSAGE" value="Addition of ApplicationAgent interface" />
+    <MESSAGE value="Added 4 variables (missing fragmentation) in Status Report&#10;Added record type in Admin record" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added 4 variables (missing fragmentation) in Status Report&#10;Added record type in Admin record" />
   </component>
 </project>
