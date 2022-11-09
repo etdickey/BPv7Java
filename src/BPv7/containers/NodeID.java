@@ -8,6 +8,8 @@ import java.util.Objects;
  * @param id Contains a node ID, which could be in a variety of formats
  * @implSpec CBOR: todo
  * @implNote pretending for now that it's just an int
+ * (in reality each endpoint ID is an URI -- Uniform Resource Identifier)
+ * (technically, node IDs don't have to be URIs, but that is implementation determined)
  */
 public record NodeID(int id) {
     //null source ID
