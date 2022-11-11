@@ -21,7 +21,35 @@ public class BPA implements BPv7.interfaces.BPA {
     private Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
     private DTCP dtcp = new DTCP();
 
-    // TODO: implement sending from buffer to DTCP (sender thread)
+    /**
+     * Send bundle from buffer/queue to DTCP
+     */
+    private void sendToDTCP() {
+        // TODO: read from config file to start the thread
+        new Thread(() -> {
+            while(!sendBuffer.isEmpty()) {
+                Bundle bundleToSend = null;
+                try {
+                    bundleToSend = sendBuffer.poll(20, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                NodeID destNode = bundleToSend.getPrimary().destNode;
+                int timeInMS = bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
+                if(dtcp.canReach(destNode)) {
+                    if(dtcp.send(bundleToSend)) {
+                        bundleStatusMap.put(timeInMS, SENT);
+                    } else {
+                        if(!canDelete(bundleToSend)) {
+                            sendBuffer.add(bundleToSend);
+                        } else {
+                            bundleStatusMap.put(timeInMS, DELETED);
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
 
     /**
      * TODO: need to understand if we will implement admin record
