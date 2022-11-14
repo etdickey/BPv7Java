@@ -3,14 +3,27 @@ package DTCP.containers;
 import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
 
+import java.time.Instant;
+import java.util.Map;
+import java.util.Random;
+
 public class DTCP implements DTCP.interfaces.DTCP {
 
 
     // Needed class variables:
-    Map<int, String> idToAddressMap; //Types may need to be changed
     // Edge List, maybe with a PRNG list with seeds? talk to group about it.
-    // i think thats it? since it doesn't have to do routing.
+    // I think that's it? since it doesn't have to do routing.
 
+
+    private Map<String, String> idToAddressRoutingMap; //Types may need to be changed
+    private String thisAddress;
+    private int milliPerPeriod; //1-1000
+    private int downChance;
+    private int totalChance;
+
+    public DTCP() {
+
+    }
 
     /**
      * Sends bundle to bundle node
@@ -29,11 +42,23 @@ public class DTCP implements DTCP.interfaces.DTCP {
          *      + Return false if a path isn't found, otherwise send it over TCP to the IP:port gotten from nodeToNetwork
          */
 
+
+
         return false;
     }
 
     /**
+     *
+     * @param ID the URI of the destination
+     * @return The IP address of the destination node
+     */
+    private String nodeToString(NodeID ID) {
+        return "";
+    }
+
+    /**
      * Checks the network status
+     * Only reports predictable distruption or if it is directly connected
      * @param ID: NodeID of the network
      * @return true if network is up else false
      */
@@ -50,7 +75,44 @@ public class DTCP implements DTCP.interfaces.DTCP {
          *  - Otherwise, this just checks if (a) there is a direct connection to that node, and (b) if its currently distrupted
          */
 
-        return false;
+        String dest = nodeToNetwork(ID);
+        if (dest == null)
+            return false;
+        return isConnectionDownExpected(dest);
+    }
+
+    /**
+     * Gets the current rounded timeframe
+     * @return Get the current rounded time frame for the current connection
+     */
+    private long getCurrentTimeFrame() {
+        Instant now = Instant.now();
+        long timeframe = 0;
+        timeframe += now.getEpochSecond() * 1000;
+        timeframe += ((now.toEpochMilli() % 1000) / (milliPerPeriod)) * milliPerPeriod;
+        return timeframe;
+    }
+
+    private long addressToLong(String address) {
+        String[] part = address.split("\\.");
+        long num = 0;
+        for (int i = 0; i < part.length; i++) {
+            int power = 3 - i;
+            num += ((Integer.parseInt(part[i]) % 256 * Math.pow(256, power)));
+        }
+        return num;
+    }
+
+    private boolean isConnectionDownExpected(String destAddress) {
+        long thisAddr = addressToLong(thisAddress);
+        long destAddr = addressToLong(destAddress);
+        if (destAddr == thisAddr)
+            return false;
+        long seed;
+        seed = thisAddr ^ destAddr ^ getCurrentTimeFrame();
+        Random generator = new Random(seed);
+        int res = generator.nextInt(totalChance);
+        return res < downChance;
     }
 
     /**
@@ -62,16 +124,7 @@ public class DTCP implements DTCP.interfaces.DTCP {
     public String nodeToNetwork(NodeID ID) {
         //TODO: get networkID from the Node object
 
-        /*  
-         * Structure:
-         *  - Read in local map of NodeID to networkID from config file
-         *  - Just look it up in the map
-         * Questions:
-         *  - NodeID is a URI I believe, based on 4.2.5
-         *  - Why is this public, assumedly its a URI/NodeID to IP address:port map, no one else needs to know it?
-         */
-
-        return "[placeholder] NetworkID";
+        return idToAddressRoutingMap.getOrDefault(nodeToString(ID), null);
     }
 
 
