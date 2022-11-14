@@ -57,8 +57,7 @@ public class DTCP implements DTCP.interfaces.DTCP {
     }
 
     /**
-     * Checks the network status
-     * Only reports predictable distruption or if it is directly connected
+     * Checks the network status only for PREDICTABLE disruptions and if we actually have a connection to that NodeID
      * @param ID: NodeID of the network
      * @return true if network is up else false
      */
@@ -66,11 +65,11 @@ public class DTCP implements DTCP.interfaces.DTCP {
     public boolean canReach(NodeID ID) {
         //TODO: find network health status and return status
 
-        /* 
+        /*
          * Structure:
-         *  - Determining if a link is up or not needs to be pseudo-random, cause both sides need to know if its down 
+         *  - Determining if a link is up or not needs to be pseudo-random, cause both sides need to know if its down
          *    or not, so I/we will need to come up with a seed scheme I guess involving both nodes, and a time period,
-         *    and have it redetermine on that time period. All members of this network will need the same result for 
+         *    and have it redetermine on that time period. All members of this network will need the same result for
          *    each, so probably PRNG + Config determining how we use that.
          *  - Otherwise, this just checks if (a) there is a direct connection to that node, and (b) if its currently distrupted
          */
