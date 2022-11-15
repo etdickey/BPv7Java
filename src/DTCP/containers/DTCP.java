@@ -2,8 +2,9 @@ package DTCP.containers;
 
 import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
+import DTCP.interfaces.DTCPInterface;
 
-public class DTCP implements DTCP.interfaces.DTCP {
+public class DTCP implements DTCPInterface {
 
     /**
      * Sends bundle to bundle node

@@ -8,7 +8,7 @@ To Do:
 Add required parameters
 Add all functions
  */
-public interface DTCP {
+public interface DTCPInterface {
     boolean send(Bundle toBeSent);
     boolean canReach(NodeID ID);
     String nodeToNetwork(NodeID ID);
