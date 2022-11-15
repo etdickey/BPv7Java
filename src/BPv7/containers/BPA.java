@@ -25,15 +25,14 @@ public class BPA implements BPv7.interfaces.BPA {
      * Send bundle from buffer/queue to DTCP
      */
     private void sendToDTCP() {
-        // TODO: read from config file to start the thread
         new Thread(() -> {
-            //passive sender thread: will spawn when we want to send a message
-            //  and only remain alive until all messages are sent.  More efficient
-            //  than having it busy-wait until a new message is ready to be sent.
-            while(!sendBuffer.isEmpty()) {
+            // passive sender thread: will spawn when we want to send a message
+            // and only remain alive until all messages are sent.  More efficient
+            // than having it busy-wait until a new message is ready to be sent.
+            while(true) {
                 Bundle bundleToSend = null;
                 try {
-                    bundleToSend = sendBuffer.poll(20, TimeUnit.SECONDS);
+                    bundleToSend = sendBuffer.take();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
