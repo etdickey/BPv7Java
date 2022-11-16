@@ -1,39 +1,85 @@
-package BPv7.containers;
+package BPv7;
 
 
+import BPv7.containers.*;
 import BPv7.interfaces.BPAInterface;
-import DTCP.containers.DTCP;
+import DTCP.DTCP;
+import DTCP.interfaces.DTCPInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import static BPv7.containers.BundleStatus.*;
+
 /**
  * Main class responsible for handling BP protocol and handling of bundles.
+ * todo:: check {@link BPv7.interfaces.BPAInterface} for more comments on implementation requirements
  */
-public class BPA implements BPAInterface {
+class BPA implements BPAInterface {//package-private (not private/public)
+    /** Logger for this class. Prepends all logs from this class with the class name */
+    private static final Logger logger = Logger.getLogger(BPA.class.getName());
+
     /**
-     * todo
+     * The only instance of this class allowed in the entire program
+     * @implNote not making this volatile because its value only changes once
+     *  (null -> instance), thus only one set of double-checked locking is needed
+     *  (caching ok because all variables are final)
+     */
+    private static BPA instance = null;
+
+    //actual class variables
+    /**
+     * todo:: comments
      */
     protected static BlockingQueue<Bundle> adminBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: lock this down?
+     * todo:: comments
      */
     protected static BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo
+     * todo:: comments
      */
     private static Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
     /**
-     * todo
+     * todo:: comments
      */
-    private DTCP dtcp = new DTCP();
+    private final DTCPInterface dtcp = DTCP.getInstance();
+
+
+    //functions!
+
+    /**
+     * Gets the singleton instance of the BPA
+     *
+     * @return a reference to the simulation parameters instance
+     * @implNote not making this.instance volatile because its value only changes once
+     *  (null -> instance), thus only one set of double-checked locking is needed
+     */
+    public static BPA getInstance(){
+        if(instance == null){
+            synchronized (BPA.class){
+                if(instance == null){
+                    instance = new BPA();
+                    logger.info("Created BPA singleton");
+                }
+            }
+        }
+        return instance;
+    }
+
+    /**
+     * Hiding this constructor to force use of singleton accessor getInstance()
+     */
+    protected BPA(){}
 
     /**
      * Send bundle from buffer/queue to DTCP
+     * todo:: throw this sending code into a different class that extends Runnable
+     *   (follows the principle of Separation of Concern in software engineering)
      */
     private void sendToDTCP() {
         new Thread(() -> {
@@ -47,7 +93,7 @@ public class BPA implements BPAInterface {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                NodeID destNode = bundleToSend.getPrimary().destNode;
+                NodeID destNode = bundleToSend.getPrimary().getDestNode();
                 int timeInMS = bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
                 if(dtcp.canReach(destNode)) {
                     if(dtcp.send(bundleToSend)) {
@@ -65,33 +111,39 @@ public class BPA implements BPAInterface {
     }
 
     /**
+     * [blocking]
+     * Gets the payload of the next admin bundle (which is just an admin record).
+     *
      * TODO: need to understand if we will implement admin record
-     * @return
+     * @return the payload of the next admin bundle
      */
-    public StatusReport getAdminRecord() {
+    @Override
+    public AdminRecord getAdminRecord() {
         // read from admin queue and pass to senderThread
         // Returns the payload of the next admin bundle (which is just an admin record)
-        StatusReport placeholder = new StatusReport(null, null, null,
+        AdminRecord placeholder = new StatusReport(null, null, null,
                 null, -1, null, null);
+        //todo:: note that we may have other options for administrative records, need to be sure
+        //  we parse the right one
         return placeholder;
-    } // ::[blocking]
+    }
 
     /**
      * Returns the next bundle’s entire payload
      * @return byteStream of payload
      */
     public byte[] getPayload() throws InterruptedException {
-        // TODO: read from config file
+        //todo:: switch to take()?
         Bundle bundle = sendBuffer.poll(20, TimeUnit.SECONDS);
         if(bundle != null) {
-            return bundle.getPayload().getPayload().getBytes();
+            return bundle.getPayload().getPayload();
         }
         return null;
     }
 
     /**
      * saves the bundle to queue
-     * @param bundle: bundle from User API
+     * @param bundle bundle from User API
      * @return -1 if unable to save the bundle, else key (timestamp) for the bundle
      */
     public int send(Bundle bundle) {

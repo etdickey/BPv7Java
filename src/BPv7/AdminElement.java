@@ -20,13 +20,13 @@ public class AdminElement implements AdminElementInterface {
     private static AdminElement instance = null;
 
     /**
-     * Gets an instance of the AdminElement driver
+     * Gets the singleton instance of the AdminElement driver
      *
      * @return a reference to the administrative element instance
      * @implNote not making this.instance volatile because its value only changes once
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
-    public static AdminElement getInstance(){
+    public static AdminElementInterface getInstance(){
         if(instance == null){
             synchronized (AdminElement.class){
                 if(instance == null){

@@ -21,13 +21,13 @@ public class ApplicationAgent implements ApplicationAgentInterface {
     private static ApplicationAgent instance = null;
 
     /**
-     * Gets an instance of the simulation parameters, also sets up convergence layer parameters
+     * Gets the singleton instance of the ApplicationAgent
      *
-     * @return a reference to the simulation parameters instance
+     * @return a reference to the application agent instance
      * @implNote not making this.instance volatile because its value only changes once
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
-    public static ApplicationAgent getInstance(){
+    public static ApplicationAgentInterface getInstance(){
         if(instance == null){
             synchronized (ApplicationAgent.class){
                 if(instance == null){
@@ -45,7 +45,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
     protected ApplicationAgent(){
         //todo:: start new thread with AdminElement (BPA has syntax for threads already if you need a reference)
         //  some other random things that might help:
-        //  AdminElement instance = AdminElement.getInstance();
+        //  AdminElementInterface instance = AdminElement.getInstance();
         //  instance.run();
     }
 
@@ -63,7 +63,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
 
     /**
      * Returns the next message from the stream.
-     * Calls BPA::getPayload once and saves all the payload in a buffer to return to user at some point
+     * todo:: Calls BPA::getPayload once and saves the entire payload in a buffer to return to user at some point
      *
      * @param numToRead number of bytes to read from the stream
      * @return byte[] of size numToRead
