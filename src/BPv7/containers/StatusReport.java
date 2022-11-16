@@ -79,7 +79,7 @@ public class StatusReport extends AdminRecord{
      * @param sBundleNodeID source of the bundle whose status is being reported
      * @param cTimeStamp creation timestamp of the bundle whose status is being reported
      */
-    StatusReport(BundleStatusItem received, BundleStatusItem forwarded, BundleStatusItem delivered, BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp) {
+    public StatusReport(BundleStatusItem received, BundleStatusItem forwarded, BundleStatusItem delivered, BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp) {
         super(RECORD_TYPE_STATUS_REPORT);
         statusIndicator[0] = received;
         statusIndicator[1] = forwarded;
