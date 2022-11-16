@@ -6,9 +6,9 @@ import java.security.InvalidParameterException;
  * Identifies which host we are running.  Relevant mostly to SendStrings and statistics.
  */
 public enum Host {
-    HOSTA(0, "First host, primary sender and primary driver of statistics"),
-    FORWARDINGHOST(1, "Middle host, primary forwarding host and main interest for bottleneck statistics"),
-    HOSTB(2, "Second host, primary receiver. Of primary interest for verification of bundle administrative requirements");
+    HOST_A(0, "First host, primary sender and primary driver of statistics"),
+    FORWARDING_HOST(1, "Middle host, primary forwarding host and main interest for bottleneck statistics"),
+    HOST_B(2, "Second host, primary receiver. Of primary interest for verification of bundle administrative requirements");
 
     /** Value for Configs.Host */
     private final int val;
