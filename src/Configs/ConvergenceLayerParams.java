@@ -50,7 +50,7 @@ public class ConvergenceLayerParams {
             synchronized (ConvergenceLayerParams.class){
                 if(instance == null){
                     instance = readConvergenceLayerConfigFile();
-                    logger.info("Created SimulationParameters singleton");
+                    logger.info("Created ConvergenceLayerParams singleton");
                 }
             }
         }
