@@ -37,7 +37,7 @@ public class ConvergenceLayerParams {
 
 
     /**
-     * Gets an instance of the convergence layer parameters
+     * Gets the singleton instance of the convergence layer parameters
      * @return a reference to the convergence layer parameters instance
      * @implNote not making this.instance volatile because its value only changes once
      *  (null -> instance), thus only one set of double-checked locking is needed

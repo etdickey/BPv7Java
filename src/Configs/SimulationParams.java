@@ -64,7 +64,7 @@ public class SimulationParams {
     }
 
     /**
-     * Gets an instance of the simulation parameters, also sets up convergence layer parameters
+     * Gets the singleton instance of the simulation parameters, also sets up convergence layer parameters
      *
      * @return a reference to the simulation parameters instance
      * @implNote not making this.instance volatile because its value only changes once
