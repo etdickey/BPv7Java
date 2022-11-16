@@ -11,9 +11,9 @@ import java.util.Objects;
  * (in reality each endpoint ID is an URI -- Uniform Resource Identifier)
  * (technically, node IDs don't have to be URIs, but that is implementation determined)
  */
-public record NodeID(int id) {
+public record NodeID(String id) {
     //null source ID
-    private static final int NULL_SOURCE_ID = 0;
+    private static final String NULL_SOURCE_ID = "dtn:none";
 
     //default generated
     public static NodeID getNullSourceID() { return new NodeID(NULL_SOURCE_ID); }
