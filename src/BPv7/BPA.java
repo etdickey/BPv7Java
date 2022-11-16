@@ -109,6 +109,22 @@ class BPA implements BPAInterface {//package-private (not private/public)
             }
         }).start();
     }
+    //@ethan todo:: switch branches/close containers.
+//    /**
+//     * Blocking call that waits for the sending buffer to empty (or only contain unreachable objects)
+//     * @return true if the queue only contains unreachable objects, or false if it contains no objects
+//     */
+//    public boolean waitUntilAllMessagesAreSentOrUnreachable(){
+//        synchronized(sendBuffer){
+//            while(!sendBuffer.isEmpty()){
+//                //todo:: Ethan:: check if only contains unreachable objects
+//
+//                //if not, wait until stuff gets sent
+//                sendBuffer.wait();//release lock and wait to be notified that it is empty by sending thread
+//            }
+//            //once here, done, unblock caller
+//        }
+//    }
 
     /**
      * [blocking]
