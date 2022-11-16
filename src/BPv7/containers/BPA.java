@@ -16,9 +16,9 @@ import static BPv7.containers.BundleStatus.*;
 
 public class BPA implements BPv7.interfaces.BPA {
 
-    protected Queue<Bundle> adminQueue = new PriorityQueue<>();
-    protected BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
-    private Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
+    protected static BlockingQueue<Bundle> adminBuffer = new LinkedBlockingDeque<>();
+    protected static BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
+    private static Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
     private DTCP dtcp = new DTCP();
 
     /**
