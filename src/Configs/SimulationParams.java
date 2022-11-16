@@ -42,11 +42,15 @@ public class SimulationParams {
      * Which host we are
      */
     public final Host CURR_HOST;
-
+    /**
+     * Maximum size of a bundle when sending from this specific host
+     */
+    public final int MAX_BUNDLE_SIZE;
     /**
      * The actual scenario instance with useful variables
      */
     public final Scenario scenario;
+    //todo:: add bundle status report switches?
 
 
     //functions
@@ -60,6 +64,7 @@ public class SimulationParams {
 
     /**
      * Gets an instance of the simulation parameters, also sets up convergence layer parameters
+     *
      * @return a reference to the simulation parameters instance
      * @implNote not making this.instance volatile because its value only changes once
      *  (null -> instance), thus only one set of double-checked locking is needed
@@ -89,7 +94,7 @@ public class SimulationParams {
 
         SimulationParams ret;
         try{
-            ret = new SimulationParams(0, null);
+            ret = new SimulationParams(0, null, 0);
         } catch(InvalidParameterException e){
             logger.severe("ERROR! Unable to parse config files for global parameters (SimulationParams): " + e.getMessage());
             throw new InvalidParameterException(e.getMessage());
@@ -103,10 +108,12 @@ public class SimulationParams {
      * Constructs global simulation parameters class based on parameters
      * @param hostID ID of host that we are
      * @param scenario scenario we are running
+     * @param maxBundleSize maximum bundle size allowed in the convergence layer of this host
      * @throws InvalidParameterException if invalid hostID or scenario num
      */
-    protected SimulationParams(int hostID, Scenario scenario) throws InvalidParameterException {
+    protected SimulationParams(int hostID, Scenario scenario, int maxBundleSize) throws InvalidParameterException {
         this.CURR_HOST = Host.getHost(hostID);
         this.scenario = scenario;//todo:: validate scenario num (likely need an enum like Host)
+        this.MAX_BUNDLE_SIZE = maxBundleSize;
     }
 }
