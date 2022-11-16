@@ -51,6 +51,7 @@ public class SimulationParams {
      */
     public final Scenario scenario;
     //todo:: add bundle status report switches?
+    //todo:: define transmission timeout (how long to try to send a bundle, right now = 1min)
 
 
     //functions
