@@ -6,14 +6,11 @@ import DTCP.containers.DTCP;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 import static BPv7.containers.BundleStatus.*;
-
 /**
  * Main class responsible for handling BP protocol and handling of bundles.
  */
@@ -21,21 +18,51 @@ public class BPA implements BPAInterface {
     /**
      * todo
      */
-    protected Queue<Bundle> adminQueue = new PriorityQueue<>();
+    protected static BlockingQueue<Bundle> adminBuffer = new LinkedBlockingDeque<>();
     /**
      * todo:: lock this down?
      */
-    protected BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
+    protected static BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
     /**
      * todo
      */
-    private Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
+    private static Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
     /**
      * todo
      */
     private DTCP dtcp = new DTCP();
 
-    // TODO: implement sending from buffer to DTCP (sender thread)
+    /**
+     * Send bundle from buffer/queue to DTCP
+     */
+    private void sendToDTCP() {
+        new Thread(() -> {
+            // passive sender thread: will spawn when we want to send a message
+            // and only remain alive until all messages are sent.  More efficient
+            // than having it busy-wait until a new message is ready to be sent.
+            while(true) {
+                Bundle bundleToSend = null;
+                try {
+                    bundleToSend = sendBuffer.take();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                NodeID destNode = bundleToSend.getPrimary().destNode;
+                int timeInMS = bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
+                if(dtcp.canReach(destNode)) {
+                    if(dtcp.send(bundleToSend)) {
+                        bundleStatusMap.put(timeInMS, SENT);
+                    } else {
+                        if(!canDelete(bundleToSend)) {
+                            sendBuffer.add(bundleToSend);
+                        } else {
+                            bundleStatusMap.put(timeInMS, DELETED);
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
 
     /**
      * TODO: need to understand if we will implement admin record

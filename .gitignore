@@ -27,6 +27,7 @@ bin/
 
 ### VS Code ###
 .vscode/
+workspace.xml
 
 ### Mac OS ###
 .DS_Store
