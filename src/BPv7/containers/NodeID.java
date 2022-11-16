@@ -12,7 +12,7 @@ import java.util.Objects;
  * (technically, node IDs don't have to be URIs, but that is implementation determined)
  */
 public record NodeID(String id) {
-    //null source ID
+    /** null source ID */
     private static final String NULL_SOURCE_ID = "dtn:none";
 
     //default generated
