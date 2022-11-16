@@ -49,6 +49,8 @@ public class PrimaryBlock extends Block {
      * 1 indicates "a standard X-25 CRC-16 is present." [CRC16]<br>
      * 2 indicates "a standard CRC32C (Castagnoli) CRC-32 is present." [RFC4960]<br>
      *
+     * Very oversimplified, this is a checksum/hashcode type of thing
+     *
      * @implSpec CBOR unsigned int
      * @implNote We didn't do this... But if you feel like
      *   implementing this: "For examples of CRC32C CRCs, see
