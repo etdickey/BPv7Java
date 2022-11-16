@@ -1,6 +1,7 @@
 package BPv7.containers;
 
 import javax.naming.directory.InvalidAttributesException;
+import java.text.ParseException;
 import java.util.InvalidPropertiesFormatException;
 
 /**
@@ -210,6 +211,19 @@ public class PrimaryBlock extends Block {
      */
     @Override
     byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
+        //todo
+        return null;
+    }
+
+    /**
+     * Decodes the byte array into the implementing object (each class only responsible for its own decoding)
+     *
+     * @param toDecode network-encoded array to decode
+     * @return instance of implementing class with fields populated from toDecode
+     * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
+     */
+    @Override
+    NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
         //todo
         return null;
     }

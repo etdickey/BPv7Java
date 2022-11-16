@@ -26,19 +26,10 @@ public class Timestamp {
         this.seqNum = seqNum;
     }
 
-    public DTNTime getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(DTNTime creationTime) {
-        this.creationTime = creationTime;
-    }
-
-    public int getSeqNum() {
-        return seqNum;
-    }
-
-    public void setSeqNum(int seqNum) {
-        this.seqNum = seqNum;
-    }
+    //getters
+    public DTNTime getCreationTime() { return creationTime; }
+    public int getSeqNum() { return seqNum; }
+    //setters
+    public void setCreationTime(DTNTime creationTime) { this.creationTime = creationTime; }
+    public void setSeqNum(int seqNum) { this.seqNum = seqNum; }
 }
