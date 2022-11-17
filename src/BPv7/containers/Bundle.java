@@ -1,13 +1,16 @@
 package BPv7.containers;
 
 import java.security.InvalidParameterException;
+import java.text.ParseException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 
 /**
  * Contains all the information pertinent to a BP bundle
+ * @implSpec CBOR:: todo (array?)
  */
 public class Bundle extends NetworkSerializable {
+    /** ID of the null source, per BP specs */
     public static final NodeID NULL_SOURCE = NodeID.getNullSourceID();
     //todo:: A single transmission request is uniquely identified by {source node ID, bundle creation timestamp}
     //   equals and hashcode
@@ -16,8 +19,11 @@ public class Bundle extends NetworkSerializable {
     //  1. An implementation of the Bundle Protocol WILL discard any sequence of bytes that does not conform to the Bundle Protocol specification.
     //  2. must output in this order: [primary, other..., payload, CBOR "break" stop code]
 
+    /** All blocks in this bundle except primary and payload blocks */
     private List<CanonicalBlock> blocks;
+    /** Primary block (bundle header information) */
     private PrimaryBlock primary;
+    /** Payload block (actual content being sent) */
     private PayloadBlock payload;
 
     /**
@@ -67,6 +73,33 @@ public class Bundle extends NetworkSerializable {
         return -1;
     }
 
+    /**
+     * Returns a valid network encoding as a byte array
+     *
+     * @return networking encoding
+     * @throws InvalidPropertiesFormatException if block is not ready to be encoded
+     */
+    @Override
+    byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
+        //todo
+        return new byte[0];
+    }
+
+    /**
+     * Decodes the byte array into the implementing object (each class only responsible for its own decoding)
+     *
+     * @param toDecode network-encoded array to decode
+     * @return instance of implementing class with fields populated from toDecode
+     * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
+     */
+    @Override
+    NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
+        //todo
+        return null;
+    }
+
+
+
 
 
     //getters and setters for explicitly the primary and payload blocks
@@ -83,18 +116,4 @@ public class Bundle extends NetworkSerializable {
      * Sets the creation time to right now (called anytime and in the constructor by default)
      */
     public void setTimestampToCurrentTime(){ primary.setTimestampToCurr(); }
-
-
-    /**
-     * Returns a valid network encoding as a byte array
-     *
-     * @return networking encoding
-     * @throws InvalidPropertiesFormatException if block is not ready to be encoded
-     */
-    @Override
-    byte[] getNetworkEncoding() throws InvalidPropertiesFormatException { /* Returns a valid network encoding of the bundle */
-        //todo
-       return null;
-    }
-
 }
