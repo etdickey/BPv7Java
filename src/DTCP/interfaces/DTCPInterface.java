@@ -5,6 +5,7 @@ import BPv7.containers.NodeID;
 
 /**
  * Interface defining any interaction between the BPA (or any class using DTCP) and DTCP
+ * Any required functions should be added as needed.
  */
 public interface DTCPInterface {
     /**
