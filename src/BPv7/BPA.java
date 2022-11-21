@@ -3,6 +3,8 @@ package BPv7;
 
 import BPv7.containers.*;
 import BPv7.interfaces.BPAInterface;
+import BPv7.utils.BundleStatus;
+import BPv7.utils.StatusReportUtilObject;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 
@@ -13,7 +15,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static BPv7.containers.BundleStatus.*;
+import static BPv7.utils.BundleStatus.*;
 
 /**
  * Main class responsible for handling BP protocol and handling of bundles.
@@ -35,11 +37,19 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * todo:: comments
      */
-    protected static BlockingQueue<Bundle> adminBuffer = new LinkedBlockingDeque<>();
+    public static BlockingQueue<StatusReportUtilObject> sendStatusReportBuffer = new LinkedBlockingDeque<>();
+    /**
+     * todo:: comments
+     */
+    public static BlockingQueue<byte[]> readStatusReportBuffer = new LinkedBlockingDeque<>();
     /**
      * todo:: comments
      */
     protected static BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
+    /**
+     * todo:: comments
+     */
+    protected static BlockingQueue<Bundle> receiveBuffer = new LinkedBlockingDeque<>();
     /**
      * todo:: comments
      */
@@ -74,7 +84,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * Hiding this constructor to force use of singleton accessor getInstance()
      */
-    protected BPA(){}
+    protected BPA() {}
 
     /**
      * Send bundle from buffer/queue to DTCP
@@ -155,6 +165,45 @@ class BPA implements BPAInterface {//package-private (not private/public)
             return bundle.getPayload().getPayload();
         }
         return null;
+    }
+
+    /**
+     * @param payload    Payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return
+     */
+    @Override
+    public int send(byte[] payload, NodeID destNodeID) {
+        return 0;
+    }
+
+    /**
+     * @param payload    Payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return
+     */
+    @Override
+    public int sendWithACK(byte[] payload, NodeID destNodeID) {
+        return 0;
+    }
+
+    /**
+     * @param payload    Payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return
+     */
+    @Override
+    public int sendWithAdminFlag(byte[] payload, NodeID destNodeID) {
+        return 0;
+    }
+
+    /**
+     * @param bundleTimestamp timestamp of the bundle to be resent
+     * @return
+     */
+    @Override
+    public int resendBundle(Timestamp bundleTimestamp) {
+        return 0;
     }
 
     /**
