@@ -9,7 +9,7 @@ package BPv7.containers;
  *     6: if the bundle is a fragment<br>
  *     4: otherwise
  */
-public class StatusReport extends AdminRecord{
+public class StatusReport extends AdminRecord {
     /**
      * Record type for StatusReport
      * ...<br>
