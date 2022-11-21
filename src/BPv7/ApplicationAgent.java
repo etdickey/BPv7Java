@@ -1,5 +1,6 @@
 package BPv7;
 
+import BPv7.interfaces.AdminElementInterface;
 import BPv7.interfaces.ApplicationAgentInterface;
 
 import java.util.logging.Logger;
@@ -45,8 +46,8 @@ public class ApplicationAgent implements ApplicationAgentInterface {
     protected ApplicationAgent(){
         //todo:: start new thread with AdminElement (BPA has syntax for threads already if you need a reference)
         //  some other random things that might help:
-        //  AdminElementInterface instance = AdminElement.getInstance();
-        //  instance.run();
+        AdminElementInterface instance = AdminElement.getInstance();
+        instance.run();
     }
 
     /**

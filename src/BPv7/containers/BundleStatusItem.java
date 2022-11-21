@@ -28,4 +28,8 @@ public class BundleStatusItem {
 
     /** setter for reportStatusTime if "Report status time" flag was set to 1. */
     void setReportStatusTime(DTNTime a) { reportStatusTime = a; }
+
+    public boolean getStatus() {
+        return this.status;
+    }
 }

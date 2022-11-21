@@ -95,4 +95,11 @@ public class StatusReport extends AdminRecord {
 
     /** setter for length of payload if present */
     void setLengthOfPayload(int a) { lengthOfPayload = a; }
+
+    // getters
+
+    public BundleStatusItem[] getBundleStatus() { return this.statusIndicator; }
+    public int getReasonCode() { return this.reasonCode; }
+    public NodeID getSourceBundleNodeID() { return this.sourceBundleNodeID; }
+    public Timestamp getCreationTimestamp() { return this.creationTimestamp; }
 }
