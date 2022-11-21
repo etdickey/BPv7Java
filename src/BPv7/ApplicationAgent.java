@@ -1,13 +1,8 @@
 package BPv7;
 
-import BPv7.containers.NodeID;
-import BPv7.containers.Timestamp;
 import BPv7.interfaces.AdminElementInterface;
 import BPv7.interfaces.ApplicationAgentInterface;
-import BPv7.utils.BundleStatusReport;
-import BPv7.utils.DispatchStatus;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -62,9 +57,9 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * @return packet ID or -1 if packetToSend is Null or BP layer is full
      */
     @Override
-    public Timestamp send(byte[] packetToSend, NodeID destNodeID) {
-        // interface with BPA
-        return BPA.getInstance().send(packetToSend, destNodeID);
+    public int send(byte[] packetToSend) {
+        //todo:: interface with BPA
+        return 0;
     }
 
     /**
@@ -75,27 +70,21 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * @return byte[] of size numToRead
      */
     @Override
-    public byte[] read(int numToRead) throws InterruptedException {
-        // interface with BPA
-        byte[] read_payload = BPA.getInstance().getPayload();
-        return Arrays.copyOfRange(read_payload, 0, numToRead);
+    public byte[] read(int numToRead) {
+        //todo:: interface with BPA
+        return new byte[0];
     }
 
     /**
      * Checks if the packet ID passed in has been sent to the next hop
      * Will trash record of complete transmission after >=1 minute (config file)
      *
-     * @param packetTimestamp timestamp of packet to check
+     * @param packetID ID of packet to check
      * @return true if the “packet” has reached the next hop ONLY (else false)
      */
     @Override
-    public boolean checkSent(Timestamp packetTimestamp) {
+    public boolean checkSent(int packetID) {
         //todo:: interface with BPA
-        DispatchStatus dispatchStatus = BPA.getInstance().getBundleStatus(packetTimestamp);
-        if(dispatchStatus == DispatchStatus.SENT) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 }

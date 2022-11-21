@@ -9,10 +9,7 @@ import BPv7.utils.BundleStatusReport;
 import BPv7.utils.StatusReportUtilObject;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.logging.Logger;
 
 /**
@@ -29,9 +26,6 @@ public class AdminElement implements AdminElementInterface {
      *  (caching ok because all variables are final)
      */
     private static AdminElement instance = null;
-
-    private final Thread adminElementStatusReportBuilder;
-    private final Thread adminElementStatusReportRcode;
 
     /**
      * Gets the singleton instance of the AdminElement driver
@@ -56,24 +50,53 @@ public class AdminElement implements AdminElementInterface {
     /**
      * Default constructor, hiding it from anyone else
      */
-    protected AdminElement() {
-        this.adminElementStatusReportBuilder = new Thread(new AdminElementStatusReportBuilder());
-        this.adminElementStatusReportBuilder.start();
-
-        this.adminElementStatusReportRcode = new Thread(new AdminElementStatusReportRcode());
-        this.adminElementStatusReportRcode.start();
-    }
+    protected AdminElement(){}
 
     /**
      * Spins up a thread that manages BPA administrative operations
      */
     @Override
-    public void run() {}
+    public void run() {
+        //todo
+        new Thread(() -> {
+            try {
+                byte[] payload = BPA.readStatusReportBuffer.take();
+                StatusReportUtilObject statusReportRevd = (StatusReportUtilObject)bytesToObject(payload);
+    
+                // O - REC; 1 - FORW; 2 - DELI; 3 - DEL
+                BundleStatusReport status = statusReportRevd.getBundleStatusReportEnum();
+                BundleStatusItem received = new BundleStatusItem(true);
+                BundleStatusItem forwarded = new BundleStatusItem((status == 
+                                                 BundleStatusReport.FORWARDED) ? true : false);
+                BundleStatusItem delivered = new BundleStatusItem((status == 
+                                                 BundleStatusReport.DELIVERED) ? true : false);
+                BundleStatusItem deleted = new BundleStatusItem((status == 
+                                               BundleStatusReport.DELETED) ? true : false);
+                
+                // TODO: implement reasonCode
+                StatusReport statusReport = new StatusReport(received, forwarded, delivered, deleted,
+                            0, statusReportRevd.getSourceNodeID(), statusReportRevd.getBundleTimestamp());
+    
+                if (status == BundleStatusReport.DELETED) {
+                    // package's status is DELETE, resend
+                    // TODO: send resend flag to BPA
+                }
+                else {
+                    
+                }
+    
+    
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     /**
      * Convert a byte stream to an object
      */
-    public static Object bytesToObject(byte[] bytes) {
+    public Object bytesToObject(byte[] bytes) {
         if (bytes == null) {
             return null;
         }
@@ -89,27 +112,5 @@ public class AdminElement implements AdminElementInterface {
             e.printStackTrace();
         }
         return obj;
-    }
-
-    /**
-     * Convert an object to a bytes array
-     * @throws IOException
-     */
-    public static byte[] objectToByteArray(StatusReport obj) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(bos);   
-            out.writeObject(obj);
-            out.flush();
-            byte[] yourBytes = bos.toByteArray();
-            return yourBytes;
-        } finally {
-            try {
-                bos.close();
-            } catch (IOException ex) {
-                // ignore close exception
-            }
-        }
     }
 }
