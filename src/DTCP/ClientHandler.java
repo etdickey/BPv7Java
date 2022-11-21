@@ -1,6 +1,7 @@
 package DTCP;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +47,7 @@ class ClientHandler implements Runnable{
 
     /**
      * Transforms a set of bytes that is a bundle (cbor) into an actual bundle
-     * SHOULD BE REPLACE WITH NETWORK SERIALIZABLE ONCE THAT IS FIGURED OUT
+     * SHOULD BE REPLACED WITH NETWORK SERIALIZABLE ONCE THAT IS FIGURED OUT
      * @param bundleAsBytes the bytes that make up the bundle
      */
     private Bundle bytesToBundle(byte[] bundleAsBytes) {
@@ -62,10 +63,18 @@ class ClientHandler implements Runnable{
         try {
             byte[] result = client.getInputStream().readAllBytes();
             Bundle bundle = bytesToBundle(result);
+            bundleID = ""; //Will change later, need to ask about it
+            //noinspection ConstantConditions
             if (bundleID != null) {
                 logger.log(Level.INFO, "Bundle Received: " + bundleID);
-                if (!outQueue.offer(bundle, config.queueTimeoutInMillis, TimeUnit.MILLISECONDS)) {
+                String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
+                if (DTCPUtils.isConnectionDownUnexpected(srcAddress))
+                    logger.log(Level.INFO, "Dropping bundle due to unexpected down: " + bundleID);
+                else if (!outQueue.offer(bundle, config.queueTimeoutInMillis, TimeUnit.MILLISECONDS)) {
                     logger.log(Level.INFO, "Queue is full, dropping bundle:" + bundleID);
+                }
+                else {
+                    logger.log(Level.INFO, "Added bundle to queue:" + bundleID);
                 }
             }
             else {

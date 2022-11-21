@@ -45,6 +45,7 @@ class DTCPServer implements Runnable {
             try (ServerSocket serverSocket = new ServerSocket(config.DTCP_Port, config.maxConnections)) {
                 logger.log(Level.INFO, "DTCP Server Started");
 
+                //noinspection InfiniteLoopStatement
                 while (true) {
                     try (Socket client = serverSocket.accept()) {
                         client.setSoTimeout(config.connectionTimeout);

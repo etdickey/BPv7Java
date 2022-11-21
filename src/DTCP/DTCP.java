@@ -4,8 +4,6 @@ import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import DTCP.interfaces.DTCPInterface;
-import java.time.Instant;
-import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -42,6 +40,7 @@ public class DTCP implements DTCPInterface {
     /**
      * The server thread. Keeping it in case we need it later for checking status and such
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private final Thread server;
 
 
@@ -113,15 +112,7 @@ public class DTCP implements DTCPInterface {
         }
     }
 
-    /**
-     *
-     * @param ID the URI of the destination
-     * @return The IP address of the destination node
-     */
-    private String nodeToString(NodeID ID) {
-        //TODO: Implement This
-        return "";
-    }
+
 
     /**
      * Checks the network status only for PREDICTABLE disruptions and if we actually have a connection to that NodeID
@@ -134,51 +125,7 @@ public class DTCP implements DTCPInterface {
         String dest = nodeToNetwork(ID);
         if (dest == null)
             return false;
-        return isConnectionDownExpected(dest);
-    }
-
-    /**
-     * Gets the current rounded timeframe
-     * @return Get the current rounded time frame for the current connection
-     */
-    private long getCurrentTimeFrame() {
-        Instant now = Instant.now();
-        long timeframe = 0;
-        timeframe += now.getEpochSecond() * 1000;
-        timeframe += ((now.toEpochMilli() % 1000) / (config.milliPerDownPeriod)) * config.milliPerDownPeriod;
-        return timeframe;
-    }
-
-    /**
-     * Get if the connection to the destination address after routing is expected to be down
-     * @param destAddress the address of the next hop
-     * @return true if the connection is expected to be down, otherwise false
-     */
-    private boolean isConnectionDownExpected(String destAddress) {
-        long thisAddr = addressToLong(config.thisAddress);
-        long destAddr = addressToLong(destAddress);
-        if (destAddr == thisAddr)
-            return false;
-        long seed;
-        seed = thisAddr ^ destAddr ^ getCurrentTimeFrame();
-        Random generator = new Random(seed);
-        int res = generator.nextInt(config.totalChance);
-        return res < config.expectedDownChance;
-    }
-
-    /**
-     * Convert a String IP Address to a long. Used for Randomization
-     * @param address the IP address to convert
-     * @return the long version of the ip address as an int.
-     */
-    private long addressToLong(String address) {
-        String[] part = address.split("\\.");
-        long num = 0;
-        for (String bt : part) {
-            num <<= 8;
-            num += Integer.parseInt(bt) % 256;
-        }
-        return num;
+        return DTCPUtils.isConnectionDownExpected(dest);
     }
 
     /**
@@ -188,7 +135,7 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public String nodeToNetwork(NodeID ID) {
-        return config.idToAddressRoutingMap.getOrDefault(nodeToString(ID), null);
+        return config.idToAddressRoutingMap.getOrDefault(DTCPUtils.nodeToString(ID), null);
     }
 
 
