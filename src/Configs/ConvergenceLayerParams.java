@@ -38,11 +38,15 @@ public class ConvergenceLayerParams {
 
     public int expectedDownChance;
     public int unexpectedDownChance;
-    public int totalChance;
+    public int totalChance; // Must be bigger than previous two
     public int milliPerDownPeriod;
     public Map<String, String> idToAddressRoutingMap;
     public String thisAddress;
     public int queueCapacity; //-1 for no limit
+    public int nThreads;
+    public int maxConnections;
+    public int connectionTimeout;
+    public int queueTimeoutInMillis;
 
 
     /**

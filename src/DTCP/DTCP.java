@@ -4,10 +4,10 @@ import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import DTCP.interfaces.DTCPInterface;
-
 import java.time.Instant;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,9 +34,15 @@ public class DTCP implements DTCPInterface {
     private final ConvergenceLayerParams config;
 
     /**
-     * The queue for bundles received to offer to the BPA layer
+     * The queue for bundles received to offer to the BPA layer.
+     * This is package private for ClientHandler.
      */
-    private final LinkedBlockingQueue<Bundle> outQueue;
+    final BlockingQueue<Bundle> outQueue;
+
+    /**
+     * The server thread. Keeping it in case we need it later for checking status and such
+     */
+    private final Thread server;
 
 
     /**
@@ -59,7 +65,7 @@ public class DTCP implements DTCPInterface {
     }
 
     /**
-     * Hiding default constructor to force singleton use
+     * Hiding default constructor to force singleton use. Sets up the config, the input queue, then the receiving server
      */
     protected DTCP(){
         //useful information stored in
@@ -68,9 +74,8 @@ public class DTCP implements DTCPInterface {
             outQueue = new LinkedBlockingQueue<>(config.queueCapacity);
         else
             outQueue = new LinkedBlockingQueue<>();
-        //TODO: Setup internal thread for receiving
-
-        //todo: set up useful stuff (@Aidan)
+        server = new Thread(new DTCPServer(outQueue));
+        server.start();
     }
 
     /**
@@ -114,6 +119,7 @@ public class DTCP implements DTCPInterface {
      * @return The IP address of the destination node
      */
     private String nodeToString(NodeID ID) {
+        //TODO: Implement This
         return "";
     }
 
@@ -168,9 +174,9 @@ public class DTCP implements DTCPInterface {
     private long addressToLong(String address) {
         String[] part = address.split("\\.");
         long num = 0;
-        for (int i = 0; i < part.length; i++) {
-            int power = 3 - i;
-            num += ((Integer.parseInt(part[i]) % 256 * Math.pow(256, power)));
+        for (String bt : part) {
+            num <<= 8;
+            num += Integer.parseInt(bt) % 256;
         }
         return num;
     }
@@ -184,6 +190,8 @@ public class DTCP implements DTCPInterface {
     public String nodeToNetwork(NodeID ID) {
         return config.idToAddressRoutingMap.getOrDefault(nodeToString(ID), null);
     }
+
+
 
 
 }
