@@ -1,6 +1,7 @@
 package BPv7.containers;
 
 import javax.naming.directory.InvalidAttributesException;
+import java.text.ParseException;
 import java.util.InvalidPropertiesFormatException;
 
 /**
@@ -48,6 +49,8 @@ public class PrimaryBlock extends Block {
      * 0 indicates "no Cyclic Redundancy Check (CRC) is present."<br>
      * 1 indicates "a standard X-25 CRC-16 is present." [CRC16]<br>
      * 2 indicates "a standard CRC32C (Castagnoli) CRC-32 is present." [RFC4960]<br>
+     *
+     * Very oversimplified, this is a checksum/hashcode type of thing
      *
      * @implSpec CBOR unsigned int
      * @implNote We didn't do this... But if you feel like
@@ -208,6 +211,19 @@ public class PrimaryBlock extends Block {
      */
     @Override
     byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
+        //todo
+        return null;
+    }
+
+    /**
+     * Decodes the byte array into the implementing object (each class only responsible for its own decoding)
+     *
+     * @param toDecode network-encoded array to decode
+     * @return instance of implementing class with fields populated from toDecode
+     * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
+     */
+    @Override
+    NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
         //todo
         return null;
     }
