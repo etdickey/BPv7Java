@@ -1,6 +1,7 @@
 package Configs;
 
 import java.security.InvalidParameterException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -34,6 +35,14 @@ public class ConvergenceLayerParams {
      * below 1024 are reserved, ports only go to 2^16-1
      */
     private final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
+
+    public int expectedDownChance;
+    public int unexpectedDownChance;
+    public int totalChance;
+    public int milliPerDownPeriod;
+    public Map<String, String> idToAddressRoutingMap;
+    public String thisAddress;
+    public int queueCapacity; //-1 for no limit
 
 
     /**

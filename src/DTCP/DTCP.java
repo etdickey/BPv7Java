@@ -5,6 +5,10 @@ import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import DTCP.interfaces.DTCPInterface;
 
+import java.time.Instant;
+import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -21,6 +25,19 @@ public class DTCP implements DTCPInterface {
      *  (caching ok because all variables are final)
      */
     private static DTCP instance = null;
+
+
+    //Local variables:
+    /**
+     * The instance of the ConvergenceLayerParams Class
+     */
+    private final ConvergenceLayerParams config;
+
+    /**
+     * The queue for bundles received to offer to the BPA layer
+     */
+    private final LinkedBlockingQueue<Bundle> outQueue;
+
 
     /**
      * Gets the singleton instance of DTCP
@@ -46,7 +63,13 @@ public class DTCP implements DTCPInterface {
      */
     protected DTCP(){
         //useful information stored in
-        ConvergenceLayerParams params = ConvergenceLayerParams.getInstance();
+        config = ConvergenceLayerParams.getInstance();
+        if (config.queueCapacity != -1)
+            outQueue = new LinkedBlockingQueue<>(config.queueCapacity);
+        else
+            outQueue = new LinkedBlockingQueue<>();
+        //TODO: Setup internal thread for receiving
+
         //todo: set up useful stuff (@Aidan)
     }
 
@@ -58,7 +81,40 @@ public class DTCP implements DTCPInterface {
     @Override
     public boolean send(Bundle toBeSent) {
         //TODO: implement sending logic
+
+        /*
+         * Structure:
+         *  - This should really just be:
+         *      + pull out destination from Bundle (it's in the primary block)
+         *      + Makes sure it can reach it
+         *      + Return false if a path isn't found, otherwise send it over TCP to the IP:port gotten from nodeToNetwork
+         */
+
+
+
         return false;
+    }
+
+    /**
+     * This function is used to receive a bundle that was sent to this node. It is blocking.
+     * @return A bundle sent to this node
+     */
+    public Bundle recv() {
+        try {
+            return outQueue.take();
+        } catch (InterruptedException e) {
+            logger.log(Level.WARNING, "Queue was interrupted: " + e.getMessage()); //May need to change log level
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param ID the URI of the destination
+     * @return The IP address of the destination node
+     */
+    private String nodeToString(NodeID ID) {
+        return "";
     }
 
     /**
@@ -68,8 +124,55 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean canReach(NodeID ID) {
-        //TODO: find network health status and return status
-        return false;
+
+        String dest = nodeToNetwork(ID);
+        if (dest == null)
+            return false;
+        return isConnectionDownExpected(dest);
+    }
+
+    /**
+     * Gets the current rounded timeframe
+     * @return Get the current rounded time frame for the current connection
+     */
+    private long getCurrentTimeFrame() {
+        Instant now = Instant.now();
+        long timeframe = 0;
+        timeframe += now.getEpochSecond() * 1000;
+        timeframe += ((now.toEpochMilli() % 1000) / (config.milliPerDownPeriod)) * config.milliPerDownPeriod;
+        return timeframe;
+    }
+
+    /**
+     * Get if the connection to the destination address after routing is expected to be down
+     * @param destAddress the address of the next hop
+     * @return true if the connection is expected to be down, otherwise false
+     */
+    private boolean isConnectionDownExpected(String destAddress) {
+        long thisAddr = addressToLong(config.thisAddress);
+        long destAddr = addressToLong(destAddress);
+        if (destAddr == thisAddr)
+            return false;
+        long seed;
+        seed = thisAddr ^ destAddr ^ getCurrentTimeFrame();
+        Random generator = new Random(seed);
+        int res = generator.nextInt(config.totalChance);
+        return res < config.expectedDownChance;
+    }
+
+    /**
+     * Convert a String IP Address to a long. Used for Randomization
+     * @param address the IP address to convert
+     * @return the long version of the ip address as an int.
+     */
+    private long addressToLong(String address) {
+        String[] part = address.split("\\.");
+        long num = 0;
+        for (int i = 0; i < part.length; i++) {
+            int power = 3 - i;
+            num += ((Integer.parseInt(part[i]) % 256 * Math.pow(256, power)));
+        }
+        return num;
     }
 
     /**
@@ -79,8 +182,7 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public String nodeToNetwork(NodeID ID) {
-        //TODO: get networkID from the Node object
-        return "[placeholder] NetworkID";
+        return config.idToAddressRoutingMap.getOrDefault(nodeToString(ID), null);
     }
 
 
