@@ -26,6 +26,14 @@ public class DTCP implements DTCP.interfaces.DTCP {
     }
 
     /**
+     * The function for receiving from other nodes
+     * @return the Bundle received
+     */
+    public Bundle recv() {
+        return null;
+    }
+
+    /**
      * Sends bundle to bundle node
      * @param toBeSent: bundle to be sent
      * @return true if successful, else false
@@ -63,7 +71,6 @@ public class DTCP implements DTCP.interfaces.DTCP {
      */
     @Override
     public boolean canReach(NodeID ID) {
-        //TODO: find network health status and return status
 
         /*
          * Structure:
@@ -92,6 +99,11 @@ public class DTCP implements DTCP.interfaces.DTCP {
         return timeframe;
     }
 
+    /**
+     * Convert a String IP Address to a long. Used for Randomization
+     * @param address the IP address to convert
+     * @return the long version of the ip address as an int.
+     */
     private long addressToLong(String address) {
         String[] part = address.split("\\.");
         long num = 0;
@@ -102,6 +114,11 @@ public class DTCP implements DTCP.interfaces.DTCP {
         return num;
     }
 
+    /**
+     * Get if the connection to the destination address after routing is expected to be down
+     * @param destAddress the address of the next hop
+     * @return true if the connection is expected to be down, otherwise false
+     */
     private boolean isConnectionDownExpected(String destAddress) {
         long thisAddr = addressToLong(thisAddress);
         long destAddr = addressToLong(destAddress);

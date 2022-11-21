@@ -10,6 +10,7 @@ Add all functions
  */
 public interface DTCP {
     boolean send(Bundle toBeSent);
+    Bundle recv();
     boolean canReach(NodeID ID);
     String nodeToNetwork(NodeID ID);
 }
