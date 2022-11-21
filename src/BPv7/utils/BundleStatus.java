@@ -1,4 +1,4 @@
-package BPv7.containers;
+package BPv7.utils;
 
 /**
  * Enum representing a bundle's status from the perspective of the BPA

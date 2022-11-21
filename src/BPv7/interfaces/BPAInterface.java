@@ -2,6 +2,8 @@ package BPv7.interfaces;
 
 import BPv7.containers.AdminRecord;
 import BPv7.containers.Bundle;
+import BPv7.containers.NodeID;
+import BPv7.containers.Timestamp;
 
 /**
  * Defines the API for the BPA!
@@ -31,9 +33,33 @@ public interface BPAInterface {
     byte[] getPayload() throws InterruptedException;
 
     /**
-     * saves the bundle to queue
-     * @param bundle bundle from User API
-     * @return -1 if unable to save the bundle, else key (timestamp) for the bundle
+     * create the bundle and save to sending queue
+     * @param payload Payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return -1 if unable to create/save the bundle, else key (timestamp) for the bundle
      */
-    int send(Bundle bundle);
+    int send(byte[] payload, NodeID destNodeID);
+
+    /**
+     * create the bundle and save to sending queue with ACK flag true
+     * @param payload Payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return -1 if unable to create/save the bundle, else key (timestamp) for the bundle
+     */
+    int sendWithACK(byte[] payload, NodeID destNodeID);
+
+    /**
+     * create the bundle and save to sending queue with Admin Report flag true
+     * @param payload Payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return -1 if unable to create/save the bundle, else key (timestamp) for the bundle
+     */
+    int sendWithAdminFlag(byte[] payload, NodeID destNodeID);
+
+    /**
+     * resend old bundle from queue
+     * @param bundleTimestamp timestamp of the bundle to be resent
+     * @return -1 if unable to resend the bundle, else key (timestamp) for the bundle
+     */
+    int resendBundle(Timestamp bundleTimestamp);
 }
