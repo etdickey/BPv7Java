@@ -52,6 +52,7 @@ public class DTCP implements DTCPInterface {
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
     public static DTCPInterface getInstance(){
+        //noinspection DoubleCheckedLocking
         if(instance == null){
             synchronized (DTCP.class){
                 if(instance == null){
@@ -121,7 +122,6 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean canReach(NodeID ID) {
-
         String dest = nodeToNetwork(ID);
         if (dest == null)
             return false;
@@ -130,12 +130,13 @@ public class DTCP implements DTCPInterface {
 
     /**
      * Find the networkID for the given node
+     * @implNote This doesn't seem to need to be public
      * @param ID node object
      * @return networkId of the node
      */
     @Override
     public String nodeToNetwork(NodeID ID) {
-        return config.idToAddressRoutingMap.getOrDefault(DTCPUtils.nodeToString(ID), null);
+        return config.idToAddressRoutingMap.getOrDefault(ID.id(), null);
     }
 
 

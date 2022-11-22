@@ -1,10 +1,10 @@
 package DTCP;
 
-import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 
 import java.time.Instant;
-import java.util.Random;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class DTCPUtils {
@@ -14,6 +14,10 @@ class DTCPUtils {
      */
     private static final ConvergenceLayerParams config = ConvergenceLayerParams.getInstance();
 
+    private static Long lastTimeFrame;
+    private static final Object timeFrameLock = new Object();
+    private static HashMap<Long, Integer> connectionDownTimeFrame = new HashMap<>();
+
 
     /**
      * Logger for this class. Prepends all logs from this class with the class name
@@ -22,25 +26,36 @@ class DTCPUtils {
      static final Logger logger = Logger.getLogger(DTCPUtils.class.getName());
 
     /**
-     *
-     * @param ID the URI of the destination
-     * @return The IP address of the destination node
-     */
-    public static String nodeToString(NodeID ID) {
-        //TODO: Implement This
-        return "";
-    }
-
-    /**
      * Gets the current rounded timeframe
      * @return Get the current rounded time frame for the current connection
      */
-    public static long getCurrentTimeFrame() {
+    private static long getCurrentTimeFrame() {
         Instant now = Instant.now();
         long timeframe = 0;
         timeframe += now.getEpochSecond() * 1000;
         timeframe += ((now.toEpochMilli() % 1000) / (config.milliPerDownPeriod)) * config.milliPerDownPeriod;
         return timeframe;
+    }
+
+
+    private static int getConnectionValue(long connectionID, boolean expected) {
+        long timeFrame = getCurrentTimeFrame();
+        int result;
+        synchronized (timeFrameLock) {
+            if (lastTimeFrame == timeFrame && connectionDownTimeFrame.containsKey(connectionID)) {
+                result = connectionDownTimeFrame.get(connectionID);
+            }
+            else {
+                if (lastTimeFrame != timeFrame) {
+                    lastTimeFrame = timeFrame;
+                    connectionDownTimeFrame = new HashMap<>();
+                }
+                result = (new Random(connectionID ^ timeFrame)).nextInt(config.totalChance);
+                connectionDownTimeFrame.put(connectionID, result);
+                logger.log(Level.INFO, "New Connection Check For Connection Id (expected: " + expected + "): " + connectionID + "Value: " + result);
+            }
+        }
+        return result;
     }
 
     /**
@@ -50,15 +65,17 @@ class DTCPUtils {
      */
     @SuppressWarnings("DuplicatedCode")
     public static boolean isConnectionDownExpected(String destAddress) {
-        long thisAddr = addressToLong(config.thisAddress);
-        long destAddr = addressToLong(destAddress);
-        if (destAddr == thisAddr)
+        long firstAddr = addressToLong(config.thisAddress);
+        long secondAddr = addressToLong(destAddress);
+        if (secondAddr == firstAddr)
             return false;
-        long seed;
-        seed = (destAddr << 16 + thisAddr) ^ getCurrentTimeFrame();
-        Random generator = new Random(seed);
-        int res = generator.nextInt(config.totalChance);
-        return res < config.expectedDownChance;
+        if (firstAddr > secondAddr) {
+            firstAddr ^= secondAddr;
+            secondAddr ^= firstAddr;
+            firstAddr ^= secondAddr;
+        }
+        long connectionID = (secondAddr << 16 + firstAddr);
+        return getConnectionValue(connectionID, true) < config.expectedDownChance;
     }
 
     /**
@@ -68,15 +85,17 @@ class DTCPUtils {
      */
     @SuppressWarnings("DuplicatedCode")
     public static boolean isConnectionDownUnexpected(String srcAddress) {
-        long thisAddr = addressToLong(config.thisAddress);
-        long srcAddr = addressToLong(srcAddress);
-        if (srcAddr == thisAddr)
+        long firstAddr = addressToLong(config.thisAddress);
+        long secondAddr = addressToLong(srcAddress);
+        if (secondAddr == firstAddr)
             return false;
-        long seed;
-        seed = (thisAddr << 16 + srcAddr) ^ getCurrentTimeFrame();
-        Random generator = new Random(seed);
-        int res = generator.nextInt(config.totalChance);
-        return res < config.unexpectedDownChance;
+        if (firstAddr < secondAddr) {
+            firstAddr ^= secondAddr;
+            secondAddr ^= firstAddr;
+            firstAddr ^= secondAddr;
+        }
+        long connectionID = (secondAddr << 16 + firstAddr);
+        return getConnectionValue(connectionID, false) < config.unexpectedDownChance;
     }
 
     /**
