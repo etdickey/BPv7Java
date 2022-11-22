@@ -4,6 +4,11 @@ import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import DTCP.interfaces.DTCPInterface;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.InvalidPropertiesFormatException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -68,7 +73,6 @@ public class DTCP implements DTCPInterface {
      * Hiding default constructor to force singleton use. Sets up the config, the input queue, then the receiving server
      */
     protected DTCP(){
-        //useful information stored in
         config = ConvergenceLayerParams.getInstance();
         if (config.queueCapacity != -1)
             outQueue = new LinkedBlockingQueue<>(config.queueCapacity);
@@ -85,19 +89,31 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean send(Bundle toBeSent) {
-        //TODO: implement sending logic
-
-        /*
-         * Structure:
-         *  - This should really just be:
-         *      + pull out destination from Bundle (it's in the primary block)
-         *      + Makes sure it can reach it
-         *      + Return false if a path isn't found, otherwise send it over TCP to the IP:port gotten from nodeToNetwork
-         */
-
-
-
-        return false;
+        String loggingID = DTCPUtils.getLoggingBundleId(toBeSent);
+        NodeID destNode = toBeSent.getPrimary().getDestNode();
+        if (!canReach(destNode)) {
+            logger.log(Level.WARNING, "Attempted to send to unreachable destination. BundleID: " + loggingID);
+            return false;
+        }
+        String dest = nodeToNetwork(destNode);
+        byte[] bundleAsBytes;
+        try {
+            bundleAsBytes = toBeSent.getNetworkEncoding();
+        } catch (InvalidPropertiesFormatException e) {
+            logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
+            return false;
+        }
+        try (Socket socket = new Socket(dest, config.DTCP_Port)) {
+            socket.getOutputStream().write(bundleAsBytes);
+            logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);
+        } catch (UnknownHostException e) {
+            logger.log(Level.WARNING, "Failed to find destination host of Bundle. BundleID: " + loggingID);
+            return false;
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Failed to send bundle over socket. BundleID: " + loggingID);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -112,8 +128,6 @@ public class DTCP implements DTCPInterface {
             return null;
         }
     }
-
-
 
     /**
      * Checks the network status only for PREDICTABLE disruptions and if we actually have a connection to that NodeID

@@ -1,5 +1,6 @@
 package DTCP;
 
+import BPv7.containers.Bundle;
 import Configs.ConvergenceLayerParams;
 
 import java.time.Instant;
@@ -111,6 +112,12 @@ class DTCPUtils {
             num += Integer.parseInt(bt) % 256;
         }
         return num;
+    }
+
+    public static String getLoggingBundleId(Bundle bundle) {
+        return bundle.getPrimary().getSrcNode().id()
+                + ':' + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS()
+                + ':' + bundle.getPrimary().getCreationTimestamp().getSeqNum();
     }
 
 

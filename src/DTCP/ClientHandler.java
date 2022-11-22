@@ -31,11 +31,6 @@ class ClientHandler implements Runnable{
     private final BlockingQueue<Bundle> outQueue;
 
     /**
-     * The ID of the received bundle (or equivalent, might change later)
-     */
-    private String bundleID = null;
-
-    /**
      * Constructor for creating a Client Handler
      * @param client the client connection Socket
      * @param outQueue the queue for sending Bundles to the BPA layer
@@ -55,24 +50,16 @@ class ClientHandler implements Runnable{
 
             //May need to change this later
             Bundle bundle = (Bundle) (new Bundle()).deserializeNetworkEncoding(result);
-            bundleID = bundle.getPrimary().getSrcNode().id()
-                        + ':' + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS()
-                        + ':' + bundle.getPrimary().getCreationTimestamp().getSeqNum();
-            //noinspection ConstantConditions
-            if (bundleID != null) { //Should always be the case, but might as well be safe
-                logger.log(Level.INFO, "Bundle Received: " + bundleID);
-                String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
-                if (DTCPUtils.isConnectionDownUnexpected(srcAddress))
-                    logger.log(Level.INFO, "Dropping bundle due to unexpected down: " + bundleID);
-                else if (!outQueue.offer(bundle, config.queueTimeoutInMillis, TimeUnit.MILLISECONDS)) {
-                    logger.log(Level.INFO, "Queue is full, dropping bundle:" + bundleID);
-                }
-                else {
-                    logger.log(Level.INFO, "Added bundle to queue:" + bundleID);
-                }
+            String bundleID = DTCPUtils.getLoggingBundleId(bundle);
+            logger.log(Level.INFO, "Bundle Received: " + bundleID);
+            String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
+            if (DTCPUtils.isConnectionDownUnexpected(srcAddress))
+                logger.log(Level.INFO, "Dropping bundle due to unexpected down: " + bundleID);
+            else if (!outQueue.offer(bundle, config.queueTimeoutInMillis, TimeUnit.MILLISECONDS)) {
+                logger.log(Level.INFO, "Queue is full, dropping bundle:" + bundleID);
             }
             else {
-                logger.log(Level.WARNING, "Received Malformed Bundle, dropping");
+                logger.log(Level.INFO, "Added bundle to queue:" + bundleID);
             }
         } catch (IOException e) {
             logger.log(Level.WARNING, "Client IOException, Bundle Dropped");
