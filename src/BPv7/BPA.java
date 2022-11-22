@@ -34,6 +34,15 @@ class BPA implements BPAInterface {//package-private (not private/public)
      */
     private static BPA instance = null;
 
+    private Bundle createBundle(byte[] a,NodeID destID) {
+        Bundle rem = new Bundle();
+        PrimaryBlock PRB = new PrimaryBlock(destID, NodeID.getNullSourceID(), lifeTime); //Lifetime how
+        PayloadBlock PB = new PayloadBlock(a);
+        rem.setPrimary(PRB);
+        rem.setPayload(PB);
+        return rem;
+    }
+
     //actual class variables
     /**
      * todo:: comments
