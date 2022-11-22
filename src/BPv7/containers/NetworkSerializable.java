@@ -8,14 +8,14 @@ import java.util.InvalidPropertiesFormatException;
  * todo:: make every container implement this (not every single one:
  *  block instead of each subclass to force all extending it, etc)
  */
-public abstract class NetworkSerializable {
+public interface NetworkSerializable {
     /**
      * Returns a valid network encoding as a byte array
      *
      * @return networking encoding
      * @throws InvalidPropertiesFormatException if block is not ready to be encoded
      */
-    abstract byte[] getNetworkEncoding() throws InvalidPropertiesFormatException;
+     byte[] getNetworkEncoding() throws InvalidPropertiesFormatException;
 
     /**
      * Decodes the byte array into the implementing object (each class only responsible for its own decoding)
@@ -23,5 +23,5 @@ public abstract class NetworkSerializable {
      * @return instance of implementing class with fields populated from toDecode
      * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
      */
-    abstract NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException;
+    NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException;
 }

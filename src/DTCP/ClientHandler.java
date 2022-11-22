@@ -46,26 +46,20 @@ class ClientHandler implements Runnable{
     }
 
     /**
-     * Transforms a set of bytes that is a bundle (cbor) into an actual bundle
-     * SHOULD BE REPLACED WITH NETWORK SERIALIZABLE ONCE THAT IS FIGURED OUT
-     * @param bundleAsBytes the bytes that make up the bundle
-     */
-    private Bundle bytesToBundle(byte[] bundleAsBytes) {
-        //TODO: Actual Implementation
-        return null;
-    }
-
-    /**
      * The thread method for handling for receiving a bundle
      */
     @Override
     public void run() {
         try {
             byte[] result = client.getInputStream().readAllBytes();
-            Bundle bundle = bytesToBundle(result);
-            bundleID = ""; //Will change later, need to ask about it
+
+            //May need to change this later
+            Bundle bundle = (Bundle) (new Bundle()).deserializeNetworkEncoding(result);
+            bundleID = bundle.getPrimary().getSrcNode().id()
+                        + ':' + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS()
+                        + ':' + bundle.getPrimary().getCreationTimestamp().getSeqNum();
             //noinspection ConstantConditions
-            if (bundleID != null) {
+            if (bundleID != null) { //Should always be the case, but might as well be safe
                 logger.log(Level.INFO, "Bundle Received: " + bundleID);
                 String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
                 if (DTCPUtils.isConnectionDownUnexpected(srcAddress))

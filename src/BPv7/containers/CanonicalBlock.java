@@ -114,7 +114,7 @@ public abstract class CanonicalBlock extends Block {
      * @throws InvalidPropertiesFormatException if block is not ready to be encoded
      */
     @Override
-    byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
+    public byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
         //todo
         return null;
     }
@@ -127,7 +127,7 @@ public abstract class CanonicalBlock extends Block {
      * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
      */
     @Override
-    NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
+    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
         //todo:: figure out which subclass to instantiate and finish decoding with
         return null;
     }

@@ -5,7 +5,7 @@ import javax.naming.directory.InvalidAttributesException;
 /**
  * Parent class for primary blocks and canonical blocks
  */
-public abstract class Block extends NetworkSerializable {
+public abstract class Block implements NetworkSerializable {
     /**
      * Hardset because we don't want to deal with anything else
      */
