@@ -9,7 +9,10 @@ import BPv7.utils.BundleStatusReport;
 import BPv7.utils.StatusReportUtilObject;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.logging.Logger;
 
 /**
@@ -75,22 +78,54 @@ public class AdminElement implements AdminElementInterface {
                 
                 // TODO: implement reasonCode
                 StatusReport statusReport = new StatusReport(received, forwarded, delivered, deleted,
-                            0, statusReportRevd.getSourceNodeID(), statusReportRevd.getBundleTimestamp());
+                            this.reasonCode(), statusReportRevd.getSourceNodeID(), statusReportRevd.getBundleTimestamp());
     
                 if (status == BundleStatusReport.DELETED) {
-                    // package's status is DELETE, resend
-                    // TODO: send resend flag to BPA
+                    // package's status is DELETE, resend with current time-stemp
+                    // TODO: send resend flag to BPA (Verify)
+                    BPA.getInstance().resendBundle(statusReportRevd.getBundleTimestamp());
                 }
                 else {
-                    
+                    // TODO: Verify it
+                    // TODO: What to reture for nodeID. Previous Node's ID or Src's NodeID, or current Node's NodeID.
+                    // TODO: Ask if getSourceNodeID() returns the actual src's NodeID.
+                    byte[] b_statusReport = this.objectToByteArray(statusReport);
+                    // BPA.getInstance().sendWithAdminFlag(b_statusReport, statusReportRevd.getSourceNodeID()); 
+                    BPA.getInstance().sendWithACK(b_statusReport, statusReportRevd.getSourceNodeID());
                 }
     
     
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block for b_statusReport
+                // If the byte array cannot be generated from the statusReport object, run this
+                e.printStackTrace();
             }
         }).start();
+    }
+
+    /*
+     *     0 -> No additional information.
+     *     1 -> Lifetime expired.
+     *     2 -> Forwarded over unidirectional link.
+     *     3 -> Transmission canceled.
+     *     4 -> Depleted storage.
+     *     5 -> Destination endpoint ID unavailable.
+     *     6 -> No known route to destination from here.
+     *     7 -> No timely contact with next node on route.
+     *     8 -> Block unintelligible.
+     *     9 -> Hop limit exceeded.
+     *     10 -> Traffic pared (e.g., status reports).
+     *     11 -> Block unsupported.
+     *     17-254 -> Unassigned.
+     *     255 -> Reserved.
+     */
+
+    private int reasonCode() {
+        // TODO: what should I do in this function given no clue or evidence?
+        return 0;
     }
 
     /**
@@ -112,5 +147,27 @@ public class AdminElement implements AdminElementInterface {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    /**
+     * Convert an object to a bytes array
+     * @throws IOException
+     */
+    public byte[] objectToByteArray(StatusReport obj) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(bos);   
+            out.writeObject(obj);
+            out.flush();
+            byte[] yourBytes = bos.toByteArray();
+            return yourBytes;
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
     }
 }
