@@ -36,7 +36,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
 
     private Bundle createBundle(byte[] a,NodeID destID) {
         Bundle rem = new Bundle();
-        PrimaryBlock PRB = new PrimaryBlock(destID, NodeID.getNullSourceID(), lifeTime); //Lifetime how
+        PrimaryBlock PRB = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500); //Lifetime how
         PayloadBlock PB = new PayloadBlock(a);
         rem.setPrimary(PRB);
         rem.setPayload(PB);
