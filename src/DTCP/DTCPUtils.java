@@ -51,7 +51,7 @@ class DTCPUtils {
                     lastTimeFrame = timeFrame;
                     connectionDownTimeFrame = new HashMap<>();
                 }
-                result = (new Random(connectionID ^ timeFrame)).nextInt(config.totalChance);
+                result = (new Random(connectionID ^ timeFrame)).nextInt(config.totalProbabilty);
                 connectionDownTimeFrame.put(connectionID, result);
                 logger.log(Level.INFO, "New Connection Check For Connection Id (expected: " + expected + "): " + connectionID + "Value: " + result);
             }
@@ -76,7 +76,7 @@ class DTCPUtils {
             firstAddr ^= secondAddr;
         }
         long connectionID = (secondAddr << 16 + firstAddr);
-        return getConnectionValue(connectionID, true) < config.expectedDownChance;
+        return getConnectionValue(connectionID, true) < config.expectedDownProbability;
     }
 
     /**
@@ -96,7 +96,7 @@ class DTCPUtils {
             firstAddr ^= secondAddr;
         }
         long connectionID = (secondAddr << 16 + firstAddr);
-        return getConnectionValue(connectionID, false) < config.unexpectedDownChance;
+        return getConnectionValue(connectionID, false) < config.unexpectedDownProbability;
     }
 
     /**

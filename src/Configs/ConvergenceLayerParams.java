@@ -34,11 +34,12 @@ public class ConvergenceLayerParams {
     /**
      * below 1024 are reserved, ports only go to 2^16-1
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
 
-    public int expectedDownChance;
-    public int unexpectedDownChance;
-    public int totalChance; // Must be bigger than previous two
+    public int expectedDownProbability;
+    public int unexpectedDownProbability;
+    public int totalProbabilty; // Must be bigger than previous two
     public int milliPerDownPeriod;
     public Map<String, String> idToAddressRoutingMap;
     public String thisAddress;
@@ -59,6 +60,7 @@ public class ConvergenceLayerParams {
         //SimulationParams must be set up first
         SimulationParams.getInstance();
         //Now do self
+        //noinspection DoubleCheckedLocking
         if(instance == null){
             synchronized (ConvergenceLayerParams.class){
                 if(instance == null){
@@ -85,6 +87,7 @@ public class ConvergenceLayerParams {
         ConvergenceLayerParams ret;
         try{
             ret = new ConvergenceLayerParams(0);
+            // Insert Reading Here!
         } catch(InvalidParameterException e){
             logger.severe("ERROR! Unable to parse config files for ConvergenceLayerParams: " + e.getMessage());
             throw new InvalidParameterException(e.getMessage());
