@@ -27,15 +27,16 @@ class DTCPUtils {
      static final Logger logger = Logger.getLogger(DTCPUtils.class.getName());
 
     /**
-     * Gets the current rounded timeframe
+     * Gets the current timeframe, aka the number of milliseconds between occurrences and length of
+     * an expected and unexpected down (multiple can occur back to back), and how often a connection
+     * needs to be re-checked. There can be connections that last over this period if they start before hand,
+     * but this is equivalent to saying the sender is responsible for ensuring ann expected down doesn't occur
+     * before its received (ex: space networks)
      * @return Get the current rounded time frame for the current connection
      */
     private static long getCurrentTimeFrame() {
         Instant now = Instant.now();
-        long timeframe = 0;
-        timeframe += now.getEpochSecond() * 1000;
-        timeframe += ((now.toEpochMilli() % 1000) / (config.milliPerDownPeriod)) * config.milliPerDownPeriod;
-        return timeframe;
+        return now.toEpochMilli() % config.milliPerDownPeriod;
     }
 
 
@@ -51,7 +52,7 @@ class DTCPUtils {
                     lastTimeFrame = timeFrame;
                     connectionDownTimeFrame = new HashMap<>();
                 }
-                result = (new Random(connectionID ^ timeFrame)).nextInt(config.totalProbabilty);
+                result = (new Random(connectionID ^ timeFrame)).nextInt();
                 connectionDownTimeFrame.put(connectionID, result);
                 logger.log(Level.INFO, "New Connection Check For Connection Id (expected: " + expected + "): " + connectionID + "Value: " + result);
             }
