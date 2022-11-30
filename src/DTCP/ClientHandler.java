@@ -11,6 +11,11 @@ import java.util.logging.Logger;
 import BPv7.containers.Bundle;
 import Configs.ConvergenceLayerParams;
 
+/**
+ * This class is to handle each client connections coming into the DTCP server, with a new one created for each
+ * connection.
+ * @implSpec This will drop bundle if: an unexpected down, input queue is full for entire queue timeout, or exceptions
+ */
 class ClientHandler implements Runnable{
 
     /**
@@ -19,14 +24,15 @@ class ClientHandler implements Runnable{
     private final ConvergenceLayerParams config = ConvergenceLayerParams.getInstance();
 
     /** Logger for this class. Prepends all logs from this class with the class name */
-    private final Logger logger = Logger.getLogger(DTCPServer.class.getName());
+    private final Logger logger = Logger.getLogger(ClientHandler.class.getName());
 
     /** The socket for this client connection */
     private final Socket client;
 
     /**
      * The queue for bundles received to offer to the BPA layer.
-     * This is package private for ClientHandler.
+     * This is passed into the Client Handler on creation.
+     * @implNote all Blocking Queue implementations are guaranteed to be thread safe
      */
     private final BlockingQueue<Bundle> outQueue;
 
@@ -46,6 +52,7 @@ class ClientHandler implements Runnable{
     @Override
     public void run() {
         try {
+            // This blocks until the whole bundle is received. There is a timeout on the socket if it takes too long.
             byte[] result = client.getInputStream().readAllBytes();
 
             //May need to change this later
