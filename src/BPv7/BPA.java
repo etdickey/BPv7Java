@@ -3,7 +3,8 @@ package BPv7;
 
 import BPv7.containers.*;
 import BPv7.interfaces.BPAInterface;
-import BPv7.utils.BundleStatus;
+import BPv7.utils.BundleDispatchStatusMap;
+import BPv7.utils.DispatchStatus;
 import BPv7.utils.StatusReportUtilObject;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
@@ -15,7 +16,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static BPv7.utils.BundleStatus.*;
+import static BPv7.utils.DispatchStatus.*;
 
 /**
  * Main class responsible for handling BP protocol and handling of bundles.
@@ -32,15 +33,6 @@ class BPA implements BPAInterface {//package-private (not private/public)
      *  (caching ok because all variables are final)
      */
     private static BPA instance = null;
-
-    private Bundle createBundle(byte[] a,NodeID destID) {
-        Bundle rem = new Bundle();
-        PrimaryBlock PRB = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500); //Lifetime how
-        PayloadBlock PB = new PayloadBlock(a);
-        rem.setPrimary(PRB);
-        rem.setPayload(PB);
-        return rem;
-    }
 
     //actual class variables
     /**
@@ -62,11 +54,13 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * todo:: comments
      */
-    private static Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
+    public static Map<Timestamp, BundleDispatchStatusMap> bundleStatusMap = new HashMap<>();
     /**
      * todo:: comments
      */
-    private final DTCPInterface dtcp = DTCP.getInstance();
+    private final Thread sendingThread;
+    private final Thread receivingThread;
+
 
 
     //functions!
@@ -75,7 +69,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * Gets the singleton instance of the BPA
      *
      * @return a reference to the simulation parameters instance
-     * @implNote not making this.instance volatile because its value only changes once
+     * @implNote not making this instance volatile because its value only changes once
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
     public static BPA getInstance(){
@@ -93,41 +87,13 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * Hiding this constructor to force use of singleton accessor getInstance()
      */
-    protected BPA() {}
-
-    /**
-     * Send bundle from buffer/queue to DTCP
-     * todo:: throw this sending code into a different class that extends Runnable
-     *   (follows the principle of Separation of Concern in software engineering)
-     */
-    private void sendToDTCP() {
-        new Thread(() -> {
-            // passive sender thread: will spawn when we want to send a message
-            // and only remain alive until all messages are sent.  More efficient
-            // than having it busy-wait until a new message is ready to be sent.
-            while(true) {
-                Bundle bundleToSend = null;
-                try {
-                    bundleToSend = sendBuffer.take();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                NodeID destNode = bundleToSend.getPrimary().getDestNode();
-                int timeInMS = bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
-                if(dtcp.canReach(destNode)) {
-                    if(dtcp.send(bundleToSend)) {
-                        bundleStatusMap.put(timeInMS, SENT);
-                    } else {
-                        if(!canDelete(bundleToSend)) {
-                            sendBuffer.add(bundleToSend);
-                        } else {
-                            bundleStatusMap.put(timeInMS, DELETED);
-                        }
-                    }
-                }
-            }
-        }).start();
+    protected BPA() {
+        sendingThread = new Thread(new BPADispatcher());
+        sendingThread.start();
+        receivingThread = new Thread(new BPAReceiver());
+        receivingThread.start();
     }
+
     //@ethan todo:: switch branches/close containers.
 //    /**
 //     * Blocking call that waits for the sending buffer to empty (or only contain unreachable objects)
@@ -146,6 +112,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
 //    }
 
     /**
+     * Not required any more?
      * [blocking]
      * Gets the payload of the next admin bundle (which is just an admin record).
      *
@@ -167,23 +134,32 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * Returns the next bundle’s entire payload
      * @return byteStream of payload
      */
-    public byte[] getPayload() throws InterruptedException {
-        //todo:: switch to take()?
-        Bundle bundle = sendBuffer.poll(20, TimeUnit.SECONDS);
-        if(bundle != null) {
-            return bundle.getPayload().getPayload();
+    public byte[] getPayload() {
+        Bundle bundle = null;
+        try {
+            bundle = receiveBuffer.take();
+            if(bundle != null && bundle.getPayload().getPayload() != null) {
+                return bundle.getPayload().getPayload();
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     /**
-     * @param payload    Payload block of the bundle
+     * create and save the bundle to outgoing queue
+     * @param payload Payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return
+     * @return timestamp of the bundle else invalid timestamp if unable to create or save the bundle to queue
      */
-    @Override
-    public int send(byte[] payload, NodeID destNodeID) {
-        return 0;
+    public Timestamp send(byte[] payload, NodeID destNodeID) {
+        if(payload != null && payload.length > 0) {
+            Bundle bundle = createBundle(payload, destNodeID, false, false);
+            // save to queue
+            return saveToQueue(bundle);
+        }
+        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
     }
 
     /**
@@ -192,8 +168,13 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * @return
      */
     @Override
-    public int sendWithACK(byte[] payload, NodeID destNodeID) {
-        return 0;
+    public Timestamp sendWithACK(byte[] payload, NodeID destNodeID) {
+        if(payload != null && payload.length > 0) {
+            Bundle bundle = createBundle(payload, destNodeID, false, true);
+            // save to queue
+            return saveToQueue(bundle);
+        }
+        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
     }
 
     /**
@@ -202,8 +183,13 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * @return
      */
     @Override
-    public int sendWithAdminFlag(byte[] payload, NodeID destNodeID) {
-        return 0;
+    public Timestamp sendWithAdminFlag(byte[] payload, NodeID destNodeID) {
+        if(payload != null && payload.length > 0) {
+            Bundle bundle = createBundle(payload, destNodeID, true, false);
+            // save to queue
+            return saveToQueue(bundle);
+        }
+        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
     }
 
     /**
@@ -211,24 +197,12 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * @return
      */
     @Override
-    public int resendBundle(Timestamp bundleTimestamp) {
-        return 0;
-    }
-
-    /**
-     * saves the bundle to queue
-     * @param bundle bundle from User API
-     * @return -1 if unable to save the bundle, else key (timestamp) for the bundle
-     */
-    public int send(Bundle bundle) {
-        if(bundle != null) {
-            // save to queue
-            sendBuffer.add(bundle);
-            int timeInMS = bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
-            bundleStatusMap.put(timeInMS, PENDING);
-            return timeInMS;
+    public Timestamp resendBundle(Timestamp bundleTimestamp) {
+        if(bundleTimestamp.getSeqNum() != -1) {
+            saveToQueue(bundleStatusMap.get(bundleTimestamp).getBundle());
+            return bundleTimestamp;
         }
-        return -1;
+        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
     }
 
     /**
@@ -236,21 +210,33 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * @param key: bundle key
      * @return status of the bundle, NONE if invalid key
      */
-    public BundleStatus getBundleStatus(int key) {
+    public DispatchStatus getBundleStatus(Timestamp key) {
         //DTN Epoch isn't the same as system Epoch, check DTNTime::timeInMS for specifics
-        if(key > 0 && key <= DTNTime.getCurrentDTNTime().timeInMS && bundleStatusMap.containsKey(key)) {
-            return bundleStatusMap.get(key);
+        if(key.getSeqNum() != -1 && bundleStatusMap.containsKey(key)) {
+            return bundleStatusMap.get(key).getStatus();
         }
         return NONE;
     }
 
-    /**
-     * Checks if bundle can be deleted based on LifeTime set in Primary block
-     * @param bundle: bundle to be checked
-     * @return boolean(), true if we can delete it, else false.
-     */
-    private boolean canDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-        return timeGap > bundle.getPrimary().getLifetime();
+    public Timestamp saveToQueue(Bundle bundle) {
+        sendBuffer.add(bundle);
+        Timestamp creationTimestamp = bundle.getPrimary().getCreationTimestamp();
+        bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
+        return creationTimestamp;
+    }
+
+    private Bundle createBundle(byte[] payload,NodeID destID, boolean adminFlag, boolean ackFlag) {
+        Bundle bundle = new Bundle();
+        PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500); //Lifetime how
+        if(adminFlag) {
+            primaryBlock.setADMN();
+        }
+        if(ackFlag) {
+            primaryBlock.setACKR();
+        }
+        PayloadBlock payloadBlock = new PayloadBlock(payload);
+        bundle.setPrimary(primaryBlock);
+        bundle.setPayload(payloadBlock);
+        return bundle;
     }
 }
