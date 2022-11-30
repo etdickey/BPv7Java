@@ -30,7 +30,7 @@ public interface BPAInterface {
      * Returns the next bundle’s entire payload
      * @return byteStream of payload
      */
-    byte[] getPayload() throws InterruptedException;
+    byte[] getPayload();
 
     /**
      * create the bundle and save to sending queue
@@ -38,7 +38,7 @@ public interface BPAInterface {
      * @param destNodeID destination node id of the bundle
      * @return -1 if unable to create/save the bundle, else key (timestamp) for the bundle
      */
-    int send(byte[] payload, NodeID destNodeID);
+    Timestamp send(byte[] payload, NodeID destNodeID);
 
     /**
      * create the bundle and save to sending queue with ACK flag true
@@ -46,7 +46,7 @@ public interface BPAInterface {
      * @param destNodeID destination node id of the bundle
      * @return -1 if unable to create/save the bundle, else key (timestamp) for the bundle
      */
-    int sendWithACK(byte[] payload, NodeID destNodeID);
+    Timestamp sendWithACK(byte[] payload, NodeID destNodeID);
 
     /**
      * create the bundle and save to sending queue with Admin Report flag true
@@ -54,12 +54,12 @@ public interface BPAInterface {
      * @param destNodeID destination node id of the bundle
      * @return -1 if unable to create/save the bundle, else key (timestamp) for the bundle
      */
-    int sendWithAdminFlag(byte[] payload, NodeID destNodeID);
+    Timestamp sendWithAdminFlag(byte[] payload, NodeID destNodeID);
 
     /**
      * resend old bundle from queue
      * @param bundleTimestamp timestamp of the bundle to be resent
      * @return -1 if unable to resend the bundle, else key (timestamp) for the bundle
      */
-    int resendBundle(Timestamp bundleTimestamp);
+    Timestamp resendBundle(Timestamp bundleTimestamp);
 }
