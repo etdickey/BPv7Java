@@ -57,7 +57,8 @@ class DTCPUtils {
 
 
     /**
-     * Gets the corresponding value for
+     * Gets the corresponding value of the time frame up/down check for a particular connection
+     * from the latest time frame
      * @param connectionID the connection ID to calculate this for (used in seeding along with timeframe)
      * @return the double representing where on [0,1) the current time frame check landed on
      */
