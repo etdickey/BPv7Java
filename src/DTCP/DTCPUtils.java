@@ -8,6 +8,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is a utility class for all the things called in multiple parts of DTCP that don't necessarily need their own class
+ */
 class DTCPUtils {
 
     /**
@@ -15,9 +18,22 @@ class DTCPUtils {
      */
     private static final ConvergenceLayerParams config = ConvergenceLayerParams.getInstance();
 
+    /**
+     * The latest timeFrame where a down check occured. Basically the last timeframe where the connectionDownTimeFrame
+     * was updated
+     */
     private static Long lastTimeFrame;
+
+    /**
+     * A lock for messing with timeFrame stuff, since could be happening by several threads
+     */
     private static final Object timeFrameLock = new Object();
-    private static HashMap<Long, Integer> connectionDownTimeFrame = new HashMap<>();
+
+    /**
+     * The map of the current connectionDownTimeFrame values. To make sure that things aren't calculated more than once
+     * and to speed up some calculations (hopefully)
+     */
+    private static Map<Long, Double> connectionDownTimeFrame = new HashMap<>();
 
 
     /**
@@ -40,21 +56,27 @@ class DTCPUtils {
     }
 
 
-    private static int getConnectionValue(long connectionID, boolean expected) {
+    /**
+     * Gets the corresponding value for
+     * @param connectionID the connection ID to calculate this for (used in seeding along with timeframe)
+     * @return the double representing where on [0,1) the current time frame check landed on
+     */
+    private static double getConnectionValue(long connectionID) {
         long timeFrame = getCurrentTimeFrame();
-        int result;
+        double result;
         synchronized (timeFrameLock) {
             if (lastTimeFrame == timeFrame && connectionDownTimeFrame.containsKey(connectionID)) {
                 result = connectionDownTimeFrame.get(connectionID);
             }
             else {
-                if (lastTimeFrame != timeFrame) {
+                if (lastTimeFrame < timeFrame) {
                     lastTimeFrame = timeFrame;
                     connectionDownTimeFrame = new HashMap<>();
                 }
-                result = (new Random(connectionID ^ timeFrame)).nextInt();
+                // result is the double representing where on [0,1) the current time frame check landed on
+                result = (new Random(connectionID ^ timeFrame)).nextDouble();
                 connectionDownTimeFrame.put(connectionID, result);
-                logger.log(Level.INFO, "New Connection Check For Connection Id (expected: " + expected + "): " + connectionID + "Value: " + result);
+                logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + "Value: " + result);
             }
         }
         return result;
@@ -72,12 +94,13 @@ class DTCPUtils {
         if (secondAddr == firstAddr)
             return false;
         if (firstAddr > secondAddr) {
+            // This swaps without another variable, and is potentially faster
             firstAddr ^= secondAddr;
             secondAddr ^= firstAddr;
             firstAddr ^= secondAddr;
         }
         long connectionID = (secondAddr << 16 + firstAddr);
-        return getConnectionValue(connectionID, true) < config.expectedDownProbability;
+        return getConnectionValue(connectionID) < config.expectedDownProbability;
     }
 
     /**
@@ -97,7 +120,7 @@ class DTCPUtils {
             firstAddr ^= secondAddr;
         }
         long connectionID = (secondAddr << 16 + firstAddr);
-        return getConnectionValue(connectionID, false) < config.unexpectedDownProbability;
+        return getConnectionValue(connectionID) < config.unexpectedDownProbability;
     }
 
     /**
@@ -115,6 +138,12 @@ class DTCPUtils {
         return num;
     }
 
+    /**
+     * Generates a bundle logging id for the given bundle, of the form:
+     * [SRC NODE ID]:[CREATION TIMESTAMP in MS]:[SEQ NUMBER]
+     * @param bundle the bundle the ID is being generated for
+     * @return the bundle logging ID
+     */
     public static String getLoggingBundleId(Bundle bundle) {
         return bundle.getPrimary().getSrcNode().id()
                 + ':' + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS()
