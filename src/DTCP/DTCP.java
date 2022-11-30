@@ -5,6 +5,13 @@ import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import DTCP.interfaces.DTCPInterface;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.InvalidPropertiesFormatException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -22,6 +29,25 @@ public class DTCP implements DTCPInterface {
      */
     private static DTCP instance = null;
 
+
+    //Local variables:
+    /**
+     * The instance of the ConvergenceLayerParams Class
+     */
+    private final ConvergenceLayerParams config;
+
+    /**
+     * The queue for bundles received to offer to the BPA layer.
+     */
+    private final BlockingQueue<Bundle> outQueue;
+
+    /**
+     * The server thread. Keeping it in case we need it later for checking status and such
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final Thread server;
+
+
     /**
      * Gets the singleton instance of DTCP
      *
@@ -30,6 +56,7 @@ public class DTCP implements DTCPInterface {
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
     public static DTCPInterface getInstance(){
+        //noinspection DoubleCheckedLocking
         if(instance == null){
             synchronized (DTCP.class){
                 if(instance == null){
@@ -42,12 +69,16 @@ public class DTCP implements DTCPInterface {
     }
 
     /**
-     * Hiding default constructor to force singleton use
+     * Hiding default constructor to force singleton use. Sets up the config, the input queue, then the receiving server
      */
     protected DTCP(){
-        //useful information stored in
-        ConvergenceLayerParams params = ConvergenceLayerParams.getInstance();
-        //todo: set up useful stuff (@Aidan)
+        config = ConvergenceLayerParams.getInstance();
+        if (config.queueCapacity != -1)
+            outQueue = new LinkedBlockingQueue<>(config.queueCapacity);
+        else
+            outQueue = new LinkedBlockingQueue<>();
+        server = new Thread(new DTCPServer(outQueue));
+        server.start();
     }
 
     /**
@@ -57,8 +88,51 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean send(Bundle toBeSent) {
-        //TODO: implement sending logic
-        return false;
+        String loggingID = DTCPUtils.getLoggingBundleId(toBeSent); // For logging, mostly arbitrary
+        NodeID destNode = toBeSent.getPrimary().getDestNode();
+        if (!canReach(destNode)) {
+            // Hopefully above layer already checks, but layered so shouldn't assume
+            logger.log(Level.WARNING, "Attempted to send to unreachable destination. BundleID: " + loggingID);
+            return false;
+        }
+        String dest = nodeToNetwork(destNode); //Should be IPv4
+        byte[] bundleAsBytes;
+        try {
+            // Get the CBOR converted Byte Array
+            bundleAsBytes = toBeSent.getNetworkEncoding();
+        } catch (InvalidPropertiesFormatException e) {
+            // Something is wrong with the bundle, not DTCPs fault, so just drop it
+            logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
+            return false;
+        }
+        try (Socket socket = new Socket(dest, config.DTCP_Port)) {
+            // Just write the whole bundle
+            socket.getOutputStream().write(bundleAsBytes);
+            logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);
+        } catch (UnknownHostException e) {
+            // Something is wrong on internet network backside, not our problem, drop it
+            logger.log(Level.WARNING, "Failed to find destination host of Bundle. BundleID: " + loggingID);
+            return false;
+        } catch (IOException e) {
+            // Something happened (probably on OS side) that made this fail, not our problem, drop it
+            logger.log(Level.WARNING, "Failed to send bundle over socket. BundleID: " + loggingID);
+            return false;
+        }
+        // Should have been sent by now
+        return true;
+    }
+
+    /**
+     * This function is used to receive a bundle that was sent to this node. It is blocking.
+     * @return A bundle sent to this node
+     */
+    public Bundle recv() {
+        try {
+            return outQueue.take();
+        } catch (InterruptedException e) {
+            logger.log(Level.WARNING, "Queue was interrupted: " + e.getMessage()); //May need to change log level
+            return null;
+        }
     }
 
     /**
@@ -68,8 +142,10 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean canReach(NodeID ID) {
-        //TODO: find network health status and return status
-        return false;
+        String dest = nodeToNetwork(ID);
+        if (dest == null)
+            return false;
+        return DTCPUtils.isConnectionDownExpected(dest);
     }
 
     /**
@@ -79,9 +155,10 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public String nodeToNetwork(NodeID ID) {
-        //TODO: get networkID from the Node object
-        return "[placeholder] NetworkID";
+        return config.idToAddressRoutingMap.getOrDefault(ID.id(), null);
     }
+
+
 
 
 }

@@ -16,6 +16,12 @@ public interface DTCPInterface {
     boolean send(Bundle toBeSent);
 
     /**
+     * The function for receiving from other nodes
+     * @return the Bundle received
+     */
+    Bundle recv();
+
+    /**
      * Checks the network status only for PREDICTABLE disruptions and if we actually have a connection to that NodeID
      * @param ID NodeID of the network
      * @return true if network is up else false

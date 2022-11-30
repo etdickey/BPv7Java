@@ -1,6 +1,7 @@
 package Configs;
 
 import java.security.InvalidParameterException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -14,6 +15,7 @@ public class ConvergenceLayerParams {
     /**
      * config file name
      */
+    @SuppressWarnings("unused")
     private static final String CONFIG_FILE =
             SimulationParams.resourceDir + "ConvergenceLayerConfigs" + SimulationParams.cfgFileExtension;
 
@@ -33,7 +35,61 @@ public class ConvergenceLayerParams {
     /**
      * below 1024 are reserved, ports only go to 2^16-1
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
+
+    /**
+     * The probability of a link having an expected disconnect/ going "down".
+     *  Both sides of a link are aware of this down.
+     */
+    public int expectedDownProbability;
+
+    /**
+     * The probability of a link having an unexpected disconnect/ going "down".
+     * Neither side is aware of this, other than dropping all bundles during the time frame this occurs during
+     */
+    public int unexpectedDownProbability;
+
+    /**
+     * The number of milliseconds per Timeframe, essentially how many milliseconds between occurrences and length of
+     * an expected and unexpected down (multiple can occur back to back).
+     */
+    public int milliPerDownPeriod;
+
+    /**
+     * The Routing Map for the current node, specified in context file, of the form URI/Node ID String -> IPv4 Address
+     */
+    public Map<String, String> idToAddressRoutingMap;
+
+    /**
+     * The IP address of this node, when sending to yourself
+     */
+    public String thisAddress;
+
+    /**
+     * The capacity of the internal receive queue. -1 for no limit.
+     */
+    public int queueCapacity; //-1 for no limit
+
+    /**
+     * The number of threads in the receiving thread pool
+     */
+    public int nThreads;
+
+    /**
+     * Max number of connections to have at once
+     */
+    public int maxConnections;
+
+    /**
+     * The connection timeout for the read socket for connections from clients
+     */
+    public int connectionTimeout;
+
+    /**
+     * How long to wait for a spot in the receive queue before dropping a bundle
+     */
+    public int queueTimeoutInMillis;
 
 
     /**
@@ -46,6 +102,7 @@ public class ConvergenceLayerParams {
         //SimulationParams must be set up first
         SimulationParams.getInstance();
         //Now do self
+        //noinspection DoubleCheckedLocking
         if(instance == null){
             synchronized (ConvergenceLayerParams.class){
                 if(instance == null){
@@ -72,6 +129,7 @@ public class ConvergenceLayerParams {
         ConvergenceLayerParams ret;
         try{
             ret = new ConvergenceLayerParams(0);
+            // Insert Reading Here!
         } catch(InvalidParameterException e){
             logger.severe("ERROR! Unable to parse config files for ConvergenceLayerParams: " + e.getMessage());
             throw new InvalidParameterException(e.getMessage());

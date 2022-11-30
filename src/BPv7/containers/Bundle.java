@@ -9,7 +9,7 @@ import java.util.List;
  * Contains all the information pertinent to a BP bundle
  * @implSpec CBOR:: todo (array?)
  */
-public class Bundle extends NetworkSerializable {
+public class Bundle implements NetworkSerializable {
     /** ID of the null source, per BP specs */
     public static final NodeID NULL_SOURCE = NodeID.getNullSourceID();
     //todo:: A single transmission request is uniquely identified by {source node ID, bundle creation timestamp}
@@ -34,6 +34,8 @@ public class Bundle extends NetworkSerializable {
         primary = new PrimaryBlock(null, null, -1);
         setTimestampToCurrentTime();
     }
+
+
 
 
     /**
@@ -80,7 +82,7 @@ public class Bundle extends NetworkSerializable {
      * @throws InvalidPropertiesFormatException if block is not ready to be encoded
      */
     @Override
-    byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
+    public byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
         //todo
         return new byte[0];
     }
@@ -93,7 +95,7 @@ public class Bundle extends NetworkSerializable {
      * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
      */
     @Override
-    NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
+    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
         //todo
         return null;
     }
