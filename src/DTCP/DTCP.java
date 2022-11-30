@@ -38,9 +38,8 @@ public class DTCP implements DTCPInterface {
 
     /**
      * The queue for bundles received to offer to the BPA layer.
-     * This is package private for ClientHandler.
      */
-    final BlockingQueue<Bundle> outQueue;
+    private final BlockingQueue<Bundle> outQueue;
 
     /**
      * The server thread. Keeping it in case we need it later for checking status and such
@@ -89,30 +88,37 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean send(Bundle toBeSent) {
-        String loggingID = DTCPUtils.getLoggingBundleId(toBeSent);
+        String loggingID = DTCPUtils.getLoggingBundleId(toBeSent); // For logging, mostly arbitrary
         NodeID destNode = toBeSent.getPrimary().getDestNode();
         if (!canReach(destNode)) {
+            // Hopefully above layer already checks, but layered so shouldn't assume
             logger.log(Level.WARNING, "Attempted to send to unreachable destination. BundleID: " + loggingID);
             return false;
         }
-        String dest = nodeToNetwork(destNode);
+        String dest = nodeToNetwork(destNode); //Should be IPv4
         byte[] bundleAsBytes;
         try {
+            // Get the CBOR converted Byte Array
             bundleAsBytes = toBeSent.getNetworkEncoding();
         } catch (InvalidPropertiesFormatException e) {
+            // Something is wrong with the bundle, not DTCPs fault, so just drop it
             logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
             return false;
         }
         try (Socket socket = new Socket(dest, config.DTCP_Port)) {
+            // Just write the whole bundle
             socket.getOutputStream().write(bundleAsBytes);
             logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);
         } catch (UnknownHostException e) {
+            // Something is wrong on internet network backside, not our problem, drop it
             logger.log(Level.WARNING, "Failed to find destination host of Bundle. BundleID: " + loggingID);
             return false;
         } catch (IOException e) {
+            // Something happened (probably on OS side) that made this fail, not our problem, drop it
             logger.log(Level.WARNING, "Failed to send bundle over socket. BundleID: " + loggingID);
             return false;
         }
+        // Should have been sent by now
         return true;
     }
 
@@ -144,7 +150,6 @@ public class DTCP implements DTCPInterface {
 
     /**
      * Find the networkID for the given node
-     * @implNote This doesn't seem to need to be public
      * @param ID node object
      * @return networkId of the node
      */
