@@ -12,6 +12,9 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The server (thread) for receiving and spinning up Client Handlers to handle incoming connections/bundles
+ */
 class DTCPServer implements Runnable {
 
     /**
@@ -24,7 +27,6 @@ class DTCPServer implements Runnable {
 
     /**
      * The queue for bundles received to offer to the BPA layer.
-     * This is package private for ClientHandler.
      */
     private final BlockingQueue<Bundle> outQueue;
 
@@ -57,9 +59,12 @@ class DTCPServer implements Runnable {
                     }
                 }
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "DTCP Server Failed");
+                logger.log(Level.SEVERE, "DTCP Server Failed: " + e.getMessage());
+                throw new RuntimeException("DTCP Server Failed", e);
                 // Not sure how people want me to exit or handle this other than just not accept anything else
             }
+        } catch (IllegalArgumentException e) {
+            logger.log(Level.SEVERE, "Thread Pool Count Invalid: " + e.getMessage());
         }
     }
 }
