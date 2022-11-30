@@ -46,7 +46,7 @@ class DTCPUtils {
      * Gets the current timeframe, aka the number of milliseconds between occurrences and length of
      * an expected and unexpected down (multiple can occur back to back), and how often a connection
      * needs to be re-checked. There can be connections that last over this period if they start before hand,
-     * but this is equivalent to saying the sender is responsible for ensuring ann expected down doesn't occur
+     * but this is equivalent to saying the sender is responsible for ensuring an expected down doesn't occur
      * before its received (ex: space networks)
      * @return Get the current rounded time frame for the current connection
      */
