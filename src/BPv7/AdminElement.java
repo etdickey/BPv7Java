@@ -30,6 +30,9 @@ public class AdminElement implements AdminElementInterface {
      */
     private static AdminElement instance = null;
 
+    private final Thread adminElementStatusReportBuilder;
+    private final Thread adminElementStatusReportRcode;
+
     /**
      * Gets the singleton instance of the AdminElement driver
      *
@@ -53,85 +56,24 @@ public class AdminElement implements AdminElementInterface {
     /**
      * Default constructor, hiding it from anyone else
      */
-    protected AdminElement(){}
+    protected AdminElement() {
+        this.adminElementStatusReportBuilder = new Thread(new AdminElementStatusReportBuilder());
+        this.adminElementStatusReportBuilder.start();
+
+        this.adminElementStatusReportRcode = new Thread(new AdminElementStatusReportRcode());
+        this.adminElementStatusReportRcode.start();
+    }
 
     /**
      * Spins up a thread that manages BPA administrative operations
      */
     @Override
-    public void run() {
-        //todo
-        new Thread(() -> {
-            try {
-                byte[] payload = BPA.readStatusReportBuffer.take();
-                StatusReportUtilObject statusReportRevd = (StatusReportUtilObject)bytesToObject(payload);
-    
-                // O - REC; 1 - FORW; 2 - DELI; 3 - DEL
-                BundleStatusReport status = statusReportRevd.getBundleStatusReportEnum();
-                BundleStatusItem received = new BundleStatusItem(true);
-                BundleStatusItem forwarded = new BundleStatusItem((status == 
-                                                 BundleStatusReport.FORWARDED) ? true : false);
-                BundleStatusItem delivered = new BundleStatusItem((status == 
-                                                 BundleStatusReport.DELIVERED) ? true : false);
-                BundleStatusItem deleted = new BundleStatusItem((status == 
-                                               BundleStatusReport.DELETED) ? true : false);
-                
-                // TODO: implement reasonCode
-                StatusReport statusReport = new StatusReport(received, forwarded, delivered, deleted,
-                            this.reasonCode(), statusReportRevd.getSourceNodeID(), statusReportRevd.getBundleTimestamp());
-    
-                if (status == BundleStatusReport.DELETED) {
-                    // package's status is DELETE, resend with current time-stemp
-                    // TODO: send resend flag to BPA (Verify)
-                    BPA.getInstance().resendBundle(statusReportRevd.getBundleTimestamp());
-                }
-                else {
-                    // TODO: Verify it
-                    // TODO: What to reture for nodeID. Previous Node's ID or Src's NodeID, or current Node's NodeID.
-                    // TODO: Ask if getSourceNodeID() returns the actual src's NodeID.
-                    byte[] b_statusReport = this.objectToByteArray(statusReport);
-                    // BPA.getInstance().sendWithAdminFlag(b_statusReport, statusReportRevd.getSourceNodeID()); 
-                    BPA.getInstance().sendWithACK(b_statusReport, statusReportRevd.getSourceNodeID());
-                }
-    
-    
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block for b_statusReport
-                // If the byte array cannot be generated from the statusReport object, run this
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-    /*
-     *     0 -> No additional information.
-     *     1 -> Lifetime expired.
-     *     2 -> Forwarded over unidirectional link.
-     *     3 -> Transmission canceled.
-     *     4 -> Depleted storage.
-     *     5 -> Destination endpoint ID unavailable.
-     *     6 -> No known route to destination from here.
-     *     7 -> No timely contact with next node on route.
-     *     8 -> Block unintelligible.
-     *     9 -> Hop limit exceeded.
-     *     10 -> Traffic pared (e.g., status reports).
-     *     11 -> Block unsupported.
-     *     17-254 -> Unassigned.
-     *     255 -> Reserved.
-     */
-
-    private int reasonCode() {
-        // TODO: what should I do in this function given no clue or evidence?
-        return 0;
-    }
+    public void run() {}
 
     /**
      * Convert a byte stream to an object
      */
-    public Object bytesToObject(byte[] bytes) {
+    public static Object bytesToObject(byte[] bytes) {
         if (bytes == null) {
             return null;
         }
@@ -153,7 +95,7 @@ public class AdminElement implements AdminElementInterface {
      * Convert an object to a bytes array
      * @throws IOException
      */
-    public byte[] objectToByteArray(StatusReport obj) throws IOException {
+    public static byte[] objectToByteArray(StatusReport obj) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = null;
         try {
