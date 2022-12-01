@@ -61,37 +61,57 @@ public class AdminElementStatusReportBuilder implements Runnable {
             try {
                 StatusReportUtilObject statusReportRevd = BPA.sendStatusReportBuffer.take();
 
+                // TODO: check if the sendStatusReportBuffer is empty
+                /*
                 if (statusReportRevd == null) {
                     continue; // Skip following code
                 }
+                else {
+                    .. 
+                }
+                */
     
                 // O - REC; 1 - FORW; 2 - DELI; 3 - DEL
-                BundleStatusReport status = statusReportRevd.bundleStatusReportEnum();
+                BundleStatusReport status = statusReportRevd.getBundleStatusReportEnum();
                 BundleStatusItem received = new BundleStatusItem(true);
-                BundleStatusItem forwarded = new BundleStatusItem(status == BundleStatusReport.FORWARDED);
-                BundleStatusItem delivered = new BundleStatusItem(status == BundleStatusReport.DELIVERED);
-                BundleStatusItem deleted = new BundleStatusItem(status == BundleStatusReport.DELETED);
+                BundleStatusItem forwarded = new BundleStatusItem((status == 
+                                                 BundleStatusReport.FORWARDED) ? true : false);
+                BundleStatusItem delivered = new BundleStatusItem((status == 
+                                                 BundleStatusReport.DELIVERED) ? true : false);
+                BundleStatusItem deleted = new BundleStatusItem((status == 
+                                               BundleStatusReport.DELETED) ? true : false);
                 
+                // TODO: implement reasonCode
                 StatusReport statusReport = new StatusReport(received, forwarded, delivered, deleted,
-                            0, statusReportRevd.sourceNodeID(), statusReportRevd.bundleTimestamp());
+                            0, statusReportRevd.getSourceNodeID(), statusReportRevd.getBundleTimestamp());
     
                 if (status == BundleStatusReport.DELETED) {
-                    BPA.getInstance().resendBundle(statusReportRevd.bundleTimestamp());
+                    // package's status is DELETE, resend with current time-stemp
+                    // TODO: send resend flag to BPA (Verify)
+                    BPA.getInstance().resendBundle(statusReportRevd.getBundleTimestamp());
                 }
                 else {
-                    byte[] statusReportBytes = AdminElement.objectToByteArray(statusReport);
-                    BPA.getInstance().sendWithACK(statusReportBytes, statusReportRevd.sourceNodeID());
+                    // TODO: Verify it
+                    // TODO: What to reture for nodeID. Previous Node's ID or Src's NodeID, or current Node's NodeID.
+                    // TODO: Ask if getSourceNodeID() returns the actual src's NodeID.
+                    byte[] b_statusReport = AdminElement.objectToByteArray(statusReport);
+                    // BPA.getInstance().sendWithAdminFlag(b_statusReport, statusReportRevd.getSourceNodeID()); 
+                    BPA.getInstance().sendWithACK(b_statusReport, statusReportRevd.getSourceNodeID());
                 }
+    
+    
             } catch (InterruptedException e) {
-                // TODO: just continue or something
-                // logger
+                // TODO Auto-generated catch block
+                // e.printStackTrace();
+                // TODO: How to handle the interruptedException
+
                 Thread.currentThread().interrupt(); // Stop the thread
                 break;
             } catch (IOException e) {
                 // TODO Auto-generated catch block for b_statusReport
                 // If the byte array cannot be generated from the statusReport object, run this
                 // e.printStackTrace();
-                // logger
+                continue;
             }
         }
     }
