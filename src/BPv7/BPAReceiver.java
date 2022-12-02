@@ -84,7 +84,7 @@ public class BPAReceiver implements Runnable {
             // TODO: @ethan get id of current NodeID
             // read nodeID of system and see if matches bundle destination ID
             // TODO: change if condition
-            if (bundle.getPrimary().getDestNode().id() == "1") {
+            if (bundle.getPrimary().getDestNode().id() == "1") {//REACHED DESTINATION (this node)
                 // if bundle has admin flag set
                 // add the payload to readStatusReportBuffer
                 if (adminFlag) {
@@ -105,7 +105,7 @@ public class BPAReceiver implements Runnable {
                     logger.info("Added bundle to the queue for AA, timestamp: " +
                             bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
                 }
-            } else {
+            } else {//FORWARD
                 // check if bundle has ack flag
                 if (ackFlag) {
                     NodeID nodeID = bundle.getPrimary().getDestNode();
