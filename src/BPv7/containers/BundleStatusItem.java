@@ -24,7 +24,7 @@ public class BundleStatusItem {
     DTNTime reportStatusTime = null;
 
     /** Constructor taking only status as parameter. */
-    BundleStatusItem(boolean a) { status = a; }
+    public BundleStatusItem(boolean a) { status = a; }
 
     /** setter for reportStatusTime if "Report status time" flag was set to 1. */
     void setReportStatusTime(DTNTime a) { reportStatusTime = a; }

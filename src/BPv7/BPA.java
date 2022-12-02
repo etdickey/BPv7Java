@@ -225,7 +225,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
         return creationTimestamp;
     }
 
-    private Bundle createBundle(byte[] payload,NodeID destID, boolean adminFlag, boolean ackFlag) {
+    public Bundle createBundle(byte[] payload,NodeID destID, boolean adminFlag, boolean ackFlag) {
         Bundle bundle = new Bundle();
         PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500); //Lifetime how
         if(adminFlag) {
