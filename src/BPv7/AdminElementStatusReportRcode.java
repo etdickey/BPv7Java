@@ -96,36 +96,70 @@ public class AdminElementStatusReportRcode implements Runnable {
     private void action(int reasonCode) {
         if (reasonCode == 1) {
             // Lifetime expired.
+            /*
+            if(configParameters.lifetimeExpiredAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 2) {
             // Forwarded over unidirectional link.
+            /*
+            Do not expect to receive ACK or anything else
+            So nothing I guess?
+             */
         }
         else if (reasonCode == 3) {
             // Transmission canceled.
+            /*
+            if(configParameters.transmissionCancelledAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 4) {
             // Depleted storage.
+            /*
+            if(configParameters.depletedStorageAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 5) {
             // Destination endpoint ID unavailable.
+            /*
+            if(configParameters.destinationUnavailableAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 6) {
             // No known route to destination from here.
+            /*
+            if(configParameters.noKnownRouteToDestinationAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 7) {
             // No timely contact with next node on route.
+            /*
+            if(configParameters.noTimelyContactAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 8) {
             // Block unintelligible.
+            /*
+            if(configParameters.blockUnintelligibleAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 9) {
             // Hop limit exceeded.
+            /*
+            if(configParameters.hopLimitExceededAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 10) {
             // Traffic pared (e.g., status reports).
+            /*
+            if(configParameters.trafficParedAction){ //resend } else { //drop }
+             */
         }
         else if (reasonCode == 11) {
             // Block unsupported.
+            /*
+            if(configParameters.blockUnsupportedAction){ //resend } else { //drop }
+             */
         }
         else {
             // Jimmy ***
