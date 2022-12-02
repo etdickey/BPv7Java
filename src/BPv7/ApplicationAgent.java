@@ -1,7 +1,9 @@
 package BPv7;
 
+import BPv7.containers.NodeID;
 import BPv7.interfaces.AdminElementInterface;
 import BPv7.interfaces.ApplicationAgentInterface;
+import BPv7.utils.BundleStatus;
 
 import java.util.logging.Logger;
 
@@ -57,10 +59,16 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * @return packet ID or -1 if packetToSend is Null or BP layer is full
      */
     @Override
-    public int send(byte[] packetToSend) {
+    public int send(byte[] packetToSend, NodeID destNodeID) {
         //todo:: interface with BPA
-        return 0;
+        return BPA.getInstance().send(packetToSend, destNodeID);
     }
+
+//    @Override
+//    public int send(byte[] packetToSend) {
+//        //todo:: interface with BPA
+//        return BPA.getInstance().send(packetToSend);
+//    }
 
     /**
      * Returns the next message from the stream.
@@ -70,9 +78,10 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * @return byte[] of size numToRead
      */
     @Override
-    public byte[] read(int numToRead) {
+    public byte[] read(int numToRead) throws InterruptedException {
         //todo:: interface with BPA
-        return new byte[0];
+        byte[] read_payload = BPA.getInstance().getPayload();
+        return read_payload.copyOfRange(read_payload, 0, numToRead);
     }
 
     /**
@@ -85,6 +94,14 @@ public class ApplicationAgent implements ApplicationAgentInterface {
     @Override
     public boolean checkSent(int packetID) {
         //todo:: interface with BPA
-        return false;
+        BundleStatus checkSent_status = BPA.getInstance().getBundleStatus(packetID);
+        if(checkSent_status == BundleStatus.SENT)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
