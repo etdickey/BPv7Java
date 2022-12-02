@@ -91,7 +91,7 @@ public class BPAReceiver implements Runnable {
                     readStatusReportBuffer.add(bundle.getPayload().getPayload());
                     logger.info("Added status report to the queue for AA");
                 } else {
-                    // else bundle has ack flag set
+                    // else if bundle has ack flag set
                     // make a StatusReportUtilObject object add to sendStatusReportBuffer
                     if (ackFlag) {
                         NodeID nodeID = bundle.getPrimary().getDestNode();
