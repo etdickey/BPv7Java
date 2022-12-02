@@ -29,7 +29,7 @@ public class BPAReceiver implements Runnable {
      */
     private static BPAReceiver instance = null;
     /**
-     * todo:: comments
+     * dtcp and SimulationParans Instance for using functions
      */
     private final DTCPInterface dtcp = DTCP.getInstance();
     private final SimulationParams simulationParams = SimulationParams.getInstance();
@@ -58,7 +58,6 @@ public class BPAReceiver implements Runnable {
 
     /**
      * Convert an object to a bytes array
-     * @throws IOException
      */
     public static byte[] objectToByteArray(StatusReport obj)  {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -80,7 +79,10 @@ public class BPAReceiver implements Runnable {
             }
         }
     }
-
+    /**
+     * @param bundle: bundle to be checked for deletion
+     * @return : reason code if bundle needs to be deleted, -1 otherwise
+     */
     private int checkIfBundleToDelete(Bundle bundle) {
         long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
         if(timeGap > bundle.getPrimary().getLifetime()) {
@@ -93,6 +95,12 @@ public class BPAReceiver implements Runnable {
             return -1;
         }
     }
+    /**
+     * @param bundle: bundle to create status report for
+     * @param status : the state of different status's for the bundle, ie deleted, forwarded, delivered, received
+     * @param rCode : The reason code
+     * @return : reason code if bundle needs to be deleted, -1 otherwise
+     */
     public StatusReport sendStatusReport(Bundle bundle, BundleStatusReport status, int rCode) {
         Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
         NodeID destNode = bundle.getPrimary().getDestNode();
@@ -111,7 +119,10 @@ public class BPAReceiver implements Runnable {
     protected BPAReceiver() {}
 
     /**
-     *
+     * Receives bundles and checks if the bundle is to be deleted. If it is, creates a status report and bundle. If not,
+     * checks if destination node ID is 1. If it is not, checks acknowledgment requirement and either adds acknowledgment
+     * bundle and saves bundle to queue, or just saves bundle to queue. If destination node id was 1, adds to status
+     * report buffer if it's an admin bundle, otherwise adds to receive buffer and also generated acknowledgment if needed.
      */
     @Override
     public void run() {
@@ -148,7 +159,7 @@ public class BPAReceiver implements Runnable {
                 }
             } else {
                 // check if bundle has ack flag
-                if((bundle.getPrimary().getFlags() & 0x20) == 1) {
+                if(ackFlag) {
                     NodeID nodeID = bundle.getPrimary().getDestNode();
                     Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
                     sendStatusReportBuffer.add(new StatusReportUtilObject(nodeID, timestamp, FORWARDED));

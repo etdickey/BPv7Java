@@ -45,27 +45,27 @@ class BPA implements BPAInterface {//package-private (not private/public)
 
     //actual class variables
     /**
-     * todo:: comments
+     * Queue of StatusReportUtilObject
      */
     public static BlockingQueue<StatusReportUtilObject> sendStatusReportBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: comments
+     * Queue of readStatusReportBuffer
      */
     public static BlockingQueue<byte[]> readStatusReportBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: comments
+     * Queue of Bundles to be sent
      */
     protected static BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: comments
+     * Queue of received bundles
      */
     protected static BlockingQueue<Bundle> receiveBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: comments
+     * HashMap of Timestamps to BundleDispatchStatusMap
      */
     public static Map<Timestamp, BundleDispatchStatusMap> bundleStatusMap = new HashMap<>();
     /**
-     * todo:: comments
+     * Threads for sending and receiving
      */
     private final Thread sendingThread;
     private final Thread receivingThread;
@@ -226,14 +226,25 @@ class BPA implements BPAInterface {//package-private (not private/public)
         }
         return NONE;
     }
-
+    /**
+     * Util function to save bundle to queue
+     * @param bundle: bundle to be saved
+     * @return creation Timestamp of the bundle
+     */
     public Timestamp saveToQueue(Bundle bundle) {
         sendBuffer.add(bundle);
         Timestamp creationTimestamp = bundle.getPrimary().getCreationTimestamp();
         bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
         return creationTimestamp;
     }
-
+    /**
+     * Util function to check status of bundle
+     * @param payload: bundle payload
+     * @param destID : destination node id for the bundle
+     * @param adminFlag : true if status report, false if normal bundle
+     * @param ackFlag : true if acknowledgement required, false otherwise
+     * @return newly created bundle
+     */
     public Bundle createBundle(byte[] payload,NodeID destID, boolean adminFlag, boolean ackFlag) {
         Bundle bundle = new Bundle();
         PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500); //Lifetime how

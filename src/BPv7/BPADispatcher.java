@@ -25,7 +25,7 @@ public class BPADispatcher implements Runnable {
      */
     private static BPADispatcher instance = null;
     /**
-     * todo:: comments
+     * dtcp Instance for using functions
      */
     private final DTCPInterface dtcp = DTCP.getInstance();
 
@@ -54,13 +54,14 @@ public class BPADispatcher implements Runnable {
     protected BPADispatcher() {}
 
     /**
-     *
+     * passive sender thread: will spawn when we want to send a message and only remain alive until all messages are sent.
+     * More efficient than having it busy-wait until a new message is ready to be sent. Checks if destination node ID
+     * can be reached and tries to send it. If sending fails, deleting is attempted. If deleted, bundleStatusMap is updated,
+     * otherwise the bundle is re-added to the sendBuffer.
      */
     @Override
     public void run() {
-        // passive sender thread: will spawn when we want to send a message
-        // and only remain alive until all messages are sent.  More efficient
-        // than having it busy-wait until a new message is ready to be sent.
+
         while(true) {
             Bundle bundleToSend = null;
             try {
