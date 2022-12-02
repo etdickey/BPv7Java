@@ -92,7 +92,7 @@ public class AdminElementStatusReportBuilder implements Runnable {
                 }
                 else {
                     // TODO: Verify it
-                    // TODO: What to reture for nodeID. Previous Node's ID or Src's NodeID, or current Node's NodeID.
+                    // TODO: What to return for nodeID. Previous Node's ID or Src's NodeID, or current Node's NodeID.
                     // TODO: Ask if getSourceNodeID() returns the actual src's NodeID.
                     byte[] b_statusReport = AdminElement.objectToByteArray(statusReport);
                     // BPA.getInstance().sendWithAdminFlag(b_statusReport, statusReportRevd.getSourceNodeID()); 
