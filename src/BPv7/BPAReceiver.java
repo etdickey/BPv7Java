@@ -73,7 +73,7 @@ public class BPAReceiver implements Runnable {
             int deletionCode = bpaUtils.checkIfBundleToDelete(bundle);
             boolean ackFlag = (bundle.getPrimary().getFlags() & 0x20) != 0;
             boolean adminFlag = (bundle.getPrimary().getFlags() & 0x02) != 0;
-            if (deletionCode != -1 && ackFlag) {
+            if (deletionCode != -1 && ackFlag) {//TODO:: aidan:: change -1 to be better
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
                 Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundle.getPrimary().getDestNode(), true, false);
                 sendBuffer.add(statusReportBundle);
