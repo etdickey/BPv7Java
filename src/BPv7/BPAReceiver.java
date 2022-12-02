@@ -63,7 +63,7 @@ public class BPAReceiver implements Runnable {
     /**
      * Receives bundles and checks if the bundle is to be deleted. If it is, creates a status report and bundle. If not,
      * checks if destination node ID is 1. If it is not, checks acknowledgment requirement and either adds acknowledgment
-     * bundle and saves bundle to queue, or just saves bundle to queue. If destination node id was 1, adds to status
+     * bundle and saves bundle to queue, or just saves bundle to queue. If destination node id is itself, adds to status
      * report buffer if it's an admin bundle, otherwise adds to receive buffer and also generated acknowledgment if needed.
      */
     @Override
