@@ -1,5 +1,7 @@
 package BPv7.interfaces;
 
+import BPv7.containers.NodeID;
+
 /**
  * Defines the interface for interacting with BP from the application-level perspective
  */
@@ -9,14 +11,17 @@ public interface ApplicationAgentInterface {
      * @param packetToSend message to send
      * @return packet ID or -1 if packetToSend is Null or BP layer is full
      */
-    int send(byte[] packetToSend);
+    // int send(byte[] packetToSend);
+
+    int send(byte[] packetToSend, NodeID destNodeID);
+
     /**
      * Returns the next message from the stream.
      * Calls BPA::getPayload once and saves all the payload in a buffer to return to user at some point
      * @param numToRead number of bytes to read from the stream
      * @return byte[] of size numToRead
      */
-    byte[] read(int numToRead);
+    byte[] read(int numToRead) throws InterruptedException;
     /**
      * Checks if the packet ID passed in has been sent to the next hop
      * Will trash record of complete transmission after >=1 minute (config file)
