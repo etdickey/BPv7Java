@@ -95,37 +95,37 @@ public class AdminElementStatusReportRcode implements Runnable {
      */
     private void action(int reasonCode) {
         if (reasonCode == 1) {
-            // Jimmy ***
+            // Lifetime expired.
         }
         else if (reasonCode == 2) {
-            // Jimmy ***
+            // Forwarded over unidirectional link.
         }
         else if (reasonCode == 3) {
-            // Jimmy ***
+            // Transmission canceled.
         }
         else if (reasonCode == 4) {
-            // Jimmy ***
+            // Depleted storage.
         }
         else if (reasonCode == 5) {
-            // Jimmy ***
+            // Destination endpoint ID unavailable.
         }
         else if (reasonCode == 6) {
-            // Jimmy ***
+            // No known route to destination from here.
         }
         else if (reasonCode == 7) {
-            // Jimmy ***
+            // No timely contact with next node on route.
         }
         else if (reasonCode == 8) {
-            // Jimmy ***
+            // Block unintelligible.
         }
         else if (reasonCode == 9) {
-            // Jimmy ***
+            // Hop limit exceeded.
         }
         else if (reasonCode == 10) {
-            // Jimmy ***
+            // Traffic pared (e.g., status reports).
         }
         else if (reasonCode == 11) {
-            // Jimmy ***
+            // Block unsupported.
         }
         else {
             // Jimmy ***
