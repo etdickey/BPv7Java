@@ -5,6 +5,7 @@ import BPv7.interfaces.AdminElementInterface;
 import BPv7.interfaces.ApplicationAgentInterface;
 import BPv7.utils.BundleStatus;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -81,7 +82,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
     public byte[] read(int numToRead) throws InterruptedException {
         //todo:: interface with BPA
         byte[] read_payload = BPA.getInstance().getPayload();
-        return read_payload.copyOfRange(read_payload, 0, numToRead);
+        return Arrays.copyOfRange(read_payload, 0, numToRead);
     }
 
     /**
