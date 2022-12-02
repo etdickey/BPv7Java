@@ -1,13 +1,16 @@
 package BPv7;
 
-import BPv7.containers.Bundle;
-import BPv7.containers.NodeID;
-import BPv7.containers.Timestamp;
+import BPv7.containers.*;
+import BPv7.utils.BundleStatusReport;
 import BPv7.utils.StatusReportUtilObject;
 import Configs.SimulationParams;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
+import jdk.jshell.Snippet;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.logging.Logger;
 
 import static BPv7.BPA.*;
@@ -53,6 +56,58 @@ public class BPAReceiver implements Runnable {
         return instance;
     }
 
+    /**
+     * Convert an object to a bytes array
+     * @throws IOException
+     */
+    public static byte[] objectToByteArray(StatusReport obj)  {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(bos);
+            out.writeObject(obj);
+            out.flush();
+            byte[] yourBytes = bos.toByteArray();
+            return yourBytes;
+        }catch (Exception e) {
+            //Add a logger
+            return null;
+        }finally {
+            try {
+                bos.close();
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
+    }
+
+    private int checkIfBundleToDelete(Bundle bundle) {
+        long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        if(timeGap > bundle.getPrimary().getLifetime()) {
+            return 1;
+        }else if(!dtcp.canReach(bundle.getPrimary().getDestNode())) {
+            return 5;
+        }else if(bundle.getPayload() == null || bundle.getPayload().getPayload() == null) {
+            return 11;
+        }else {
+            return -1;
+        }
+    }
+    public StatusReport sendStatusReport(Bundle bundle, BundleStatusReport status, int rCode) {
+        Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
+        NodeID destNode = bundle.getPrimary().getDestNode();
+        BundleStatusItem received = new BundleStatusItem(true);
+        BundleStatusItem forwarded = new BundleStatusItem((status ==
+                BundleStatusReport.FORWARDED) ? true : false);
+        BundleStatusItem delivered = new BundleStatusItem((status ==
+                BundleStatusReport.DELIVERED) ? true : false);
+        BundleStatusItem deleted = new BundleStatusItem((status ==
+                BundleStatusReport.DELETED) ? true : false);
+
+        StatusReport rep = new StatusReport(received,forwarded,delivered,deleted,rCode,destNode,timestamp);
+        return rep; //send the status report
+    }
+
     protected BPAReceiver() {}
 
     /**
@@ -65,7 +120,17 @@ public class BPAReceiver implements Runnable {
             // TODO: @ethan get id of current NodeID
             // read nodeID of system and see if matches bundle destination ID
             // TODO: change if condition
+            int deletionCode = checkIfBundleToDelete(bundle);
+            boolean ackFlag = (bundle.getPrimary().getFlags() & 0x20) == 1;
+            if(deletionCode != -1 && ackFlag) {
+                StatusReport statusReport = sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
+                BPA.getInstance().createBundle(objectToByteArray(statusReport), bundle.getPrimary().getDestNode(), true, false);
+                continue;
+            }
+
             if(bundle.getPrimary().getDestNode().id() == "1") {
+
+
                 // if bundle has admin flag set
                 // add the payload to readStatusReportBuffer
                 if ((bundle.getPrimary().getFlags() & 0x02) == 1) {
@@ -73,7 +138,7 @@ public class BPAReceiver implements Runnable {
                 } else {
                     // else bundle has ack flag set
                     // make a StatusReportUtilObject object add to sendStatusReportBuffer
-                    if((bundle.getPrimary().getFlags() & 0x20) == 1) {
+                    if(ackFlag) {
                         NodeID nodeID = bundle.getPrimary().getDestNode();
                         Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
                         sendStatusReportBuffer.add(new StatusReportUtilObject(nodeID, timestamp, DELIVERED));
