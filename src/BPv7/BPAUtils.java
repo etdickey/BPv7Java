@@ -147,6 +147,7 @@ public class BPAUtils {
         if (timeGap > bundle.getPrimary().getLifetime()) {
             return 1;
         } else if (!dtcp.canReach(bundle.getPrimary().getDestNode())) {
+            //todo:: aidan:: canReach reason code update
             return 5;
         } else if (bundle.getPayload() == null || bundle.getPayload().getPayload() == null) {
             return 11;
