@@ -79,16 +79,16 @@ public class BPADispatcher implements Runnable {
             boolean ackFlag = (bundleToSend.getPrimary().getFlags() & 0x20) != 0;
             if(dtcp.canReach(destNode)) {//todo:: aidan:: if network is just down, continue; (and log)
                 logger.info("Can reach destination nodeID");
-                if(dtcp.send(bundleToSend)) {
+                if(dtcp.send(bundleToSend)) {//try to send
                     bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, SENT));
                     logger.info("Sent bundle to DTCP and updated the dispatch status for bundle timestamp: " +
                             bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-                } else {
-                    if(!canDelete(bundleToSend)) {
+                } else {//failed to send
+                    if(!canDelete(bundleToSend)) {//try to delete
                         sendBuffer.add(bundleToSend);
                         logger.info("Adding the bundle again to the queue for resending, timestamp: " +
                                 bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-                    } else {
+                    } else {//delete!
                         // send status report if ack flag is true
                         if (ackFlag) {
                             StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 1);
@@ -102,7 +102,7 @@ public class BPADispatcher implements Runnable {
                                 bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
                     }
                 }
-            } else {
+            } else {//can't reach destination for some reason...//todo:: aidan
                 // send status report if ack flag is true
                 if (ackFlag) {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);
