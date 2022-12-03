@@ -94,7 +94,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
         sendingThread.start();
         receivingThread = new Thread(new BPAReceiver());
         receivingThread.start();
-        logger.info("Started BPA sending-receiving thread");
+        logger.info("Started BPA sending and receiving threads");
     }
 
     //@ethan todo:: switch branches/close containers.
