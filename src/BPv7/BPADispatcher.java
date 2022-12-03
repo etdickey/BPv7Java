@@ -77,7 +77,7 @@ public class BPADispatcher implements Runnable {
             NodeID destNode = bundleToSend.getPrimary().getDestNode();
             Timestamp creationTimestamp = bundleToSend.getPrimary().getCreationTimestamp();
             boolean ackFlag = (bundleToSend.getPrimary().getFlags() & 0x20) != 0;
-            if(dtcp.canReach(destNode)) {
+            if(dtcp.canReach(destNode)) {//todo:: aidan:: if network is just down, continue; (and log)
                 logger.info("Can reach destination nodeID");
                 if(dtcp.send(bundleToSend)) {
                     bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, SENT));
