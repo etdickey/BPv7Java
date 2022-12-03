@@ -4,6 +4,7 @@ import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import DTCP.interfaces.DTCPInterface;
+import DTCP.interfaces.ReachableStatus;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -90,8 +91,14 @@ public class DTCP implements DTCPInterface {
     public boolean send(Bundle toBeSent) {
         String loggingID = DTCPUtils.getLoggingBundleId(toBeSent); // For logging, mostly arbitrary
         NodeID destNode = toBeSent.getPrimary().getDestNode();
-        if (!canReach(destNode)) {
-            // Hopefully above layer already checks, but layered so shouldn't assume
+        ReachableStatus status = canReach(destNode);
+        if (status == ReachableStatus.EXPECTED_DOWN) {
+            // This (likely) means the status changed since they last checked, just let them know it didn't make it
+            logger.log(Level.INFO, "Attempted to send a bundle during an expected down, potentially just a timing.");
+            return false;
+        }
+        if (status != ReachableStatus.REACHABLE) {
+            // This means something really wrong happened, because it was never reachable in the first place
             logger.log(Level.WARNING, "Attempted to send to unreachable destination. BundleID: " + loggingID);
             return false;
         }
@@ -141,11 +148,15 @@ public class DTCP implements DTCPInterface {
      * @return true if network is up else false
      */
     @Override
-    public boolean canReach(NodeID ID) {
+    public ReachableStatus canReach(NodeID ID) {
         String dest = nodeToNetwork(ID);
         if (dest == null)
-            return false;
-        return DTCPUtils.isConnectionDownExpected(dest);
+            return ReachableStatus.UNKNOWN_ID;
+        if (dest.compareTo(config.thisAddress) == 0)
+            return ReachableStatus.NO_ROUTE;
+        if (DTCPUtils.isConnectionDownExpected(dest))
+            return ReachableStatus.EXPECTED_DOWN;
+        return ReachableStatus.REACHABLE;
     }
 
     /**
@@ -155,6 +166,8 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public String nodeToNetwork(NodeID ID) {
+        if (ID.equals(NodeID.getNullSourceID()))
+            return null;
         return config.idToAddressRoutingMap.getOrDefault(ID.id(), null);
     }
 

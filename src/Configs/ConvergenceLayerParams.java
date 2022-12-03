@@ -32,6 +32,7 @@ public class ConvergenceLayerParams {
      * Which port DTCP listens on
      */
     public final int DTCP_Port;
+
     /**
      * below 1024 are reserved, ports only go to 2^16-1
      */
@@ -62,7 +63,10 @@ public class ConvergenceLayerParams {
     public Map<String, String> idToAddressRoutingMap;
 
     /**
-     * The IP address of this node, when sending to yourself
+     * The IP address of this node, when sending to yourself.
+     * Addtionally, a routing to this address in the routing table
+     * is interpreted as no route, but ID exists
+     * (Similar to a DNS response but cannot reach IP address)
      */
     public String thisAddress;
 
