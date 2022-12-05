@@ -153,7 +153,7 @@ public class BPAUtils {
      */
     public int checkIfBundleToDelete(Bundle bundle) {
         long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-        if (timeGap > bundle.getPrimary().getLifetime()) {
+        if (timeGap > bundle.getPrimary().getLifetime()) {//@aidan todo, reasoncode fix
             return 1;
         } else if (!dtcp.canReach(bundle.getPrimary().getDestNode())) {
             return 5;
