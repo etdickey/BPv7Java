@@ -72,7 +72,7 @@ public class BPAUtils {
      * @param obj status report object
      * @return byte array
      */
-    public static byte[] objectToByteArray(StatusReport obj) {
+    public static byte[] objectToByteArray(StatusReport obj) {//todo:: call CBOR functions
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out;
         try {
