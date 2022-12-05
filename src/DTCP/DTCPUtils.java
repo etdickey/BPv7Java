@@ -1,6 +1,5 @@
 package DTCP;
 
-import BPv7.containers.Bundle;
 import Configs.ConvergenceLayerParams;
 
 import java.time.Instant;
@@ -138,18 +137,4 @@ class DTCPUtils {
         }
         return num;
     }
-
-    /**
-     * Generates a bundle logging id for the given bundle, of the form:
-     * [SRC NODE ID]:[CREATION TIMESTAMP in MS]:[SEQ NUMBER]
-     * @param bundle the bundle the ID is being generated for
-     * @return the bundle logging ID
-     */
-    public static String getLoggingBundleId(Bundle bundle) {
-        return bundle.getPrimary().getSrcNode().id()
-                + ':' + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS()
-                + ':' + bundle.getPrimary().getCreationTimestamp().getSeqNum();
-    }
-
-
 }

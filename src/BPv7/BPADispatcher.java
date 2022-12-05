@@ -5,7 +5,9 @@ import BPv7.utils.BundleDispatchStatusMap;
 import BPv7.utils.BundleStatusReport;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
+import DTCP.interfaces.ReachableStatus;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static BPv7.BPA.bundleStatusMap;
@@ -83,7 +85,8 @@ public class BPADispatcher implements Runnable {
             NodeID destNode = bundleToSend.getPrimary().getDestNode();
             Timestamp creationTimestamp = bundleToSend.getPrimary().getCreationTimestamp();
             boolean deliverFlag = bundleToSend.getPrimary().getDLIV();
-            if(dtcp.canReach(destNode)) {//todo:: aidan:: if network is just down, continue; (and log)
+            ReachableStatus reachable = dtcp.canReach(destNode);
+            if(reachable == ReachableStatus.REACHABLE) {
                 logger.info("Can reach destination nodeID");
                 if(dtcp.send(bundleToSend)) {//try to send
                     bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, SENT));
@@ -108,7 +111,19 @@ public class BPADispatcher implements Runnable {
                                 bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
                     }
                 }
-            } else {//can't reach destination for some reason...//todo:: aidan
+            } else {//can't reach destination for some reason...
+                switch (reachable) {
+                    case EXPECTED_DOWN ->  {
+                        if (bundleToSend.getPrimary().getLifetime() + bundleToSend.getPrimary().getCreationTimestamp().creationTime.timeInMS <= DTNTime.getCurrentDTNTime().timeInMS) {
+                            logger.log(Level.INFO, "Bundle not deliverable due to expected down and reached lifetime. Bundle: " + bundleToSend.getLoggingBundleId());
+                        } else {
+                            sendBuffer.offer(bundleToSend);
+                            continue;
+                        }
+                    }
+                    case NO_ROUTE -> logger.log(Level.INFO, "Bundle not deliverable due to no known route. Bundle: " + bundleToSend.getLoggingBundleId());
+                    case UNKNOWN_ID -> logger.log(Level.INFO, "Bundle not deliverable due to an unknown Destination ID. Bundle: " + bundleToSend.getLoggingBundleId());
+                }
                 // send status report if ack requested
                 if (deliverFlag) {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);

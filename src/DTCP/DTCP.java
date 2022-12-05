@@ -89,7 +89,7 @@ public class DTCP implements DTCPInterface {
      */
     @Override
     public boolean send(Bundle toBeSent) {
-        String loggingID = DTCPUtils.getLoggingBundleId(toBeSent); // For logging, mostly arbitrary
+        String loggingID = toBeSent.getLoggingBundleId(); // For logging, mostly arbitrary
         NodeID destNode = toBeSent.getPrimary().getDestNode();
         ReachableStatus status = canReach(destNode);
         if (status == ReachableStatus.EXPECTED_DOWN) {
@@ -145,7 +145,7 @@ public class DTCP implements DTCPInterface {
     /**
      * Checks the network status only for PREDICTABLE disruptions and if we actually have a connection to that NodeID
      * @param ID NodeID of the network
-     * @return true if network is up else false
+     * @return ReachableStatus of the NodeID
      */
     @Override
     public ReachableStatus canReach(NodeID ID) {
