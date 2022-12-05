@@ -1,10 +1,7 @@
 package BPv7;
 
 
-import BPv7.containers.Bundle;
-import BPv7.containers.DTNTime;
-import BPv7.containers.NodeID;
-import BPv7.containers.Timestamp;
+import BPv7.containers.*;
 import BPv7.interfaces.BPAInterface;
 import BPv7.utils.BundleDispatchStatusMap;
 import BPv7.utils.StatusReportUtilObject;
@@ -25,27 +22,17 @@ class BPA implements BPAInterface {//package-private (not private/public)
 
     /**
      * The only instance of this class allowed in the entire program
-     *
      * @implNote not making this volatile because its value only changes once
      * (null -> instance), thus only one set of double-checked locking is needed
      * (caching ok because all variables are final)
      */
     private static BPA instance = null;
 
-    private Bundle createBundle(byte[] a,NodeID destID) {
-        Bundle rem = new Bundle();
-        PrimaryBlock PRB = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500); //Lifetime how
-        PayloadBlock PB = new PayloadBlock(a);
-        rem.setPrimary(PRB);
-        rem.setPayload(PB);
-        return rem;
-    }
-
     //actual class variables
     /**
      * BPA Util class instance
      */
-    private static final BPAUtils bpaUtils = null;
+    private static final BPAUtils bpaUtils = BPAUtils.getInstance();
     /**
      * Queue for creating status reports for bundles
      */
@@ -77,15 +64,14 @@ class BPA implements BPAInterface {//package-private (not private/public)
 
     /**
      * Gets the singleton instance of the BPA
-     *
      * @return a reference to the simulation parameters instance
      * @implNote not making this instance volatile because its value only changes once
      * (null -> instance), thus only one set of double-checked locking is needed
      */
-    public static BPA getInstance(){
-        if(instance == null){
-            synchronized (BPA.class){
-                if(instance == null){
+    public static BPA getInstance() {
+        if (instance == null) {
+            synchronized (BPA.class) {
+                if (instance == null) {
                     instance = new BPA();
                     logger.info("Created BPA singleton");
                 }
@@ -124,8 +110,8 @@ class BPA implements BPAInterface {//package-private (not private/public)
 //    }
 
     /**
+     * [blocking call]
      * Gets the payload of the next admin bundle (which is just an admin record).
-     *
      * @return the payload of the next admin bundle
      */
     @Override
@@ -142,6 +128,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     }
 
     /**
+     * [blocking call]
      * Returns the next bundle’s entire payload
      * @return byteStream of payload
      */
@@ -165,9 +152,9 @@ class BPA implements BPAInterface {//package-private (not private/public)
 
     /**
      * create and save the bundle to outgoing queue
-     * @param payload Payload block of the bundle
+     * @param payload message to send in payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     public Timestamp send(byte[] payload, NodeID destNodeID) {
         if(payload != null && payload.length > 0) {
@@ -176,15 +163,15 @@ class BPA implements BPAInterface {//package-private (not private/public)
             // save to queue
             return bpaUtils.saveToQueue(bundle);
         }
-        logger.warning("Unable to save the bundle to the queue");
-        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
+        logger.warning("Unable to save the bundle to the queue because bad payload");
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 
     /**
-     * create the bundle and save to sending queue with ACK flag true
-     * @param payload Payload block of the bundle
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     @Override
     public Timestamp sendWithACK(byte[] payload, NodeID destNodeID) {
@@ -194,15 +181,15 @@ class BPA implements BPAInterface {//package-private (not private/public)
             // save to queue
             return bpaUtils.saveToQueue(bundle);
         }
-        logger.warning("Unable to save the bundle to the queue with ack flag");
-        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
+        logger.warning("Unable to save the bundle to the queue with ack flag because bad payload");
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 
     /**
-     * create the bundle and save to sending queue with Admin Report flag true
-     * @param payload Payload block of the bundle
+     * create the admin bundle and save to sending queue
+     * @param payload message to send in payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     @Override
     public Timestamp sendWithAdminFlag(byte[] payload, NodeID destNodeID) {
@@ -213,7 +200,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
             return bpaUtils.saveToQueue(bundle);
         }
         logger.warning("Unable to save the bundle to the queue with admin flag");
-        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 
     /**
@@ -224,11 +211,11 @@ class BPA implements BPAInterface {//package-private (not private/public)
     @Override
     public Timestamp resendBundle(Timestamp bundleTimestamp) {
         if(bundleTimestamp.getSeqNum() != -1) {
-            bpaUtils.saveToQueue(bundleStatusMap.get(bundleTimestamp).getBundle());
+            bpaUtils.saveToQueue(bundleStatusMap.get(bundleTimestamp).bundle());
             logger.info("Resending bundle with timestamp " + bundleTimestamp.getCreationTime().getTimeInMS());
             return bundleTimestamp;
         }
         logger.warning("Unable to send bundle: " + bundleTimestamp.getCreationTime().getTimeInMS());
-        return new Timestamp(DTNTime.getUnknownDTNTime(), -1);
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 }

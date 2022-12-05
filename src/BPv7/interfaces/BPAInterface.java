@@ -17,13 +17,14 @@ public interface BPAInterface {
     // into the bundle parser
 
     /**
+     * [blocking call]
      * Gets the payload of the next admin bundle (which is just an admin record).
-     *
      * @return the payload of the next admin bundle
      */
     byte[] getAdminRecord();
 
     /**
+     * [blocking call]
      * Returns the next bundle’s entire payload
      * @return byteStream of payload
      */
@@ -31,32 +32,32 @@ public interface BPAInterface {
 
     /**
      * create the bundle and save to sending queue
-     * @param payload Payload block of the bundle
+     * @param payload message to send in payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     Timestamp send(byte[] payload, NodeID destNodeID);
 
     /**
-     * create the bundle and save to sending queue with ACK flag true
-     * @param payload Payload block of the bundle
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     Timestamp sendWithACK(byte[] payload, NodeID destNodeID);
 
     /**
-     * create the bundle and save to sending queue with Admin Report flag true
-     * @param payload Payload block of the bundle
+     * create the admin bundle and save to sending queue
+     * @param payload message to send in payload block of the bundle
      * @param destNodeID destination node id of the bundle
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     Timestamp sendWithAdminFlag(byte[] payload, NodeID destNodeID);
 
     /**
      * resend old bundle from queue
      * @param bundleTimestamp timestamp of the bundle to be resent
-     * @return key (timestamp) for the bundle else invalid timestamp
+     * @return key (timestamp) for the bundle
      */
     Timestamp resendBundle(Timestamp bundleTimestamp);
 }

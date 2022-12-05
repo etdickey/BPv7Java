@@ -16,6 +16,9 @@ import static BPv7.BPA.*;
 import static BPv7.utils.BundleStatusReport.DELIVERED;
 import static BPv7.utils.BundleStatusReport.FORWARDED;
 
+/**
+ * BPA class for receiving bundles form DTCP
+ */
 public class BPAReceiver implements Runnable {
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(BPAReceiver.class.getName());
@@ -29,11 +32,20 @@ public class BPAReceiver implements Runnable {
      */
     private static BPAReceiver instance = null;
     /**
-     * dtcp and SimulationParans Instance for using functions
+     * dtcp class Instance
      */
     private static DTCPInterface dtcp = DTCP.getInstance();
+    /**
+     * Simulate params class Instance
+     */
     private static SimulationParams simulationParams = SimulationParams.getInstance();
+    /**
+     * BPA class Instance
+     */
     private static BPA bpa = BPA.getInstance();
+    /**
+     * BPA util class Instance
+     */
     private static BPAUtils bpaUtils = BPAUtils.getInstance();
 
 
@@ -58,11 +70,14 @@ public class BPAReceiver implements Runnable {
         return instance;
     }
 
+    /**
+     * Hiding this constructor to force use of singleton accessor getInstance()
+     */
     protected BPAReceiver() {}
 
     /**
-     * Receives bundles and checks if the bundle is to be deleted. If it is, creates a status report and bundle. If not,
-     * checks if destination node ID is itself. If it is not, checks acknowledgment requirement and either adds acknowledgment
+     * Receives bundles and checks if the bundle is to be deleted. If it is, creates a status report bundle and sends it back to the sender.
+     * If not, checks if destination node ID is itself. If it is not, checks acknowledgment requirement and either adds acknowledgment
      * bundle and saves bundle to queue, or just saves bundle to queue. If destination node id is itself, adds to status
      * report buffer if it's an admin bundle, otherwise adds to receive buffer and also generated acknowledgment if needed.
      */
@@ -71,11 +86,11 @@ public class BPAReceiver implements Runnable {
         while(true) {
             Bundle bundle = dtcp.recv();
             int deletionCode = bpaUtils.checkIfBundleToDelete(bundle);
-            boolean ackFlag = (bundle.getPrimary().getFlags() & 0x20) != 0;
-            boolean adminFlag = (bundle.getPrimary().getFlags() & 0x02) != 0;
-            if (deletionCode != -1 && ackFlag) {//TODO:: aidan:: change -1 to be better
+            boolean deliveryFlag = bundle.getPrimary().getDLIV();
+            boolean adminFlag = bundle.getPrimary().isAdminRecord();
+            if (deletionCode != -1 && deliveryFlag && !adminFlag) {//TODO:: aidan:: change -1 to be better
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
-                Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundle.getPrimary().getDestNode(), true, false);
+                Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
                 sendBuffer.add(statusReportBundle);
                 logger.info("Sending status report for deleted bundle, timestamp: " +
                         statusReportBundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
@@ -93,8 +108,8 @@ public class BPAReceiver implements Runnable {
                 } else {
                     // else if bundle has ack flag set
                     // make a StatusReportUtilObject object add to sendStatusReportBuffer
-                    if (ackFlag) {
-                        NodeID nodeID = bundle.getPrimary().getDestNode();
+                    if (deliveryFlag) {
+                        NodeID nodeID = bundle.getPrimary().getSrcNode();
                         Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
                         sendStatusReportBuffer.add(new StatusReportUtilObject(nodeID, timestamp, DELIVERED));
                         logger.info("Sending status report for delivered bundle, timestamp: " +
@@ -107,8 +122,8 @@ public class BPAReceiver implements Runnable {
                 }
             } else {//FORWARD
                 // check if bundle has ack flag
-                if (ackFlag) {
-                    NodeID nodeID = bundle.getPrimary().getDestNode();
+                if (deliveryFlag && !adminFlag) {
+                    NodeID nodeID = bundle.getPrimary().getSrcNode();
                     Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
                     sendStatusReportBuffer.add(new StatusReportUtilObject(nodeID, timestamp, FORWARDED));
                     logger.info("Sending status report for forwarded bundle, timestamp: " +

@@ -2,28 +2,16 @@ package BPv7.utils;
 
 import BPv7.containers.Bundle;
 
-public class BundleDispatchStatusMap {
-    Bundle bundle;
-    DispatchStatus status;
+import java.util.Objects;
 
-    public BundleDispatchStatusMap(Bundle bundle, DispatchStatus status) {
-        this.bundle = bundle;
-        this.status = status;
-    }
-
-    public Bundle getBundle() {
-        return bundle;
-    }
-
-    public void setBundle(Bundle bundle) {
-        this.bundle = bundle;
-    }
-
-    public DispatchStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(DispatchStatus status) {
-        this.status = status;
+/**
+ * Util class for keep map of bundle, and it's status
+ * @param bundle bundle of BPA
+ * @param status status of bundle
+ */
+public record BundleDispatchStatusMap(Bundle bundle, DispatchStatus status)  {
+    public BundleDispatchStatusMap {
+        Objects.requireNonNull(bundle);
+        Objects.requireNonNull(status);
     }
 }

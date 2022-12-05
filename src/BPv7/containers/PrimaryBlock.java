@@ -155,18 +155,18 @@ public class PrimaryBlock extends Block {
     public int getADULen() { return ADULen; }
     public int getCrc() { return crc; }
     /*flag getters*/
-    public bool getFRAG() { return (flags & FRAG) == FRAG;/*gets the FRAG flag*/ }
-    public bool getADMN() { return (flags & ADMN) == ADMN;/*gets the ADMN flag*/ }
-    public bool getNFRG() { return (flags & NFRG) == NFRG;/*gets the NFRG flag*/ }
-    public bool getACKR() { return (flags & ACKR) == ACKR;/*gets the ACKR flag*/ }
-    public bool getTIME() { return (flags & TIME) == TIME;/*gets the TIME flag*/ }
-    public bool getRECP() { return (flags & RECP) == RECP;/*gets the RECP flag*/ }
-    public bool getFRWD() { return (flags & FRWD) == FRWD;/*gets the FRWD flag*/ }
-    public bool getDLIV() { return (flags & DLIV) == DLIV;/*gets the DLIV flag*/ }
-    public bool getDELT() { return (flags & DELT) == DELT;/*gets the DELT flag*/ }
+    public boolean getFRAG() { return (flags & FRAG) == FRAG;/*gets the FRAG flag*/ }
+    public boolean getADMN() { return (flags & ADMN) == ADMN;/*gets the ADMN flag*/ }
+    public boolean getNFRG() { return (flags & NFRG) == NFRG;/*gets the NFRG flag*/ }
+    public boolean getACKR() { return (flags & ACKR) == ACKR;/*gets the ACKR flag*/ }
+    public boolean getTIME() { return (flags & TIME) == TIME;/*gets the TIME flag*/ }
+    public boolean getRECP() { return (flags & RECP) == RECP;/*gets the RECP flag*/ }
+    public boolean getFRWD() { return (flags & FRWD) == FRWD;/*gets the FRWD flag*/ }
+    public boolean getDLIV() { return (flags & DLIV) == DLIV;/*gets the DLIV flag*/ }
+    public boolean getDELT() { return (flags & DELT) == DELT;/*gets the DELT flag*/ }
     
     /*setters*/
-    public boolean isAdminRecord(){ return getADMN(); }
+    public boolean isAdminRecord() { return getADMN(); }
     public void setFRAG() { this.flags = flags | FRAG;/*sets the FRAG flag*/ }
     public void setADMN() { this.flags = flags | ADMN;/*sets the ADMN flag*/ }
     public void setNFRG() { this.flags = flags | NFRG;/*sets the NFRG flag*/ }

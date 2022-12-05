@@ -1,9 +1,6 @@
 package BPv7;
 
-import BPv7.containers.Bundle;
-import BPv7.containers.NodeID;
-import BPv7.containers.StatusReport;
-import BPv7.containers.Timestamp;
+import BPv7.containers.*;
 import BPv7.utils.BundleDispatchStatusMap;
 import BPv7.utils.BundleStatusReport;
 import DTCP.DTCP;
@@ -16,6 +13,9 @@ import static BPv7.BPA.sendBuffer;
 import static BPv7.utils.DispatchStatus.DELETED;
 import static BPv7.utils.DispatchStatus.SENT;
 
+/**
+ * BPA Dispatcher class is used to send bundles from BPA to DTCP
+ */
 public class BPADispatcher implements Runnable {
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(BPADispatcher.class.getName());
@@ -29,9 +29,12 @@ public class BPADispatcher implements Runnable {
      */
     private static BPADispatcher instance = null;
     /**
-     * dtcp Instance for using functions
+     * DTCP class Instance
      */
     private static final DTCPInterface dtcp = DTCP.getInstance();
+    /**
+     * BPA Util class Instance
+     */
     private static final BPAUtils bpaUtils = BPAUtils.getInstance();
 
 
@@ -39,7 +42,6 @@ public class BPADispatcher implements Runnable {
 
     /**
      * Gets the singleton instance of the BPADispatcher
-     *
      * @return a reference to the simulation parameters instance
      * @implNote not making this instance volatile because its value only changes once
      *  (null -> instance), thus only one set of double-checked locking is needed
@@ -56,6 +58,9 @@ public class BPADispatcher implements Runnable {
         return instance;
     }
 
+    /**
+     * Hiding this constructor to force use of singleton accessor getInstance()
+     */
     protected BPADispatcher() {}
 
     /**
@@ -73,10 +78,11 @@ public class BPADispatcher implements Runnable {
             } catch (InterruptedException e) {
                 logger.severe("Unable to get bundle from the Queue (sendBuffer). " +
                         "Queue was interrupted: " + e.getMessage());
+                continue;
             }
             NodeID destNode = bundleToSend.getPrimary().getDestNode();
             Timestamp creationTimestamp = bundleToSend.getPrimary().getCreationTimestamp();
-            boolean ackFlag = (bundleToSend.getPrimary().getFlags() & 0x20) != 0;
+            boolean deliverFlag = bundleToSend.getPrimary().getDLIV();
             if(dtcp.canReach(destNode)) {//todo:: aidan:: if network is just down, continue; (and log)
                 logger.info("Can reach destination nodeID");
                 if(dtcp.send(bundleToSend)) {//try to send
@@ -89,8 +95,8 @@ public class BPADispatcher implements Runnable {
                         logger.info("Adding the bundle again to the queue for resending, timestamp: " +
                                 bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
                     } else {//delete!
-                        // send status report if ack flag is true
-                        if (ackFlag) {
+                        // send status report if ack requested
+                        if (deliverFlag) {
                             StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 1);
                             Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
                             sendBuffer.add(statusReportBundle);
@@ -103,8 +109,8 @@ public class BPADispatcher implements Runnable {
                     }
                 }
             } else {//can't reach destination for some reason...//todo:: aidan
-                // send status report if ack flag is true
-                if (ackFlag) {
+                // send status report if ack requested
+                if (deliverFlag) {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);
                     Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
                     sendBuffer.add(statusReportBundle);
@@ -122,7 +128,7 @@ public class BPADispatcher implements Runnable {
      * @return boolean(), true if we can delete it, else false.
      */
     private boolean canDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
         return timeGap > bundle.getPrimary().getLifetime();
     }
 }

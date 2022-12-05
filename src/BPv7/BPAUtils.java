@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import static BPv7.utils.DispatchStatus.NONE;
 import static BPv7.utils.DispatchStatus.PENDING;
 
+/**
+ * BPA Util class for all utility functions
+ */
 public class BPAUtils {
     /**
      * Logger for this class. Prepends all logs from this class with the class name
@@ -23,13 +26,18 @@ public class BPAUtils {
 
     /**
      * The only instance of this class allowed in the entire program
-     *
      * @implNote not making this volatile because its value only changes once
      * (null -> instance), thus only one set of double-checked locking is needed
      * (caching ok because all variables are final)
      */
     private static BPAUtils instance = null;
+    /**
+     * BPA class instance
+     */
     private static BPA bpa = BPA.getInstance();
+    /**
+     * DTCP class instance
+     */
     private static DTCPInterface dtcp = DTCP.getInstance();
 
     //functions!
@@ -60,19 +68,20 @@ public class BPAUtils {
     }
 
     /**
-     * Convert an object to a bytes array
+     * Function to convert object to byte array (serialization)
+     * @param obj status report object
+     * @return byte array
      */
     public static byte[] objectToByteArray(StatusReport obj) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = null;
+        ObjectOutputStream out;
         try {
             out = new ObjectOutputStream(bos);
             out.writeObject(obj);
             out.flush();
-            byte[] yourBytes = bos.toByteArray();
-            return yourBytes;
+            return bos.toByteArray();
         } catch (Exception e) {
-            //Add a logger
+            logger.severe("Unable to convert object to byte array");
             return null;
         } finally {
             try {
@@ -85,22 +94,21 @@ public class BPAUtils {
 
     /**
      * Util function to check status of bundle
-     *
      * @param key: bundle key
      * @return status of the bundle, NONE if invalid key
      */
     public DispatchStatus getBundleStatus(Timestamp key) {
         if (key.getSeqNum() != -1 && bpa.bundleStatusMap.containsKey(key)) {
-            logger.info("Bundle status for timestamp " + key.getCreationTime().getTimeInMS());
-            return bpa.bundleStatusMap.get(key).getStatus();
+            DispatchStatus status = BPA.bundleStatusMap.get(key).status();
+            logger.info("Bundle status" + status + " for timestamp " + key.getCreationTime().getTimeInMS());
+            return status;
         }
-        logger.warning("Unable to get bundle status");
+        logger.warning("Unable to get bundle status for bundle timestamp: " + key);
         return NONE;
     }
 
     /**
-     * Util function to save bundle to queue
-     *
+     * Util function to save bundle to sending queue (sendBuffer)
      * @param bundle: bundle to be saved
      * @return creation Timestamp of the bundle
      */
@@ -114,7 +122,6 @@ public class BPAUtils {
 
     /**
      * Util function to check status of bundle
-     *
      * @param payload:  bundle payload
      * @param destID    : destination node id for the bundle
      * @param adminFlag : true if status report, false if normal bundle
@@ -129,7 +136,9 @@ public class BPAUtils {
             primaryBlock.setADMN();
         }
         if (ackFlag) {
-            primaryBlock.setACKR();
+            primaryBlock.setDLIV();
+            primaryBlock.setFRWD();
+            primaryBlock.setDELT();
         }
         PayloadBlock payloadBlock = new PayloadBlock(payload);
         bundle.setPrimary(primaryBlock);
@@ -143,11 +152,10 @@ public class BPAUtils {
      * @return : reason code if bundle needs to be deleted, -1 otherwise
      */
     public int checkIfBundleToDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
         if (timeGap > bundle.getPrimary().getLifetime()) {
             return 1;
         } else if (!dtcp.canReach(bundle.getPrimary().getDestNode())) {
-            //todo:: aidan:: canReach reason code update
             return 5;
         } else if (bundle.getPayload() == null || bundle.getPayload().getPayload() == null) {
             return 11;
