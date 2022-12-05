@@ -88,6 +88,7 @@ public class BPAReceiver implements Runnable {
             int deletionCode = bpaUtils.checkIfBundleToDelete(bundle);
             boolean deliveryFlag = bundle.getPrimary().getDLIV();
             boolean adminFlag = bundle.getPrimary().isAdminRecord();
+            //if we are deleting it and an delivery ACK is requested (and not admin record), send a status report back to the sender 
             if (deletionCode != -1 && deliveryFlag && !adminFlag) {//TODO:: aidan:: change -1 to be better
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
                 Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
