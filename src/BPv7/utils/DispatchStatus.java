@@ -1,9 +1,9 @@
-package BPv7.containers;
+package BPv7.utils;
 
 /**
  * Enum representing a bundle's status from the perspective of the BPA
  */
-public enum BundleStatus {
+public enum DispatchStatus {
     /** held in buffer, haven't sent yet */
     PENDING,
     /** successfully sent via DTCP to next hop (does NOT indicate we have received a status report about it, though) */

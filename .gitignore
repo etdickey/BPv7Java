@@ -5,6 +5,7 @@ out/
 .idea/*
 .idea/
 .idea
+.idea/workspace.xml
 
 ### Eclipse ###
 .apt_generated
@@ -27,7 +28,6 @@ bin/
 
 ### VS Code ###
 .vscode/
-workspace.xml
 
 ### Mac OS ###
 .DS_Store

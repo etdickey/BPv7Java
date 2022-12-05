@@ -3,17 +3,14 @@ package BPv7;
 
 import BPv7.containers.*;
 import BPv7.interfaces.BPAInterface;
-import DTCP.DTCP;
-import DTCP.interfaces.DTCPInterface;
+import BPv7.utils.BundleDispatchStatusMap;
+import BPv7.utils.StatusReportUtilObject;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-
-import static BPv7.containers.BundleStatus.*;
 
 /**
  * Main class responsible for handling BP protocol and handling of bundles.
@@ -26,43 +23,55 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * The only instance of this class allowed in the entire program
      * @implNote not making this volatile because its value only changes once
-     *  (null -> instance), thus only one set of double-checked locking is needed
-     *  (caching ok because all variables are final)
+     * (null -> instance), thus only one set of double-checked locking is needed
+     * (caching ok because all variables are final)
      */
     private static BPA instance = null;
 
     //actual class variables
     /**
-     * todo:: comments
+     * BPA Util class instance
      */
-    protected static BlockingQueue<Bundle> adminBuffer = new LinkedBlockingDeque<>();
+    private static final BPAUtils bpaUtils = BPAUtils.getInstance();
     /**
-     * todo:: comments
+     * Queue for creating status reports for bundles
+     */
+    public static BlockingQueue<StatusReportUtilObject> sendStatusReportBuffer = new LinkedBlockingDeque<>();
+    /**
+     * Queue of Bundles to be sent
      */
     protected static BlockingQueue<Bundle> sendBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: comments
+     * Queue of received bundles
      */
-    private static Map<Integer, BundleStatus> bundleStatusMap = new HashMap<>();
+    protected static BlockingQueue<Bundle> receiveBuffer = new LinkedBlockingDeque<>();
     /**
-     * todo:: comments
+     * Queue for reading status reports from bundles
      */
-    private final DTCPInterface dtcp = DTCP.getInstance();
+    public static BlockingQueue<byte[]> readStatusReportBuffer = new LinkedBlockingDeque<>();
+    /**
+     * Threads for sending and receiving
+     */
+    private final Thread sendingThread;
+    private final Thread receivingThread;
+    /**
+     * Map to maintain bundle dispatching status
+     */
+    public static Map<Timestamp, BundleDispatchStatusMap> bundleStatusMap = new HashMap<>();
 
 
     //functions!
 
     /**
      * Gets the singleton instance of the BPA
-     *
      * @return a reference to the simulation parameters instance
-     * @implNote not making this.instance volatile because its value only changes once
-     *  (null -> instance), thus only one set of double-checked locking is needed
+     * @implNote not making this instance volatile because its value only changes once
+     * (null -> instance), thus only one set of double-checked locking is needed
      */
-    public static BPA getInstance(){
-        if(instance == null){
-            synchronized (BPA.class){
-                if(instance == null){
+    public static BPA getInstance() {
+        if (instance == null) {
+            synchronized (BPA.class) {
+                if (instance == null) {
                     instance = new BPA();
                     logger.info("Created BPA singleton");
                 }
@@ -73,42 +82,16 @@ class BPA implements BPAInterface {//package-private (not private/public)
 
     /**
      * Hiding this constructor to force use of singleton accessor getInstance()
+     * Start sending and receiving threads for bundles
      */
-    protected BPA(){}
-
-    /**
-     * Send bundle from buffer/queue to DTCP
-     * todo:: throw this sending code into a different class that extends Runnable
-     *   (follows the principle of Separation of Concern in software engineering)
-     */
-    private void sendToDTCP() {
-        new Thread(() -> {
-            // passive sender thread: will spawn when we want to send a message
-            // and only remain alive until all messages are sent.  More efficient
-            // than having it busy-wait until a new message is ready to be sent.
-            while(true) {
-                Bundle bundleToSend = null;
-                try {
-                    bundleToSend = sendBuffer.take();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                NodeID destNode = bundleToSend.getPrimary().getDestNode();
-                int timeInMS = bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
-                if(dtcp.canReach(destNode)) {
-                    if(dtcp.send(bundleToSend)) {
-                        bundleStatusMap.put(timeInMS, SENT);
-                    } else {
-                        if(!canDelete(bundleToSend)) {
-                            sendBuffer.add(bundleToSend);
-                        } else {
-                            bundleStatusMap.put(timeInMS, DELETED);
-                        }
-                    }
-                }
-            }
-        }).start();
+    protected BPA() {
+        sendingThread = new Thread(new BPADispatcher());
+        sendingThread.start();
+        receivingThread = new Thread(new BPAReceiver());
+        receivingThread.start();
+        logger.info("Started BPA sending and receiving threads");
     }
+
     //@ethan todo:: switch branches/close containers.
 //    /**
 //     * Blocking call that waits for the sending buffer to empty (or only contain unreachable objects)
@@ -127,72 +110,112 @@ class BPA implements BPAInterface {//package-private (not private/public)
 //    }
 
     /**
-     * [blocking]
+     * [blocking call]
      * Gets the payload of the next admin bundle (which is just an admin record).
-     *
-     * TODO: need to understand if we will implement admin record
      * @return the payload of the next admin bundle
      */
     @Override
-    public AdminRecord getAdminRecord() {
-        // read from admin queue and pass to senderThread
-        // Returns the payload of the next admin bundle (which is just an admin record)
-        AdminRecord placeholder = new StatusReport(null, null, null,
-                null, -1, null, null);
-        //todo:: note that we may have other options for administrative records, need to be sure
-        //  we parse the right one
-        return placeholder;
+    public byte[] getAdminRecord() {
+        try {
+            logger.info("getting admin record from queue");
+            return readStatusReportBuffer.take();
+        } catch (InterruptedException e) {
+            // log error
+            logger.severe("Unable to get admin records from the Queue (readStatusReportBuffer). " +
+                    "Queue was interrupted: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
+     * [blocking call]
      * Returns the next bundle’s entire payload
      * @return byteStream of payload
      */
-    public byte[] getPayload() throws InterruptedException {
-        //todo:: switch to take()?
-        Bundle bundle = sendBuffer.poll(20, TimeUnit.SECONDS);
-        if(bundle != null) {
-            return bundle.getPayload().getPayload();
+    public byte[] getPayload() {
+        Bundle bundle = null;
+        try {
+            bundle = receiveBuffer.take();
+            if (bundle.getPayload() != null && bundle.getPayload().getPayload() != null) {
+                logger.info("sending payload of the bundle to AA, timestamp: " +
+                        bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                return bundle.getPayload().getPayload();
+            }
+        } catch (InterruptedException e) {
+            // log error
+            logger.severe("Unable to get bundle payload from the Queue (receiveBuffer). " +
+                    "Queue was interrupted: " + e.getMessage());
+            return null;
         }
         return null;
     }
 
     /**
-     * saves the bundle to queue
-     * @param bundle bundle from User API
-     * @return -1 if unable to save the bundle, else key (timestamp) for the bundle
+     * create and save the bundle to outgoing queue
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
      */
-    public int send(Bundle bundle) {
-        if(bundle != null) {
+    public Timestamp send(byte[] payload, NodeID destNodeID) {
+        if(payload != null && payload.length > 0) {
+            Bundle bundle = bpaUtils.createBundle(payload, destNodeID, false, false);
+            logger.info("saving the bundle, timestamp: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
             // save to queue
-            sendBuffer.add(bundle);
-            int timeInMS = bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS();
-            bundleStatusMap.put(timeInMS, PENDING);
-            return timeInMS;
+            return bpaUtils.saveToQueue(bundle);
         }
-        return -1;
+        logger.warning("Unable to save the bundle to the queue because bad payload");
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 
     /**
-     * Util function to check status of bundle
-     * @param key: bundle key
-     * @return status of the bundle, NONE if invalid key
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
      */
-    public BundleStatus getBundleStatus(int key) {
-        //DTN Epoch isn't the same as system Epoch, check DTNTime::timeInMS for specifics
-        if(key > 0 && key <= DTNTime.getCurrentDTNTime().timeInMS && bundleStatusMap.containsKey(key)) {
-            return bundleStatusMap.get(key);
+    @Override
+    public Timestamp sendWithACK(byte[] payload, NodeID destNodeID) {
+        if(payload != null && payload.length > 0) {
+            Bundle bundle = bpaUtils.createBundle(payload, destNodeID, false, true);
+            logger.info("saving the bundle with ack flag, timestamp: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+            // save to queue
+            return bpaUtils.saveToQueue(bundle);
         }
-        return NONE;
+        logger.warning("Unable to save the bundle to the queue with ack flag because bad payload");
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 
     /**
-     * Checks if bundle can be deleted based on LifeTime set in Primary block
-     * @param bundle: bundle to be checked
-     * @return boolean(), true if we can delete it, else false.
+     * create the admin bundle and save to sending queue
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
      */
-    private boolean canDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(System.currentTimeMillis(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-        return timeGap > bundle.getPrimary().getLifetime();
+    @Override
+    public Timestamp sendWithAdminFlag(byte[] payload, NodeID destNodeID) {
+        if(payload != null && payload.length > 0) {
+            Bundle bundle = bpaUtils.createBundle(payload, destNodeID, true, false);
+            logger.info("saving the bundle with admin flag, timestamp: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+            // save to queue
+            return bpaUtils.saveToQueue(bundle);
+        }
+        logger.warning("Unable to save the bundle to the queue with admin flag");
+        return Timestamp.UNKNOWN_TIMESTAMP;
+    }
+
+    /**
+     * resend old bundle from queue
+     * @param bundleTimestamp timestamp of the bundle to be resent
+     * @return key (timestamp) for the bundle else invalid timestamp
+     */
+    @Override
+    public Timestamp resendBundle(Timestamp bundleTimestamp) {
+        if(bundleTimestamp.getSeqNum() != -1) {
+            bpaUtils.saveToQueue(bundleStatusMap.get(bundleTimestamp).bundle());
+            logger.info("Resending bundle with timestamp " + bundleTimestamp.getCreationTime().getTimeInMS());
+            return bundleTimestamp;
+        }
+        logger.warning("Unable to send bundle: " + bundleTimestamp.getCreationTime().getTimeInMS());
+        return Timestamp.UNKNOWN_TIMESTAMP;
     }
 }

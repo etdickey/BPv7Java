@@ -35,9 +35,6 @@ public class Bundle implements NetworkSerializable {
         setTimestampToCurrentTime();
     }
 
-
-
-
     /**
      * Inserts the given block and assigns it an ID
      * @param b block to insert
