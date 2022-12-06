@@ -3,6 +3,7 @@ package DTCP;
 import BPv7.containers.Bundle;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
+import Configs.SimulationParams;
 import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
 
@@ -35,7 +36,12 @@ public class DTCP implements DTCPInterface {
     /**
      * The instance of the ConvergenceLayerParams Class
      */
-    private final ConvergenceLayerParams config;
+    private static final ConvergenceLayerParams convParams = ConvergenceLayerParams.getInstance();
+
+    /**
+     * The instance of the SimulationParams Class
+     */
+    private static final SimulationParams simParams = SimulationParams.getInstance();
 
     /**
      * The queue for bundles received to offer to the BPA layer.
@@ -73,9 +79,8 @@ public class DTCP implements DTCPInterface {
      * Hiding default constructor to force singleton use. Sets up the config, the input queue, then the receiving server
      */
     protected DTCP(){
-        config = ConvergenceLayerParams.getInstance();
-        if (config.queueCapacity != -1)
-            outQueue = new LinkedBlockingQueue<>(config.queueCapacity);
+        if (convParams.queueCapacity != -1)
+            outQueue = new LinkedBlockingQueue<>(convParams.queueCapacity);
         else
             outQueue = new LinkedBlockingQueue<>();
         server = new Thread(new DTCPServer(outQueue));
@@ -112,7 +117,7 @@ public class DTCP implements DTCPInterface {
             logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
             return false;
         }
-        try (Socket socket = new Socket(dest, config.dtcpPort)) {
+        try (Socket socket = new Socket(dest, simParams.scenario.dtcpPort())) {
             // Just write the whole bundle
             socket.getOutputStream().write(bundleAsBytes);
             logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);
@@ -152,7 +157,7 @@ public class DTCP implements DTCPInterface {
         String dest = nodeToNetwork(ID);
         if (dest == null)
             return ReachableStatus.UNKNOWN_ID;
-        if (dest.compareTo(config.thisAddress) == 0)
+        if (dest.compareTo(convParams.thisAddress) == 0)
             return ReachableStatus.NO_ROUTE;
         if (DTCPUtils.isConnectionDownExpected(dest))
             return ReachableStatus.EXPECTED_DOWN;
@@ -168,7 +173,7 @@ public class DTCP implements DTCPInterface {
     public String nodeToNetwork(NodeID ID) {
         if (ID.equals(NodeID.getNullSourceID()))
             return null;
-        return config.idToAddressRoutingMap.getOrDefault(ID.id(), null);
+        return convParams.idToAddressRoutingMap.getOrDefault(ID.id(), null);
     }
 
 

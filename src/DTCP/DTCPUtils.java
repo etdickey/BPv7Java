@@ -1,6 +1,7 @@
 package DTCP;
 
 import Configs.ConvergenceLayerParams;
+import Configs.SimulationParams;
 
 import java.time.Instant;
 import java.util.*;
@@ -15,7 +16,13 @@ class DTCPUtils {
     /**
      * The instance of the ConvergenceLayerParams Class
      */
-    private static final ConvergenceLayerParams config = ConvergenceLayerParams.getInstance();
+    private static final ConvergenceLayerParams convParams = ConvergenceLayerParams.getInstance();
+
+    /**
+     * The instance of the SimulationParams Class
+     */
+    private static final SimulationParams simParams = SimulationParams.getInstance();
+
 
     /**
      * The latest timeFrame where a down check occured. Basically the last timeframe where the connectionDownTimeFrame
@@ -51,7 +58,7 @@ class DTCPUtils {
      */
     private static long getCurrentTimeFrame() {
         Instant now = Instant.now();
-        return now.toEpochMilli() % config.milliPerDownPeriod;
+        return now.toEpochMilli() / simParams.scenario.milliPerDownPeriod();
     }
 
 
@@ -89,7 +96,7 @@ class DTCPUtils {
      */
     @SuppressWarnings("DuplicatedCode")
     public static boolean isConnectionDownExpected(String destAddress) {
-        long firstAddr = addressToLong(config.thisAddress);
+        long firstAddr = addressToLong(convParams.thisAddress);
         long secondAddr = addressToLong(destAddress);
         if (secondAddr == firstAddr)
             return false;
@@ -100,7 +107,7 @@ class DTCPUtils {
             firstAddr ^= secondAddr;
         }
         long connectionID = (secondAddr << 16 + firstAddr);
-        return getConnectionValue(connectionID) < config.expectedDownProbability;
+        return getConnectionValue(connectionID) < simParams.scenario.expectedDownProbability();
     }
 
     /**
@@ -110,7 +117,7 @@ class DTCPUtils {
      */
     @SuppressWarnings("DuplicatedCode")
     public static boolean isConnectionDownUnexpected(String srcAddress) {
-        long firstAddr = addressToLong(config.thisAddress);
+        long firstAddr = addressToLong(convParams.thisAddress);
         long secondAddr = addressToLong(srcAddress);
         if (secondAddr == firstAddr)
             return false;
@@ -120,7 +127,7 @@ class DTCPUtils {
             firstAddr ^= secondAddr;
         }
         long connectionID = (secondAddr << 16 + firstAddr);
-        return getConnectionValue(connectionID) < config.unexpectedDownProbability;
+        return getConnectionValue(connectionID) < simParams.scenario.unexpectedDownProbability();
     }
 
     /**

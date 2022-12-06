@@ -12,8 +12,10 @@ import com.fasterxml.jackson.databind.*;
 
 /**
  * Contains simulation-level parameters only applicable to the convergence layer (DTCP)
+ * and are PER HOST
  * Examples include which port DTCP receives on and which IP our host/other hosts are.
  */
+
 
 
 public class ConvergenceLayerParams {
@@ -47,33 +49,9 @@ public class ConvergenceLayerParams {
         }
     }
 
-    // Parameter Checking Variables
-    /**
-     * below 1024 are reserved, ports only go to 2^16-1
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private static final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
-
 
 
     //actual class variables
-    /**
-     * The probability of a link having an expected disconnect/ going "down".
-     *  Both sides of a link are aware of this down.
-     */
-    public final double expectedDownProbability;
-
-    /**
-     * The probability of a link having an unexpected disconnect/ going "down".
-     * Neither side is aware of this, other than dropping all bundles during the time frame this occurs during
-     */
-    public final double unexpectedDownProbability;
-
-    /**
-     * The number of milliseconds per Timeframe, essentially how many milliseconds between occurrences and length of
-     * an expected and unexpected down (multiple can occur back to back).
-     */
-    public final int milliPerDownPeriod;
 
     /**
      * The Routing Map for the current node, specified in context file, of the form URI/Node ID String -> IPv4 Address
@@ -85,11 +63,6 @@ public class ConvergenceLayerParams {
      * The IP address of this node, when sending to yourself.
      */
     public final String thisAddress;
-
-    /**
-     * Which port DTCP listens on
-     */
-    public final int dtcpPort;
 
     /**
      * The capacity of the internal receive queue. -1 for no limit.
@@ -154,9 +127,8 @@ public class ConvergenceLayerParams {
         try {
             Map<String, String> defaultRoutingTable = new HashMap<>();
             defaultRoutingTable.put("localhost", "127.0.0.1");
-            ret = new ConvergenceLayerParams(0.1f, 0.01f, 100,
-                        defaultRoutingTable,"127.0.0.1", 3827, -1, 10,
-                        100, 100, 100);
+            ret = new ConvergenceLayerParams(defaultRoutingTable,"127.0.0.1", -1, 10,
+                                                100, 100, 100);
         } catch(InvalidParameterException e){
             logger.severe("ERROR! Unable to create default for ConvergenceLayerParams: " + e.getMessage());
             throw new InvalidParameterException(e.getMessage());
@@ -175,7 +147,10 @@ public class ConvergenceLayerParams {
         ConvergenceLayerParams ret;
         try {
             ret = new ObjectMapper().readValue(new File(file), ConvergenceLayerParams.class);
-        } catch(Exception e){
+        } catch (InvalidParameterException e){
+            logger.severe("ERROR! Unable to parse config files for parameters (ConvergenceLayerParams): " + e.getMessage());
+            throw new InvalidParameterException(e.getMessage());
+        } catch (Exception e){
             logger.severe("ERROR! Unable to parse config files for ConvergenceLayerParams: " + e.getMessage());
             throw new InvalidParameterException(e.getMessage());
         }
@@ -186,12 +161,8 @@ public class ConvergenceLayerParams {
 
     /**
      * Constructs global convergence layer parameters class based on parameters
-     * @param expectedDownProbability The probability of a link having an expected disconnect/ going "down".
-     * @param unexpectedDownProbability The probability of a link having an unexpected disconnect/ going "down".
-     * @param milliPerDownPeriod The number of milliseconds per Timeframe
      * @param idToAddressRoutingMap The Routing Map for the current node
      * @param thisAddress The IP address of this node, when sending to yourself
-     * @param dtcpPort Which port DTCP listens on, (use 3827 by default)
      * @param queueCapacity The capacity of the internal receive queue. -1 for no limit
      * @param nThreads The number of threads in the receiving thread pool
      * @param maxConnections Max number of connections to have at once
@@ -200,33 +171,18 @@ public class ConvergenceLayerParams {
      * @throws InvalidParameterException if invalid parameters
      */
     @JsonCreator
-    public ConvergenceLayerParams(@JsonProperty("expectedDownProbability") double expectedDownProbability,
-                                  @JsonProperty("unexpectedDownProbability") double unexpectedDownProbability,
-                                  @JsonProperty("milliPerDownPeriod") int milliPerDownPeriod,
-                                  @JsonProperty("idToAddressRoutingMap") Map<String, String> idToAddressRoutingMap,
+    protected ConvergenceLayerParams(@JsonProperty("idToAddressRoutingMap") Map<String, String> idToAddressRoutingMap,
                                   @JsonProperty("thisAddress") String thisAddress,
-                                  @JsonProperty("dtcpPort") int dtcpPort,
                                   @JsonProperty("queueCapacity") int queueCapacity,
                                   @JsonProperty("nThreads") int nThreads,
                                   @JsonProperty("maxConnections") int maxConnections,
                                   @JsonProperty("connectionTimeout") int connectionTimeout,
                                   @JsonProperty("queueTimeoutInMillis") int queueTimeoutInMillis) throws InvalidParameterException {
         // Check Values
-        if (expectedDownProbability < 0 || expectedDownProbability >= 1)
-            throw new InvalidParameterException("Invalid expectedDownProbability: " + expectedDownProbability
-                    + ", must be in [0,1).");
-        if (unexpectedDownProbability < 0 || unexpectedDownProbability >= 1)
-            throw new InvalidParameterException("Invalid unexpectedDownProbability: " + unexpectedDownProbability
-                    + ", must be in [0,1).");
-        if (milliPerDownPeriod <= 0)
-            throw new InvalidParameterException("Invalid milliPerDownPeriod: " + milliPerDownPeriod + " must be > 0");
         if (idToAddressRoutingMap == null || idToAddressRoutingMap.size() == 0)
-            throw new InvalidParameterException("Invalid idToAddressRoutingMap, null or empty: " + milliPerDownPeriod);
+            throw new InvalidParameterException("Invalid idToAddressRoutingMap, null or empty: " + idToAddressRoutingMap);
         if (thisAddress == null)
             throw new InvalidParameterException("Invalid thisAddress, null");
-        if (dtcpPort < MIN_PORT || dtcpPort > MAX_PORT)
-            throw new InvalidParameterException("Invalid port num: " + dtcpPort
-                    + ", requirements: " + MIN_PORT + " < port < " + MAX_PORT);
         if (queueCapacity < -1 || queueCapacity == 0)
             throw new InvalidParameterException("Invalid queue capacity: " + queueCapacity + ", must be (strictly) positive or -1");
         if (nThreads <= 0)
@@ -239,10 +195,6 @@ public class ConvergenceLayerParams {
             throw new InvalidParameterException("Invalid queueTimeoutInMillis: " + queueTimeoutInMillis + ", must be (strictly) positive");
 
         // Set the values
-        this.dtcpPort = dtcpPort;
-        this.expectedDownProbability = expectedDownProbability;
-        this.unexpectedDownProbability = unexpectedDownProbability;
-        this.milliPerDownPeriod = milliPerDownPeriod;
         this.idToAddressRoutingMap = idToAddressRoutingMap;
         this.thisAddress = thisAddress;
         this.queueCapacity = queueCapacity;
