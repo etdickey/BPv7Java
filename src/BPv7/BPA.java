@@ -24,6 +24,7 @@ import static BPv7.utils.BundleStatus.*;
 class BPA implements BPAInterface {//package-private (not private/public)
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(BPA.class.getName());
+    public static Object resendBundle;
 
     /**
      * The only instance of this class allowed in the entire program

@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d7513e40-e567-47e6-a704-78645e1c6d5e" name="Changes" comment="Added 4 variables (missing fragmentation) in Status Report&#10;Added record type in Admin record">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/AdminElementStatusReportBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/AdminElementStatusReportBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BPv7/AdminElementStatusReportRcode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/AdminElementStatusReportRcode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/BPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/BPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/containers/NetworkSerializable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/containers/NetworkSerializable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BPv7/utils/CBORCrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BPv7/utils/CBORCrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Configs/SimulationParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Configs/SimulationParams.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

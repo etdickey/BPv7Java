@@ -1,5 +1,6 @@
 package BPv7.containers;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.InvalidPropertiesFormatException;
 
