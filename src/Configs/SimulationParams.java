@@ -1,5 +1,9 @@
 package Configs;
 
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.*;
+
+import java.io.File;
 import java.security.InvalidParameterException;
 import java.util.logging.Logger;
 
@@ -25,6 +29,7 @@ public class SimulationParams {
 
     /**
      * config file name
+     * @implNote MIGHT NEED TO CHANGE THIS @ethan
      */
     private static final String CONFIG_FILE = resourceDir + "GeneralConfigs" + cfgFileExtension;
 
@@ -39,13 +44,20 @@ public class SimulationParams {
 
     //actual class variables
     /**
-     * Which host we are
+     * Which host we are as ID
      */
-    public final Host CURR_HOST;
+    @SuppressWarnings({"unused", "FieldCanBeLocal"})
+    public final int hostID;
+
+    /**
+     * Which host we are as Enum
+     */
+    @JsonIgnore
+    public final Host currHost;
     /**
      * Maximum size of a bundle when sending from this specific host
      */
-    public final int MAX_BUNDLE_SIZE;
+    public final int maxBundleSize;
     /**
      * The actual scenario instance with useful variables
      */
@@ -71,10 +83,11 @@ public class SimulationParams {
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
     public static SimulationParams getInstance(){
+        //noinspection DoubleCheckedLocking
         if(instance == null){
             synchronized (SimulationParams.class){
                 if(instance == null){
-                    instance = readGeneralConfigFile();
+                    instance = readGeneralConfigFile(CONFIG_FILE);
                     logger.info("Created SimulationParameters singleton");
                 }
             }
@@ -87,7 +100,7 @@ public class SimulationParams {
      * @return instance of this class with correct simulation parameters
      * @throws InvalidParameterException if bad config file(s)
      */
-    private static SimulationParams readGeneralConfigFile() throws InvalidParameterException {
+    private static SimulationParams readGeneralConfigFile(@SuppressWarnings("SameParameterValue") String fileName) throws InvalidParameterException {
         //todo:: read config file and determine which host we are
         // note: saved in CONFIG_FILE variable at top of class
         //todo:: get scenario num
@@ -95,9 +108,12 @@ public class SimulationParams {
 
         SimulationParams ret;
         try{
-            ret = new SimulationParams(0, null, 0);
-        } catch(InvalidParameterException e){
+            ret = new ObjectMapper().readValue(new File(fileName), SimulationParams.class);
+        } catch (InvalidParameterException e){
             logger.severe("ERROR! Unable to parse config files for global parameters (SimulationParams): " + e.getMessage());
+            throw new InvalidParameterException(e.getMessage());
+        } catch (Exception e){
+            logger.severe("ERROR! Unable to parse config files for ConvergenceLayerParams: " + e.getMessage());
             throw new InvalidParameterException(e.getMessage());
         }
         //otherwise, ready to go!
@@ -112,9 +128,13 @@ public class SimulationParams {
      * @param maxBundleSize maximum bundle size allowed in the convergence layer of this host
      * @throws InvalidParameterException if invalid hostID or scenario num
      */
-    protected SimulationParams(int hostID, Scenario scenario, int maxBundleSize) throws InvalidParameterException {
-        this.CURR_HOST = Host.getHost(hostID);
+    @JsonCreator
+    public SimulationParams(@JsonProperty("hostID") int hostID,
+                            @JsonProperty("scenario") Scenario scenario,
+                            @JsonProperty("maxBundleSize") int maxBundleSize) throws InvalidParameterException {
+        this.hostID = hostID;
+        this.currHost = Host.getHost(hostID);
         this.scenario = scenario;//todo:: validate scenario num (likely need an enum like Host)
-        this.MAX_BUNDLE_SIZE = maxBundleSize;
+        this.maxBundleSize = maxBundleSize;
     }
 }

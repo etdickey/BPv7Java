@@ -57,7 +57,7 @@ class ClientHandler implements Runnable{
 
             //May need to change this later
             Bundle bundle = (Bundle) (new Bundle()).deserializeNetworkEncoding(result);
-            String bundleID = DTCPUtils.getLoggingBundleId(bundle);
+            String bundleID = bundle.getLoggingBundleId();
             logger.log(Level.INFO, "Bundle Received: " + bundleID);
             String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
             if (DTCPUtils.isConnectionDownUnexpected(srcAddress))

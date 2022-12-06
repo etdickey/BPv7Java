@@ -6,6 +6,7 @@ import BPv7.utils.BundleStatusReport;
 import BPv7.utils.DispatchStatus;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
+import DTCP.interfaces.ReachableStatus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -153,10 +154,14 @@ public class BPAUtils {
      */
     public int checkIfBundleToDelete(Bundle bundle) {
         long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-        if (timeGap > bundle.getPrimary().getLifetime()) {//@aidan todo, reasoncode fix
+        if (timeGap > bundle.getPrimary().getLifetime()) {
             return 1;
-        } else if (!dtcp.canReach(bundle.getPrimary().getDestNode())) {
+        } else if (dtcp.canReach(bundle.getPrimary().getDestNode()) == ReachableStatus.UNKNOWN_ID) {
             return 5;
+        } else if (dtcp.canReach(bundle.getPrimary().getDestNode()) == ReachableStatus.NO_ROUTE) {
+            return 6;
+        }  else if (dtcp.canReach(bundle.getPrimary().getDestNode()) == ReachableStatus.EXPECTED_DOWN) {
+            return 7;
         } else if (bundle.getPayload() == null || bundle.getPayload().getPayload() == null) {
             return 11;
         } else {

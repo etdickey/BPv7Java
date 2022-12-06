@@ -1,14 +1,46 @@
 package Configs;
 
+import java.security.InvalidParameterException;
+
 /**
- * todo:: Aidan -- use these params to determine what to do at the DTCP layer
+ * Parameters involving the Scenario
  * todo:: Ethan -- store variables you might need at the top layer as well
  * @param scenarioID ID of scenario this represents
  * @param description description of scenario
- * @param numDisruptions filler var
- * @param disruptFrequency filler var
+ * @param expectedDownProbability The probability of a link having an expected disconnect/ going "down".
+ * @param unexpectedDownProbability The probability of a link having an unexpected disconnect/ going "down".
+ * @param milliPerDownPeriod The number of milliseconds per Timeframe
+ * @param dtcpPort Which port DTCP listens on, (use 3827 by default, which is DTCP in a keypad lettering scheme)
  */
-public record Scenario(int scenarioID, String description, int numDisruptions, double disruptFrequency) {
+
+public record Scenario(int scenarioID, String description, double expectedDownProbability,
+                       double unexpectedDownProbability, int milliPerDownPeriod, int dtcpPort) {
+
+
+    // Parameter Checking Variables
+    /**
+     * below 1024 are reserved, ports only go to 2^16-1
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private static final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
+
+    /**
+     * Validates simulation parameters
+     */
+    public Scenario {
+        // Check parameters
+        if (scenarioID < 0 || scenarioID > 2)
+            throw new InvalidParameterException("Scenario: ScenarioID must be in {0, 1, 2}.");
+        if (description == null)
+            throw new InvalidParameterException("Scenario: Description cannot be null");
+        if (expectedDownProbability < 0 || expectedDownProbability >= 1)
+            throw new InvalidParameterException("Scenario: expectedDownProbability must be in [0,1)");
+        if (unexpectedDownProbability < 0 || unexpectedDownProbability >= 1)
+            throw new InvalidParameterException("Scenario: unexpectedDownProbability must be in [0,1)");
+        if (dtcpPort <= MIN_PORT || dtcpPort >= MAX_PORT)
+            throw new InvalidParameterException("Scenario: invalid port, must be in [1024,65524]");
+    }
+
     /** @return concise toString */
     public String toStringShort() { return this.scenarioID + ":: \"" + this.description + "\""; }
 }
