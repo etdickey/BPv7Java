@@ -62,14 +62,9 @@ public class AdminElementStatusReportBuilder implements Runnable {
                 StatusReportUtilObject statusReportRevd = BPA.sendStatusReportBuffer.take();
 
                 // TODO: check if the sendStatusReportBuffer is empty
-                /*
                 if (statusReportRevd == null) {
                     continue; // Skip following code
                 }
-                else {
-                    .. 
-                }
-                */
     
                 // O - REC; 1 - FORW; 2 - DELI; 3 - DEL
                 BundleStatusReport status = statusReportRevd.getBundleStatusReportEnum();
