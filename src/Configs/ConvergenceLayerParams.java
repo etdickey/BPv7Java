@@ -98,7 +98,7 @@ public class ConvergenceLayerParams {
      */
     public static ConvergenceLayerParams getInstance(){
         //SimulationParams must be set up first
-        //SimulationParams.getInstance();
+        SimulationParams.getInstance();
         //Now do self
         //noinspection DoubleCheckedLocking
         if(instance == null){
