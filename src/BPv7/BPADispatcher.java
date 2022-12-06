@@ -49,6 +49,7 @@ public class BPADispatcher implements Runnable {
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
     public static BPADispatcher getInstance() {
+        //noinspection DoubleCheckedLocking
         if (instance == null) {
             synchronized (BPADispatcher.class) {
                 if (instance == null) {
@@ -117,6 +118,7 @@ public class BPADispatcher implements Runnable {
                         if (bundleToSend.getPrimary().getLifetime() + bundleToSend.getPrimary().getCreationTimestamp().creationTime.timeInMS <= DTNTime.getCurrentDTNTime().timeInMS) {
                             logger.log(Level.INFO, "Bundle not deliverable due to expected down and reached lifetime. Bundle: " + bundleToSend.getLoggingBundleId());
                         } else {
+                            // This means it's temporarily down, but might not be in the future and hasn't reached lifetime, so re add it to the (back of) the queue
                             sendBuffer.offer(bundleToSend);
                             continue;
                         }

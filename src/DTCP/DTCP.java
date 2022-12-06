@@ -112,7 +112,7 @@ public class DTCP implements DTCPInterface {
             logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
             return false;
         }
-        try (Socket socket = new Socket(dest, config.DTCP_Port)) {
+        try (Socket socket = new Socket(dest, config.dtcpPort)) {
             // Just write the whole bundle
             socket.getOutputStream().write(bundleAsBytes);
             logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);

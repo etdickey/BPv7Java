@@ -44,7 +44,7 @@ class DTCPServer implements Runnable {
      */
     public void run() {
         try (ExecutorService threadPool = Executors.newFixedThreadPool(config.nThreads)) {
-            try (ServerSocket serverSocket = new ServerSocket(config.DTCP_Port, config.maxConnections)) {
+            try (ServerSocket serverSocket = new ServerSocket(config.dtcpPort, config.maxConnections)) {
                 logger.log(Level.INFO, "DTCP Server Started");
 
                 //noinspection InfiniteLoopStatement
