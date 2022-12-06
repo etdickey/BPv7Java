@@ -1,9 +1,11 @@
 package BPv7;
 
 import BPv7.containers.NodeID;
+import BPv7.containers.Timestamp;
 import BPv7.interfaces.AdminElementInterface;
 import BPv7.interfaces.ApplicationAgentInterface;
-import BPv7.utils.BundleStatus;
+import BPv7.utils.BundleStatusReport;
+import BPv7.utils.DispatchStatus;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -60,16 +62,10 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * @return packet ID or -1 if packetToSend is Null or BP layer is full
      */
     @Override
-    public int send(byte[] packetToSend, NodeID destNodeID) {
-        //todo:: interface with BPA
+    public Timestamp send(byte[] packetToSend, NodeID destNodeID) {
+        // interface with BPA
         return BPA.getInstance().send(packetToSend, destNodeID);
     }
-
-//    @Override
-//    public int send(byte[] packetToSend) {
-//        //todo:: interface with BPA
-//        return BPA.getInstance().send(packetToSend);
-//    }
 
     /**
      * Returns the next message from the stream.
@@ -80,7 +76,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      */
     @Override
     public byte[] read(int numToRead) throws InterruptedException {
-        //todo:: interface with BPA
+        // interface with BPA
         byte[] read_payload = BPA.getInstance().getPayload();
         return Arrays.copyOfRange(read_payload, 0, numToRead);
     }
@@ -89,19 +85,16 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * Checks if the packet ID passed in has been sent to the next hop
      * Will trash record of complete transmission after >=1 minute (config file)
      *
-     * @param packetID ID of packet to check
+     * @param packetTimestamp timestamp of packet to check
      * @return true if the “packet” has reached the next hop ONLY (else false)
      */
     @Override
-    public boolean checkSent(int packetID) {
+    public boolean checkSent(Timestamp packetTimestamp) {
         //todo:: interface with BPA
-        BundleStatus checkSent_status = BPA.getInstance().getBundleStatus(packetID);
-        if(checkSent_status == BundleStatus.SENT)
-        {
+        DispatchStatus dispatchStatus = BPA.getInstance().getBundleStatus(packetTimestamp);
+        if(dispatchStatus == DispatchStatus.SENT) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
