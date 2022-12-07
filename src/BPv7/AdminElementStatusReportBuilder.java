@@ -9,6 +9,10 @@ import java.util.logging.Logger;
 
 import static BPv7.BPA.*;
 
+/**
+ * Basically the 'form filler' for BPA. Builds StatusReport based on the
+ * information BPA sent over (StatusReportUtilObject) and sends it back to BPA.
+ */
 public class AdminElementStatusReportBuilder implements Runnable {
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(AdminElementStatusReportBuilder.class.getName());
@@ -20,9 +24,7 @@ public class AdminElementStatusReportBuilder implements Runnable {
      *  (caching ok because all variables are final)
      */
     private static AdminElementStatusReportBuilder instance = null;
-    /**
-     * todo:: comments
-     */
+
     // private final DTCPInterface dtcp = DTCP.getInstance();
 
 
@@ -47,6 +49,10 @@ public class AdminElementStatusReportBuilder implements Runnable {
         return instance;
     }
 
+    /**
+     * Basically the 'form filler' for BPA. Builds StatusReport based on the
+     * information BPA sent over (StatusReportUtilObject) and sends it back to BPA.
+     */
     protected AdminElementStatusReportBuilder() {}
 
     /**

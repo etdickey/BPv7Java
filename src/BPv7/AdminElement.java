@@ -30,7 +30,16 @@ public class AdminElement implements AdminElementInterface {
      */
     private static AdminElement instance = null;
 
+
+    /**
+     * Basically the 'form filler' for BPA. Builds StatusReport based on the
+     * information BPA sent over (StatusReportUtilObject) and sends it back to BPA.
+     */
     private final Thread adminElementStatusReportBuilder;
+
+    /**
+     * Recommends action based on the reason code that BPA sent over.
+     */
     private final Thread adminElementStatusReportRcode;
 
     /**
@@ -57,11 +66,17 @@ public class AdminElement implements AdminElementInterface {
      * Default constructor, hiding it from anyone else
      */
     protected AdminElement() {
+        // Changing based on Ethan's recommendations
+        // Not sure what to do -- maybe Wenbo knows?
         this.adminElementStatusReportBuilder = new Thread(new AdminElementStatusReportBuilder());
         this.adminElementStatusReportBuilder.start();
+//        this.adminElementStatusReportBuilder = AdminElementStatusReportBuilder.getInstance();
+//        this.adminElementStatusReportBuilder.getInstance();
 
         this.adminElementStatusReportRcode = new Thread(new AdminElementStatusReportRcode());
         this.adminElementStatusReportRcode.start();
+        // this.adminElementStatusReportRcode.getInstance();
+
     }
 
     /**
