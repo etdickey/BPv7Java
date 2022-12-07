@@ -19,8 +19,8 @@ public class SimulationParams {
 
     //////CONFIG FILE PARAMS
     /** Folder containing config files */
-    public static final String resourceDir = "./src/Configs/resources/";//testing
-//	public static String resourceTarget = "";//jar running
+//    public static final String resourceDir = "./src/Configs/resources/";//testing
+	public static final String resourceDir = "./resources/";//jar running
 
     /** Because I might change it to json later */
     public static final String cfgFileExtension = ".json";
