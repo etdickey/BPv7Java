@@ -49,7 +49,9 @@ class DTCPServer implements Runnable {
      * The thread method for actually running the server
      */
     public void run() {
-        try (ExecutorService threadPool = Executors.newFixedThreadPool(convParams.nThreads)) {
+        ExecutorService threadPool = null;
+        try {//try-with-resources doesn't work on ExecutorService thread pools
+            threadPool = Executors.newFixedThreadPool(convParams.nThreads);
             try (ServerSocket serverSocket = new ServerSocket(simParams.scenario.dtcpPort(), convParams.maxConnections)) {
                 logger.log(Level.INFO, "DTCP Server Started");
 
@@ -71,6 +73,10 @@ class DTCPServer implements Runnable {
             }
         } catch (IllegalArgumentException e) {
             logger.log(Level.SEVERE, "Thread Pool Count Invalid: " + e.getMessage());
+        } finally {
+            if (threadPool != null) {//try-with-resources doesn't work on ExecutorService thread pools
+                threadPool.shutdown();
+            }
         }
     }
 }
