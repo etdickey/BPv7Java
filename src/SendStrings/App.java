@@ -78,11 +78,21 @@ public class App {
         //will also call SimulationParams.setUpSimulation();
         SimulationParams.setConfigFile(simFile);
 
-        //todo:: run multiple simulations here and record stats along the way
-        if(SimulationParams.getInstance().currHost == Host.HOST_A){
+        //set up BPA/entire Bundle protocol tech stack
+        ApplicationAgent.getInstance();
 
+        switch(SimulationParams.getInstance().currHost){
+            //run multiple simulations here and record stats along the way
+            case HOST_A -> (new App()).sendThoseStrings();
+            //get ready to receive!
+            case HOST_B -> (new App()).receiveThoseStrings();
         }
-        (new App()).sendThoseStrings();
+    }
+
+    /**
+     * Receives for one simulation to completion
+     */
+    private void receiveThoseStrings() {
     }
 
 //    /**
@@ -100,6 +110,7 @@ public class App {
         logger.info("Starting scenario #" + params.scenario.toStringShort());
 
         //todo:: first: communicate with other hosts to make sure we are running the same simulation
+        // Ideally, this would be done with TCP (i.e. not Bundle), but we are running out of time :/
         ApplicationAgentInterface aa = ApplicationAgent.getInstance();
 
 

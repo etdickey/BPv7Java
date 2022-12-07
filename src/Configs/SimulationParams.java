@@ -35,6 +35,7 @@ public class SimulationParams {
     /** simulation configs folder within resourceDir */
     private static final String scenarioFolder = "Scenarios/";
 
+    private static String DEFAULT_CONFIG_FILE = resourceDir + simulationConfigFolder + "Sim_0_A" + cfgFileExtension;
     /** Whether the Config File has been set or not */
     private static boolean hasSetConfig = false;
     /**
@@ -120,8 +121,8 @@ public class SimulationParams {
                     if (hasSetConfig){
                         instance = readGeneralConfigFile(CONFIG_FILE);
                     } else {
-                        logger.warning("Tried to get SimulationParams without setting simulation parameter file!");
-                        return null;
+                        logger.warning("Tried to get SimulationParams without setting simulation parameter file! Using default....");
+                        instance = readGeneralConfigFile(DEFAULT_CONFIG_FILE);
                     }
                     logger.info("Created SimulationParameters singleton");
                 }
