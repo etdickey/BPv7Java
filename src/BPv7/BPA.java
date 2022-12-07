@@ -143,6 +143,9 @@ class BPA implements BPAInterface {//package-private (not private/public)
                 logger.info("sending payload of the bundle to AA, timestamp: " +
                         bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
                 return new ReceivePackage(bundle.getPayload().getPayload(), bundle.getPrimary().getSrcNode());
+            } else {
+                logger.warning("Payload was null from bundle timestamp: "
+                        + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
             }
         } catch (InterruptedException e) {
             // log error
