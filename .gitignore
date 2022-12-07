@@ -7,6 +7,9 @@ out/
 .idea
 .idea/workspace.xml
 *.log
+compiled/
+mininet/compiled/
+
 ### Eclipse ###
 .apt_generated
 .classpath

@@ -1,0 +1,47 @@
+steps (different terminal each)
+
+make controller
+make mininet
+make cli
+- rocks
+- app activate fwd
+make netcfg
+
+
+-- WORKS --
+------ for general comilation ------
+javac -d ./compiled/ -classpath "./src:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" src/SendStrings/App.java
+java -classpath "./compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" SendStrings/App
+
+------ for mininet compilation ------
+javac -d ./mininet/compiled/ -classpath "./src:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" src/SendStrings/App.java
+java -classpath "./mininet/compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" SendStrings/App
+---- on each host ----
+java -classpath "./compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" SendStrings/App
+
+
+----------------------------------------------------------
+
+
+-- do not run these, they don't work :/ --
+
+java -Dfile.encoding=UTF-8 -classpath "~/groupproject/BPv7Java;~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" SendStrings.App a 0
+javac -classpath "~/groupproject/BPv7Java;~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" SendStrings/App.java
+javac -sourcepath ./ -classpath "./BPv7/*;./Configs/*;./DTCP*;./SendStrings/;~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" BPv7/*.java Configs/*.java DTCP/*.java SendStrings/*.java
+
+javac -d ./compiled/ -sourcepath "./;~/groupproject/BPv7Java/lib" -classpath "~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" ./SendStrings/App.java
+
+javac -d ./compiled/ -sourcepath "./src/;~/groupproject/BPv7Java/lib" ./src/SendStrings/App.java
+javac -d ./compiled/ -sourcepath "./;~/groupproject/BPv7Java/lib" */*.java */*/*.java
+javac -d ./compiled/ -sourcepath "./;~/groupproject/BPv7Java/lib" -classpath "~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" */*.java */*/*.java
+javac -d ./compiled/ -sourcepath "./src/:~/groupproject/BPv7Java/lib" -classpath "~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" src/*/*.java src/*/*/*.java
+javac -d ./compiled/ -classpath "~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar:." src/*/*.java src/*/*/*.java
+javac -d ./compiled/ -sourcepath "./:~/groupproject/BPv7Java/lib" -classpath "~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar:." src/*/*.java src/*/*/*.java
+
+javac -d ./compiled/ -classpath "~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar:./*" src/SendStrings/App.java
+javac -d ./compiled/ -classpath "./src:~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar:~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" src/SendStrings/App.java
+
+javac -d ./compiled/ -sourcepath "./src/;~/groupproject/BPv7Java/lib" -classpath "~/groupproject/BPv7Java;~/groupproject/BPv7Java/lib/jackson-core-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-annotations-2.13.3.jar;~/groupproject/BPv7Java/lib/jackson-databind-2.13.3.jar" $(find ./src/* | grep .java)
+
+
+
