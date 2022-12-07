@@ -23,7 +23,7 @@ public record NodeID(String id) {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NodeID nodeID)) return false;//I am confused but intellij suggested using a "pattern variable"
-        return id == nodeID.id;
+        return Objects.equals(id, nodeID.id);
     }
 
     //default generated
