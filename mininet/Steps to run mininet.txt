@@ -22,6 +22,7 @@ jdk-19.0.1/bin/java -classpath "./compiled:./lib/jackson-core-2.13.3.jar:./lib/j
 
 You'll need to run these commands as well:
 rm mininet/compiled/ -r
+rm mininet/*.log -f
 rm mininet/resources/ -r
 cp src/Configs/resources/ mininet/ -r
 

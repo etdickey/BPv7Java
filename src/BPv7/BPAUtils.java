@@ -4,6 +4,7 @@ import BPv7.containers.*;
 import BPv7.utils.BundleDispatchStatusMap;
 import BPv7.utils.BundleStatusReport;
 import BPv7.utils.DispatchStatus;
+import Configs.SimulationParams;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
@@ -130,8 +131,9 @@ public class BPAUtils {
      * @return newly created bundle
      */
     public Bundle createBundle(byte[] payload, NodeID destID, boolean adminFlag, boolean ackFlag) {
-        // TODO: @ethan read lifetime from config files
-        PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500);
+        //read lifetime from config files
+        PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(),
+                                                     SimulationParams.getInstance().scenario.bundleLifetimeMS());
         if (adminFlag) {
             primaryBlock.setADMN();
         }

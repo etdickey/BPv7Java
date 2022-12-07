@@ -14,7 +14,8 @@ import java.security.InvalidParameterException;
  */
 
 public record Scenario(int scenarioID, String description, double expectedDownProbability,
-                       double unexpectedDownProbability, int milliPerDownPeriod, int dtcpPort) {
+                       double unexpectedDownProbability, int milliPerDownPeriod, int dtcpPort,
+                       int bundleLifetimeMS) {
 
 
     // Parameter Checking Variables
@@ -22,7 +23,7 @@ public record Scenario(int scenarioID, String description, double expectedDownPr
      * below 1024 are reserved, ports only go to 2^16-1
      */
     @SuppressWarnings("FieldCanBeLocal")
-    private static final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
+    private static final int MIN_PORT = 1024, MAX_PORT = 1 << 16, MIN_BUNDLE_LIFETIME = 50, MAX_BUNDLE_LIFETIME = 100000;
 
     /**
      * Validates simulation parameters
@@ -39,6 +40,9 @@ public record Scenario(int scenarioID, String description, double expectedDownPr
             throw new InvalidParameterException("Scenario: unexpectedDownProbability must be in [0,1)");
         if (dtcpPort <= MIN_PORT || dtcpPort >= MAX_PORT)
             throw new InvalidParameterException("Scenario: invalid port, must be in [1024,65524]");
+        if(bundleLifetimeMS < MIN_BUNDLE_LIFETIME || bundleLifetimeMS >= MAX_BUNDLE_LIFETIME)
+            throw new InvalidParameterException("Scenario: invalid bundle lifetime, must be in " +
+                    "[" + MIN_BUNDLE_LIFETIME + ", " + MAX_BUNDLE_LIFETIME + "]");
     }
 
     /** @return concise toString */
