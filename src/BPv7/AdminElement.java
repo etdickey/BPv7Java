@@ -68,8 +68,6 @@ public class AdminElement implements AdminElementInterface {
     protected AdminElement() {
         this.adminElementStatusReportBuilder = new Thread(AdminElementStatusReportBuilder.getInstance());
         this.adminElementStatusReportBuilder.start();
-//        this.adminElementStatusReportBuilder = AdminElementStatusReportBuilder.getInstance();
-//        this.adminElementStatusReportBuilder.getInstance();
 
         this.adminElementStatusReportRcode = new Thread(AdminElementStatusReportRcode.getInstance());
         this.adminElementStatusReportRcode.start();
