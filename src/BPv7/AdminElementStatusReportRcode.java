@@ -59,13 +59,14 @@ public class AdminElementStatusReportRcode implements Runnable {
         // than having it busy-wait until a new message is ready to be sent.
         while(true) {
             try {
-                // redundant code, take will wait till it gets data
-                if (BPA.readStatusReportBuffer.isEmpty()) {
-                    continue; // Skip the following code
-                }
+                // check if the readStatusReportBuffer is empty
+                //if (BPA.readStatusReportBuffer.isEmpty()) {//causes busy-waiting
+                //    continue; // Skip the following code
+                //}
 
-                byte[] payload = BPA.readStatusReportBuffer.take();
+                byte[] payload = BPA.readStatusReportBuffer.take();//blocks, putting thread to sleep (ideal behavior) (until something arrives)
                 StatusReport replyStatusReport = (StatusReport)AdminElement.bytesToObject(payload);
+
                 int reasonCode = replyStatusReport.getReasonCode();
                 this.action(reasonCode, replyStatusReport.getCreationTimestamp());
 

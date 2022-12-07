@@ -51,8 +51,10 @@ public class ApplicationAgent implements ApplicationAgentInterface {
     protected ApplicationAgent(){
         //todo:: start new thread with AdminElement (BPA has syntax for threads already if you need a reference)
         //  some other random things that might help:
-        AdminElementInterface instance = AdminElement.getInstance();
-        instance.run();
+        //AdminElementInterface instance = AdminElement.getInstance();
+        //instance.run();
+        Thread adminElement = new Thread(AdminElement.getInstance());
+        adminElement.start();
     }
 
     /**
