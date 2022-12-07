@@ -8,7 +8,7 @@ make cli
 make netcfg
 
 
--- WORKS --
+-- WORKS -- from BPv7Java/
 ------ for general comilation ------
 javac -d ./compiled/ -classpath "./src:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" src/SendStrings/App.java
 java -classpath "./compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" SendStrings/App
@@ -19,6 +19,11 @@ java -classpath "./mininet/compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-
 ---- on each host ----
 java -classpath "./compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" SendStrings/App
 jdk-19.0.1/bin/java -classpath "./compiled:./lib/jackson-core-2.13.3.jar:./lib/jackson-annotations-2.13.3.jar:./lib/jackson-databind-2.13.3.jar" SendStrings/App
+
+You'll need to run these commands as well:
+rm mininet/compiled/ -r
+rm mininet/resources/ -r
+cp src/Configs/resources/ mininet/ -r
 
 ----------------------------------------------------------
 

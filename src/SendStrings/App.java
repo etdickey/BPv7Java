@@ -44,16 +44,6 @@ public class App {
      * Starts the app!  Loads configurations, starts simulations.
      */
     public static void main(String[] args){
-        try {
-            InputStream configFile = new FileInputStream(SimulationParams.resourceDir + "logger.properties");
-            LogManager.getLogManager().readConfiguration(configFile);
-            configFile.close();
-        } catch (IOException ex) {
-            out.println("WARNING: Could not open configuration file");
-            out.println("WARNING: Logging not configured (console output only)");
-        }
-        logger.info("Starting main app");//first line in logger
-
         //validate args
         if(args.length != 2){
             err.println(errmsg);
@@ -79,6 +69,18 @@ public class App {
             err.println("Bad simulation ID (\"" + args[1] + "\"):: " + errmsg);
             System.exit(SYSERR);
         }
+
+        //set up logger depending on which host we are
+        try {
+            InputStream configFile = new FileInputStream(SimulationParams.resourceDir + "logger_" + hostname + ".properties");
+            LogManager.getLogManager().readConfiguration(configFile);
+            configFile.close();
+        } catch (IOException ex) {
+            out.println("WARNING: Could not open configuration file");
+            out.println("WARNING: Logging not configured (console output only)");
+        }
+        logger.info("Starting main app");//first line in logger
+
 
         //format of simulation configuration file names:
         // "Sim_[sim number]_[hostname]" (.json done in SimulationParameters)
@@ -140,12 +142,14 @@ public class App {
      * Then, waits for a response from each host as confirmation.
      */
     private void sendSync(){
-        logger.info("Sending first sync from host " + simParams.currHost.getName());
+        logger.info("Starting AA and subclass threads");
 
         //communicate with other hosts to make sure we are running the same simulation
         // Ideally, this would be done with TCP (i.e. not Bundle), but we are running out of time :/
+        //start BP threads
         ApplicationAgentInterface aa = ApplicationAgent.getInstance();
 
+        logger.info("Sending first sync from host " + simParams.currHost.getName());
         //send to B and FORWARDING
         NodeID fNID = new NodeID(Host.HOST_FORWARDING.getName()),
                bNID = new NodeID(Host.HOST_B.getName());
@@ -188,14 +192,17 @@ public class App {
      * Does the receiving side of the SYNC protocol I invented (receive, verify, reply in kind)
      */
     private void receiveSync(){
-        logger.info("Receiving SYNC message on host " + simParams.currHost.getName());
+        logger.info("Starting AA and subclass threads");
+
+        //start BP threads
+        ApplicationAgentInterface aa = ApplicationAgent.getInstance();
 
         //sender's NodeID
         NodeID aNID = new NodeID(Host.HOST_A.getName());
 
         //first receive scenario confirmation
-        ApplicationAgentInterface aa = ApplicationAgent.getInstance();
         try {
+            logger.info("Receiving SYNC message on host " + simParams.currHost.getName());
             //receive bundle
             ReceivePackage rp = aa.read(simParams.maxBundleSize);
             if(rp.sender().equals(aNID)){//check correct sender
