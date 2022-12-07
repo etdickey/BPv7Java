@@ -24,6 +24,9 @@ public record Scenario(int scenarioID, String description, double expectedDownPr
     @SuppressWarnings("FieldCanBeLocal")
     private static final int MIN_PORT = 1024, MAX_PORT = 1 << 16;
 
+    /**
+     * Validates simulation parameters
+     */
     public Scenario {
         // Check parameters
         if (scenarioID < 0 || scenarioID > 2)
