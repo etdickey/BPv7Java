@@ -2,6 +2,7 @@ package DTCP;
 
 import BPv7.containers.Bundle;
 import Configs.ConvergenceLayerParams;
+import Configs.SimulationParams;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -20,7 +21,12 @@ class DTCPServer implements Runnable {
     /**
      * The instance of the ConvergenceLayerParams Class
      */
-    private final ConvergenceLayerParams config = ConvergenceLayerParams.getInstance();
+    private final ConvergenceLayerParams convParams = ConvergenceLayerParams.getInstance();
+
+    /**
+     * The instance of the SimulationParams Class
+     */
+    private static final SimulationParams simParams = SimulationParams.getInstance();
 
     /** Logger for this class. Prepends all logs from this class with the class name */
     private final Logger logger = Logger.getLogger(DTCPServer.class.getName());
@@ -43,14 +49,14 @@ class DTCPServer implements Runnable {
      * The thread method for actually running the server
      */
     public void run() {
-        try (ExecutorService threadPool = Executors.newFixedThreadPool(config.nThreads)) {
-            try (ServerSocket serverSocket = new ServerSocket(config.DTCP_Port, config.maxConnections)) {
+        try (ExecutorService threadPool = Executors.newFixedThreadPool(convParams.nThreads)) {
+            try (ServerSocket serverSocket = new ServerSocket(simParams.scenario.dtcpPort(), convParams.maxConnections)) {
                 logger.log(Level.INFO, "DTCP Server Started");
 
                 //noinspection InfiniteLoopStatement
                 while (true) {
                     try (Socket client = serverSocket.accept()) {
-                        client.setSoTimeout(config.connectionTimeout);
+                        client.setSoTimeout(convParams.connectionTimeout);
                         threadPool.execute(new ClientHandler(client, outQueue));
                     } catch (IOException e) {
                         logger.log(Level.WARNING, "Failed to accept client in DTCP: " + e.getMessage());

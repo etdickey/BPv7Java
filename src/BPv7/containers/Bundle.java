@@ -35,9 +35,6 @@ public class Bundle implements NetworkSerializable {
         setTimestampToCurrentTime();
     }
 
-
-
-
     /**
      * Inserts the given block and assigns it an ID
      * @param b block to insert
@@ -118,4 +115,17 @@ public class Bundle implements NetworkSerializable {
      * Sets the creation time to right now (called anytime and in the constructor by default)
      */
     public void setTimestampToCurrentTime(){ primary.setTimestampToCurr(); }
+
+
+
+    /**
+     * Generates a bundle logging id for the given bundle, of the form:
+     * [SRC NODE ID]:[CREATION TIMESTAMP in MS]:[SEQ NUMBER]
+     * @return the bundle logging ID
+     */
+    public String getLoggingBundleId() {
+        return this.getPrimary().getSrcNode().id()
+                + ':' + this.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS()
+                + ':' + this.getPrimary().getCreationTimestamp().getSeqNum();
+    }
 }

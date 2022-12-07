@@ -26,7 +26,7 @@ public interface DTCPInterface {
      * @param ID NodeID of the network
      * @return true if network is up else false
      */
-    boolean canReach(NodeID ID);
+    ReachableStatus canReach(NodeID ID);
 
     /**
      * Find the networkID for the given node
