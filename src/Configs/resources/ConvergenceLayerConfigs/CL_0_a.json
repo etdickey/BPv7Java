@@ -1,8 +1,10 @@
 {
   "idToAddressRoutingMap" : {
-    "127.0.0.1" : null
+    "a" : "10.0.0.1",
+    "forwarding": "10.0.0.2",
+    "b": "10.0.0.2"
   },
-  "thisAddress" : "127.0.0.1",
+  "thisAddress" : "10.0.0.1",
   "queueCapacity" : -1,
   "nThreads" : 10,
   "maxConnections" : 100,
