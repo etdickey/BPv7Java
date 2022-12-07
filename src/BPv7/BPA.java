@@ -2,6 +2,7 @@ package BPv7;
 
 
 import BPv7.containers.*;
+import BPv7.interfaces.ApplicationAgentInterface.ReceivePackage;
 import BPv7.interfaces.BPAInterface;
 import BPv7.utils.BundleDispatchStatusMap;
 import BPv7.utils.DispatchStatus;
@@ -132,16 +133,16 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * [blocking call]
      * Returns the next bundle’s entire payload
-     * @return byteStream of payload
+     * @return byteStream of payload and sender NodeID
      */
-    public byte[] getPayload() {
+    public ReceivePackage getPayload() {
         Bundle bundle = null;
         try {
             bundle = receiveBuffer.take();
             if (bundle.getPayload() != null && bundle.getPayload().getPayload() != null) {
                 logger.info("sending payload of the bundle to AA, timestamp: " +
                         bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
-                return bundle.getPayload().getPayload();
+                return new ReceivePackage(bundle.getPayload().getPayload(), bundle.getPrimary().getSrcNode());
             }
         } catch (InterruptedException e) {
             // log error

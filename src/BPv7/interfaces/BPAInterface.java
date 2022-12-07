@@ -3,6 +3,7 @@ package BPv7.interfaces;
 import BPv7.containers.NodeID;
 import BPv7.containers.Timestamp;
 import BPv7.utils.DispatchStatus;
+import BPv7.interfaces.ApplicationAgentInterface.ReceivePackage;
 
 /**
  * Defines the API for the BPA!
@@ -27,9 +28,9 @@ public interface BPAInterface {
     /**
      * [blocking call]
      * Returns the next bundle’s entire payload
-     * @return byteStream of payload
+     * @return byteStream of payload and sender NodeID
      */
-    byte[] getPayload();
+    ReceivePackage getPayload();
 
     /**
      * create the bundle and save to sending queue
