@@ -26,7 +26,7 @@ public interface ApplicationAgentInterface {
      * Calls BPA::getPayload once and saves all the payload in a buffer to return to user at some point
      *
      * @param numToRead number of bytes to read from the stream
-     * @return byte[] of size numToRead
+     * @return byte[] of size numToRead and sender NodeID (ReceivePackage)
      * @throws InterruptedException if unable to read next payload
      */
     ReceivePackage read(int numToRead) throws InterruptedException;

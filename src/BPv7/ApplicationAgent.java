@@ -72,7 +72,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * todo:: Calls BPA::getPayload once and saves the entire payload in a buffer to return to user at some point
      *
      * @param numToRead number of bytes to read from the stream
-     * @return byte[] of size numToRead and sender NodeID
+     * @return byte[] of size numToRead and sender NodeID (ReceivePackage)
      * @throws InterruptedException if unable to read next payload
      */
     @Override

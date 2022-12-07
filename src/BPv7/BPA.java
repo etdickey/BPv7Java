@@ -133,7 +133,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * [blocking call]
      * Returns the next bundle’s entire payload
-     * @return byteStream of payload and sender NodeID
+     * @return byteStream of payload and sender NodeID (ReceivePackage)
      * @throws InterruptedException if unable to read next payload
      */
     public ReceivePackage getPayload() throws InterruptedException {
