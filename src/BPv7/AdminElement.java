@@ -66,17 +66,13 @@ public class AdminElement implements AdminElementInterface {
      * Default constructor, hiding it from anyone else
      */
     protected AdminElement() {
-        // Changing based on Ethan's recommendations
-        // Not sure what to do -- maybe Wenbo knows?
-        this.adminElementStatusReportBuilder = new Thread(new AdminElementStatusReportBuilder());
+        this.adminElementStatusReportBuilder = new Thread(AdminElementStatusReportBuilder.getInstance());
         this.adminElementStatusReportBuilder.start();
 //        this.adminElementStatusReportBuilder = AdminElementStatusReportBuilder.getInstance();
 //        this.adminElementStatusReportBuilder.getInstance();
 
-        this.adminElementStatusReportRcode = new Thread(new AdminElementStatusReportRcode());
+        this.adminElementStatusReportRcode = new Thread(AdminElementStatusReportRcode.getInstance());
         this.adminElementStatusReportRcode.start();
-        // this.adminElementStatusReportRcode.getInstance();
-
     }
 
     /**
