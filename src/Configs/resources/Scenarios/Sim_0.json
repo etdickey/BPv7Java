@@ -1,0 +1,8 @@
+{
+  "scenarioID" : 0,
+  "description" : "this is a description",
+  "expectedDownProbability" : 0.25,
+  "unexpectedDownProbability" : 0.0625,
+  "milliPerDownPeriod" : 100,
+  "dtcpPort" : 3827
+}
