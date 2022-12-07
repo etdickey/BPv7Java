@@ -56,7 +56,7 @@ class ClientHandler implements Runnable{
             byte[] result = client.getInputStream().readAllBytes();
 
             //May need to change this later
-            Bundle bundle = (Bundle) (new Bundle()).deserializeNetworkEncoding(result);
+            Bundle bundle = (new Bundle()).deserializeNetworkEncoding(result);
             String bundleID = bundle.getLoggingBundleId();
             logger.log(Level.INFO, "Bundle Received: " + bundleID);
             String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();

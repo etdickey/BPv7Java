@@ -46,8 +46,8 @@ public class DTNTime {
      * Constructs a DTNTime initialized to the current time
      */
     protected DTNTime(){
-        //choosing to handle it by % 2^32
-        timeInMS = ((int) (getDeltaTime() % (1L << 32)));
+        //choosing to handle it by % 2^31-1 (max signed int)
+        timeInMS = ((int) (getDeltaTime() % (1L << 31)));
     }
 
     /**

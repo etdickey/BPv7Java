@@ -20,20 +20,26 @@ public class Bundle implements NetworkSerializable {
     //  2. must output in this order: [primary, other..., payload, CBOR "break" stop code]
 
     /** All blocks in this bundle except primary and payload blocks */
-    private List<CanonicalBlock> blocks;
+    private List<CanonicalBlock> blocks = null;
     /** Primary block (bundle header information) */
-    private PrimaryBlock primary;
+    private PrimaryBlock primary = null;
     /** Payload block (actual content being sent) */
-    private PayloadBlock payload;
+    private PayloadBlock payload = null;
 
     /**
      * Constructor
      */
-    public Bundle(){
+    public Bundle(PrimaryBlock primary){
         //todo: everything else
-        primary = new PrimaryBlock(null, null, -1);
+        this.primary = primary;
         setTimestampToCurrentTime();
     }
+
+    /**
+     * ONLY FOR USE WHEN CALLING getNetworkSerialization() !!!!
+     * DO NOT USE FOR ANY OTHER PURPOSE!
+     */
+    public Bundle(){ /* DO NOT USE*/ }
 
     /**
      * Inserts the given block and assigns it an ID
@@ -92,7 +98,7 @@ public class Bundle implements NetworkSerializable {
      * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
      */
     @Override
-    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
+    public Bundle deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
         //todo
         return null;
     }
@@ -104,7 +110,8 @@ public class Bundle implements NetworkSerializable {
     //getters and setters for explicitly the primary and payload blocks
     public PrimaryBlock getPrimary() { return primary; }
     public final PayloadBlock getPayload() { return payload; }//final because you should use the setter to set a new payload
-    public void setPrimary(PrimaryBlock primary) { this.primary = primary; }
+    /** this must be done in the constructor */
+    private  void setPrimary(PrimaryBlock primary) { ; }
     public void setPayload(PayloadBlock payload) { this.payload = payload; }
     public CanonicalBlock getBlock(int blockID){
         //todo

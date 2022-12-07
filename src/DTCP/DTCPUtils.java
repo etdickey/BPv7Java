@@ -28,7 +28,7 @@ class DTCPUtils {
      * The latest timeFrame where a down check occured. Basically the last timeframe where the connectionDownTimeFrame
      * was updated
      */
-    private static Long lastTimeFrame;
+    private static Long lastTimeFrame = 0L;
 
     /**
      * A lock for messing with timeFrame stuff, since could be happening by several threads
@@ -83,7 +83,7 @@ class DTCPUtils {
                 // result is the double representing where on [0,1) the current time frame check landed on
                 result = (new Random(connectionID ^ timeFrame)).nextDouble();
                 connectionDownTimeFrame.put(connectionID, result);
-                logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + "Value: " + result);
+                logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + ", Value: " + result);
             }
         }
         return result;

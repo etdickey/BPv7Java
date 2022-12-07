@@ -88,7 +88,7 @@ public class BPADispatcher implements Runnable {
             boolean deliverFlag = bundleToSend.getPrimary().getDLIV();
             ReachableStatus reachable = dtcp.canReach(destNode);
             if(reachable == ReachableStatus.REACHABLE) {
-                logger.info("Can reach destination nodeID");
+                logger.info("DTCP reported: Can reach destination nodeID");
                 if(dtcp.send(bundleToSend)) {//try to send
                     bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, SENT));
                     logger.info("Sent bundle to DTCP and updated the dispatch status for bundle timestamp: " +
@@ -123,8 +123,10 @@ public class BPADispatcher implements Runnable {
                             continue;
                         }
                     }
-                    case NO_ROUTE -> logger.log(Level.INFO, "Bundle not deliverable due to no known route. Bundle: " + bundleToSend.getLoggingBundleId());
-                    case UNKNOWN_ID -> logger.log(Level.INFO, "Bundle not deliverable due to an unknown Destination ID. Bundle: " + bundleToSend.getLoggingBundleId());
+                    case NO_ROUTE -> logger.log(Level.INFO, "Bundle not deliverable due to no known route. Bundle: "
+                            + bundleToSend.getLoggingBundleId());
+                    case UNKNOWN_ID -> logger.log(Level.INFO, "Bundle not deliverable due to an unknown Destination ID = \""
+                            + bundleToSend.getPrimary().getDestNode().id() + "\". Bundle: " + bundleToSend.getLoggingBundleId());
                 }
                 // send status report if ack requested
                 if (deliverFlag) {

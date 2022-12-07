@@ -130,7 +130,6 @@ public class BPAUtils {
      * @return newly created bundle
      */
     public Bundle createBundle(byte[] payload, NodeID destID, boolean adminFlag, boolean ackFlag) {
-        Bundle bundle = new Bundle();
         // TODO: @ethan read lifetime from config files
         PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500);
         if (adminFlag) {
@@ -141,8 +140,10 @@ public class BPAUtils {
             primaryBlock.setFRWD();
             primaryBlock.setDELT();
         }
+
+        Bundle bundle = new Bundle(primaryBlock);
+
         PayloadBlock payloadBlock = new PayloadBlock(payload);
-        bundle.setPrimary(primaryBlock);
         bundle.setPayload(payloadBlock);
         logger.info("creating bundle for the payload");
         return bundle;

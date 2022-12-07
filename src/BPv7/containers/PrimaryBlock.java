@@ -210,8 +210,9 @@ public class PrimaryBlock extends Block {
 
     /**
      * Sets the creation time to right now
+     * todo:: update sequencenum.. static class variable probably would work
      */
-    public void setTimestampToCurr(){ this.creationTimestamp.creationTime = DTNTime.getCurrentDTNTime(); }
+    public void setTimestampToCurr(){ this.creationTimestamp = new Timestamp(DTNTime.getCurrentDTNTime(), 0); }
 
     /**
      * Returns a valid network encoding as a byte array
