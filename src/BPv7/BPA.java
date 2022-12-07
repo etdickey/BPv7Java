@@ -134,9 +134,10 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * [blocking call]
      * Returns the next bundle’s entire payload
      * @return byteStream of payload and sender NodeID
+     * @throws InterruptedException if unable to read next payload
      */
-    public ReceivePackage getPayload() {
-        Bundle bundle = null;
+    public ReceivePackage getPayload() throws InterruptedException {
+        Bundle bundle;
         try {
             bundle = receiveBuffer.take();
             if (bundle.getPayload() != null && bundle.getPayload().getPayload() != null) {
@@ -146,14 +147,14 @@ class BPA implements BPAInterface {//package-private (not private/public)
             } else {
                 logger.warning("Payload was null from bundle timestamp: "
                         + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                return null;
             }
         } catch (InterruptedException e) {
             // log error
             logger.severe("Unable to get bundle payload from the Queue (receiveBuffer). " +
                     "Queue was interrupted: " + e.getMessage());
-            return null;
+            throw e;
         }
-        return null;
     }
 
     /**

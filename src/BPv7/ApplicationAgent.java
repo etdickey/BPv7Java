@@ -73,6 +73,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      *
      * @param numToRead number of bytes to read from the stream
      * @return byte[] of size numToRead and sender NodeID
+     * @throws InterruptedException if unable to read next payload
      */
     @Override
     public ReceivePackage read(int numToRead) throws InterruptedException {

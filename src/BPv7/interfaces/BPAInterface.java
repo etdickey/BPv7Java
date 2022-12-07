@@ -29,8 +29,9 @@ public interface BPAInterface {
      * [blocking call]
      * Returns the next bundle’s entire payload
      * @return byteStream of payload and sender NodeID
+     * @throws InterruptedException if unable to read next payload
      */
-    ReceivePackage getPayload();
+    ReceivePackage getPayload() throws InterruptedException;
 
     /**
      * create the bundle and save to sending queue

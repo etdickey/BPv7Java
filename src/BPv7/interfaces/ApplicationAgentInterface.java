@@ -27,6 +27,7 @@ public interface ApplicationAgentInterface {
      *
      * @param numToRead number of bytes to read from the stream
      * @return byte[] of size numToRead
+     * @throws InterruptedException if unable to read next payload
      */
     ReceivePackage read(int numToRead) throws InterruptedException;
     /**
