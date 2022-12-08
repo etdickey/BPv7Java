@@ -5,7 +5,10 @@ import BPv7.utils.BundleStatusReport;
 import BPv7.utils.StatusReportUtilObject;
 import Configs.ReasonCodeResponseActions;
 import Configs.SimulationParams;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 import static BPv7.BPA.*;
@@ -66,7 +69,15 @@ public class AdminElementStatusReportRcode implements Runnable {
                 //}
 
                 byte[] payload = BPA.readStatusReportBuffer.take();//blocks, putting thread to sleep (ideal behavior) (until something arrives)
-                StatusReport replyStatusReport = (StatusReport)AdminElement.bytesToObject(payload);
+                ObjectMapper mapper = new ObjectMapper();
+
+                StatusReport replyStatusReport;
+                try {
+                    replyStatusReport = mapper.readValue(payload, StatusReport.class);
+                } catch (IOException e) {
+                    logger.severe("ERROR! Unable to read a bundle from byte array: " + e.getMessage());
+                    continue;
+                }
 
                 int reasonCode = replyStatusReport.getReasonCode();
                 this.action(reasonCode, replyStatusReport.getCreationTimestamp());

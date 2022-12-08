@@ -79,26 +79,26 @@ public class AdminElement implements AdminElementInterface {
     @Override
     public void run() {}
 
-    /**
-     * Convert a byte stream to an object
-     */
-    public static Object bytesToObject(byte[] bytes) {
-        if (bytes == null) {
-            return null;
-        }
-        Object obj = null;
-        try {
-            // bytearray to object
-            ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
-            ObjectInputStream oi = new ObjectInputStream(bi);
-            obj = oi.readObject();
-            bi.close();
-            oi.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return obj;
-    }
+//    /**
+//     * Convert a byte stream to an object
+//     */
+//    public static Object bytesToObject(byte[] bytes) {
+//        if (bytes == null) {
+//            return null;
+//        }
+//        Object obj = null;
+//        try {
+//            // bytearray to object
+//            ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+//            ObjectInputStream oi = new ObjectInputStream(bi);
+//            obj = oi.readObject();
+//            bi.close();
+//            oi.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return obj;
+//    }
 
 //    /**
 //     * Convert an object to a bytes array
