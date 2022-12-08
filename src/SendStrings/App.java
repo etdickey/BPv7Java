@@ -26,8 +26,6 @@ public class App {
 
 
     //program argument validation
-    /** error message to display when program is not run with correct parameters */
-    private static final String errmsg = "Usage: java App [A, Forwarding, B] [0, 1, 2, 3, 4]";
     /** For consistency when exiting */
     private static final int SYSERR = -1;
     /** list of all possible host IDs */
@@ -36,6 +34,8 @@ public class App {
     private static final int[] simulationids = {0, 1, 2, 3, 4,
                                                 1000, 1001, 1010, 1011,
                                                 1100, 1101, 1110, 1111};
+    /** error message to display when program is not run with correct parameters */
+    private static final String errmsg = "Usage: java App [A, Forwarding, B] " + Arrays.toString(simulationids);
 
     //singleton
     /** Simulation parameters singleton copy */
