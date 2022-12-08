@@ -161,7 +161,7 @@ public class DTCP implements DTCPInterface {
     @Override
     public ReachableStatus canReach(NodeID ID) {
         String dest = nodeToNetwork(ID);
-        if (!convParams.idToAddressRoutingMap.containsKey(ID.id()))
+        if (!ID.equals(NodeID.getNullSourceID()) || !convParams.idToAddressRoutingMap.containsKey(ID.id()))
             return ReachableStatus.UNKNOWN_ID;
         if (dest == null)
             return ReachableStatus.NO_ROUTE;
