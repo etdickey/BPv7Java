@@ -64,5 +64,18 @@ public interface BPAInterface {
      */
     Timestamp resendBundle(Timestamp bundleTimestamp);
 
+    /**
+     * Sends the bundle dispatch status from BPA end
+     * @param bundleTimestamp timestamp of the bundle
+     * @return dispatch status
+     */
     DispatchStatus getBundleStatus(Timestamp bundleTimestamp);
+
+    /**
+     * Resend old bundle with extended lifetime
+     * @param bundleTimestamp timestamp of the bundle to be resent
+     * @param extendedTime increased lifetime of the new bundle (in milliseconds)
+     * @return key (timestamp) for the bundle
+     */
+    Timestamp resendBundleWithExtendedTime(Timestamp bundleTimestamp, int extendedTime);
 }

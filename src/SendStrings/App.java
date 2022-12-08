@@ -166,12 +166,16 @@ public class App {
                 if (bNID.equals(rp.sender())) {//check if from HOST_B
                     if(bConfirmed){
                         logger.warning("Received a second SYNC message from B!");
+                    } else {
+                        logger.info("B SYNC'd!!");
                     }
                     //this function will exit if they aren't equal, so this is gratuitous but whatever
                     bConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());
                 } else if (fNID.equals(rp.sender())) {//check if from HOST_FORWARD
                     if(fConfirmed){
                         logger.warning("Received a second SYNC message from B!");
+                    } else {
+                        logger.info("Forwarding SYNC'd!!");
                     }
                     //this function will exit if they aren't equal, so this is gratuitous but whatever
                     fConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());//verify SYNC
@@ -209,6 +213,7 @@ public class App {
                 //this function will exit if they aren't equal
                 checkMsg(syncMsg, rp.payload(), rp.sender());
 
+                logger.info("Verified SYNC from " + rp.sender().id() + ", replying in kind");
                 //if success, reply in kind
                 aa.send(syncMsg, aNID);
 

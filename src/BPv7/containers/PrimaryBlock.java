@@ -260,7 +260,17 @@ public class PrimaryBlock extends Block {
     //we don't think these are necessary because they are provided in the constructor, if you need them... think carefully
 //    public void setDestNode(NodeID destNode) { this.destNode = destNode; }
 //    public void setSrcNode(NodeID srcNode) { this.srcNode = srcNode; }
-//    public void setLifetime(int lifetime) { this.lifetime = lifetime; }
+
+    /**
+     * [use carefully]
+     * [do not use for new bundle, use constructor]
+     *
+     * called to increase the lifetime of the bundle in milliseconds
+     * @param lifetime value by which bundle lifetime increased (in milliseconds)
+     */
+    public void addLifetime(int lifetime) {
+        this.lifetime += lifetime;
+    }
 
 
     /**
