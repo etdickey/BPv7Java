@@ -235,7 +235,7 @@ public class App {
             logger.severe("Unable to read next payload (SYNC) from BP!");
             System.exit(SYSERR);
         }
-        logger.info("Host " + simParams.currHost.getName() + " finished with SYNC receive");
+        logger.warning("Host " + simParams.currHost.getName() + " finished with SYNC receive");
     }
 
     /**

@@ -156,7 +156,7 @@ public class BPAUtils {
 
         PayloadBlock payloadBlock = new PayloadBlock(payload);
         bundle.setPayload(payloadBlock);
-        logger.info("creating bundle for the payload");
+        logger.info("creating bundle for the payload, bundle = " + bundle.getLoggingBundleId());
         return bundle;
     }
 
