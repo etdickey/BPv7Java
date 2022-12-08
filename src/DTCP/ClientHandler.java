@@ -69,11 +69,11 @@ class ClientHandler implements Runnable{
                 logger.log(Level.INFO, "Added bundle to queue:" + bundleID);
             }
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Client IOException, Bundle Dropped");
+            logger.log(Level.WARNING, "Client IOException, Bundle Dropped: " + e.getMessage());
         } catch (InterruptedException e) {
-            logger.log(Level.WARNING, "Queue Interrupt Expection, Bundle Dropped");
+            logger.log(Level.WARNING, "Queue Interrupt Expection, Bundle Dropped: " + e.getMessage());
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Unspecified Failure To Read Bundle and add to Queue");
+            logger.log(Level.WARNING, "Unspecified Failure To Read Bundle and add to Queue: " + e.getMessage());
         }
     }
 }

@@ -132,7 +132,7 @@ public class BPAUtils {
      */
     public Bundle createBundle(byte[] payload, NodeID destID, boolean adminFlag, boolean ackFlag) {
         //read lifetime from config files
-        PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(),
+        PrimaryBlock primaryBlock = new PrimaryBlock(destID, new NodeID(SimulationParams.getInstance().hostID),
                                                      SimulationParams.getInstance().scenario.bundleLifetimeMS());
         if (adminFlag) {
             primaryBlock.setADMN();
