@@ -48,6 +48,8 @@ class DTCPUtils {
      */
      static final Logger logger = Logger.getLogger(DTCPUtils.class.getName());
 
+     private static final Random rand = new Random(0);
+
     /**
      * Gets the current timeframe, aka the number of milliseconds between occurrences and length of
      * an expected and unexpected down (multiple can occur back to back), and how often a connection
@@ -81,7 +83,8 @@ class DTCPUtils {
                     connectionDownTimeFrame = new HashMap<>();
                 }
                 // result is the double representing where on [0,1) the current time frame check landed on
-                result = (new Random(connectionID ^ timeFrame)).nextDouble();
+//                result = (new Random(connectionID ^ timeFrame)).nextDouble();
+                result = rand.nextDouble();
                 connectionDownTimeFrame.put(connectionID, result);
                 logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + ", Value: " + result);
             }
