@@ -93,6 +93,11 @@ public class SimulationParams {
     /** delay between sends at the Application layer (send strings) */
     public final int minSendDelayMS, maxSendDelayMS;
 
+    /** length of time to actually simulate for */
+    public final int simLenSec;
+    @JsonIgnore
+    public final long simLenMS;
+
 
 
 
@@ -171,7 +176,8 @@ public class SimulationParams {
                             @JsonProperty("maxBundleSize") int maxBundleSize,
                             @JsonProperty("responseActions") ReasonCodeResponseActions responseActions,
                             @JsonProperty("minSendDelayMS") int minSendDelayMS,
-                            @JsonProperty("maxSendDelayMS") int maxSendDelayMS) throws InvalidParameterException {
+                            @JsonProperty("maxSendDelayMS") int maxSendDelayMS,
+                            @JsonProperty("simLenSec") int simLenSec) throws InvalidParameterException {
         this.hostID = hostID.toLowerCase();
         this.currHost = Host.getHost(hostID.toLowerCase());
         this.scenarioID = scenarioID;//todo:: validate scenario num (likely need an enum like Host)
@@ -180,6 +186,8 @@ public class SimulationParams {
         this.responseActions = responseActions;
         this.minSendDelayMS = minSendDelayMS;
         this.maxSendDelayMS = maxSendDelayMS;
+        this.simLenSec = simLenSec;
+        this.simLenMS = simLenSec*1000L;
 
         //parse scenario from file ("dir/scenarios/Sim_0.json")
         String sceneFile = resourceDir + scenarioFolder + "Sim_" + scenarioID + cfgFileExtension;
