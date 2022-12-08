@@ -268,7 +268,7 @@ public class PrimaryBlock extends Block {
      * called to increase the lifetime of the bundle in milliseconds
      * @param lifetime value by which bundle lifetime increased (in milliseconds)
      */
-    public void setLifetime(int lifetime) {
+    public void addLifetime(int lifetime) {
         this.lifetime += lifetime;
     }
 

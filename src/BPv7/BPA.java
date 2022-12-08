@@ -246,7 +246,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     public Timestamp resendBundleWithExtendedTime(Timestamp bundleTimestamp, int extendedTime) {
         if(bundleTimestamp.seqNum() != -1 && extendedTime > 0) {
             Bundle bundle = bundleStatusMap.get(bundleTimestamp).bundle();
-            bundle.getPrimary().setLifetime(extendedTime);
+            bundle.getPrimary().addLifetime(extendedTime);
             bpaUtils.saveToQueue(bundle);
             logger.info("Resending bundle with timestamp " + bundleTimestamp.creationTime().getTimeInMS());
             return bundleTimestamp;
