@@ -132,15 +132,27 @@ public class BPADispatcher implements Runnable {
                             logger.log(Level.INFO, "Bundle not deliverable due to expected down and reached lifetime. Bundle: " + bundleToSend.getLoggingBundleId());
                         } else {
                             // This means it's temporarily down, but might not be in the future and hasn't reached lifetime, so re add it to the (back of) the queue
-                            //noinspection ResultOfMethodCallIgnored
-                            sendBuffer.offer(bundleToSend);
-                            continue;
+                            if(!sendBuffer.offer(bundleToSend)){
+                                logger.severe("Could not readd bundle " + bundleToSend.getLoggingBundleId() + " to send buffer!!");
+                            } else {
+                                logger.info("Expected down, readding to the buffer: "  + bundleToSend.getLoggingBundleId());
+                            }
+                            continue;//don't send deleted status report
                         }
                     }
                     case NO_ROUTE -> logger.log(Level.INFO, "Bundle not deliverable due to no known route. Bundle: "
                             + bundleToSend.getLoggingBundleId());
                     case UNKNOWN_ID -> logger.log(Level.INFO, "Bundle not deliverable due to an unknown Destination ID = \""
                             + bundleToSend.getPrimary().getDestNode().id() + "\". Bundle: " + bundleToSend.getLoggingBundleId());
+                    default -> {
+                        logger.warning("UNKNOWN REACHABLE ID = " + reachable + " readding to send queue...");
+                        if(!sendBuffer.offer(bundleToSend)){
+                            logger.severe("Could not readd bundle " + bundleToSend.getLoggingBundleId() + " to send buffer!!");
+                        } else {
+                            logger.info("Expected down, readding to the buffer: "  + bundleToSend.getLoggingBundleId());
+                        }
+                        continue;//don't send deleted status report
+                    }
                 }
                 // send status report if ack requested
                 if (deliverFlag) {
@@ -156,7 +168,6 @@ public class BPADispatcher implements Runnable {
                         //drop status report
                     }
                 }
-
             }
         }
     }
