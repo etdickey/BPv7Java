@@ -85,22 +85,23 @@ public class BPAReceiver implements Runnable {
     public void run() {
         while(true) {
             Bundle bundle = dtcp.recv();
+            logger.info("BPA Received bundle: " + bundle.getLoggingBundleId());
+
             int deletionCode = bpaUtils.checkIfBundleToDelete(bundle);
             boolean deliveryFlag = bundle.getPrimary().getDLIV();
             boolean adminFlag = bundle.getPrimary().isAdminRecord();
             //if we are deleting it and an delivery ACK is requested (and not admin record), send a status report back to the sender 
             if (deletionCode != -1 && deliveryFlag && !adminFlag) {//TODO:: aidan:: change -1 to be better
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
-                Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
+                Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
                 sendBuffer.add(statusReportBundle);
                 logger.info("Sending status report for deleted bundle, timestamp: " +
                         statusReportBundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 continue;
             }
-            // TODO: @ethan get id of current NodeID
+
             // read nodeID of system and see if matches bundle destination ID
-            // TODO: change if condition
-            if (bundle.getPrimary().getDestNode().id() == "1") {//REACHED DESTINATION (this node)
+            if (bundle.getPrimary().getDestNode().id().equals(simulationParams.hostID)) {//REACHED DESTINATION (this node)
                 // if bundle has admin flag set
                 // add the payload to readStatusReportBuffer
                 if (adminFlag) {

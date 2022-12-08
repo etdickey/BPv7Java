@@ -172,8 +172,8 @@ public class Bundle implements NetworkSerializable {
      */
     @JsonIgnore
     public String getLoggingBundleId() {
-        return this.getPrimary().getSrcNode().id()
-                + ':' + this.getPrimary().getCreationTimestamp().creationTime().getTimeInMS()
-                + ':' + this.getPrimary().getCreationTimestamp().seqNum();
+        return "from:" + this.getPrimary().getSrcNode().id() + "::to:" + this.getPrimary().getDestNode().id()
+                + "::creationTime:" + this.getPrimary().getCreationTimestamp().creationTime().getTimeInMS()
+                + "::seqNum:" + this.getPrimary().getCreationTimestamp().seqNum();
     }
 }
