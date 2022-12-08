@@ -50,6 +50,7 @@ class DTCPServer implements Runnable {
      */
     public void run() {
         ExecutorService threadPool = null;
+        //noinspection RedundantSuppression
         try {//try-with-resources doesn't work on ExecutorService thread pools
             //noinspection resource
             threadPool = Executors.newFixedThreadPool(convParams.nThreads);
