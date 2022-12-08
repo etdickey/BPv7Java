@@ -26,6 +26,11 @@ rm mininet/*.log -f
 rm mininet/resources/ -r
 cp src/Configs/resources/ mininet/ -r
 
+End of simulation log stuff:
+mv logger_a.log logger_a.log.LONG.
+mv logger_b.log logger_b.log.LONG.
+mv logger_forwarding.log logger_forwarding.log.LONG.
+
 ----------------------------------------------------------
 
 
