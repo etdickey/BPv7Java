@@ -1,6 +1,6 @@
 {
   "scenarioID" : 0,
-  "description" : "High probability of random loss, no predictable loss",
+  "description" : "High probability of random loss, no predictable loss, long lifetime",
   "expectedDownProbability" : 0.0,
   "unexpectedDownProbability" : 0.25,
   "milliPerDownPeriod" : 100,
