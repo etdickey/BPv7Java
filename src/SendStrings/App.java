@@ -107,10 +107,10 @@ public class App {
             //get ready to receive!
             case HOST_B -> (new App()).receiveThoseStrings();
             //note: HOST_FORWARD just needs BPA to be running, it doesn't receive anything
-            case HOST_FORWARDING -> {
-                //noinspection InfiniteLoopStatement,StatementWithEmptyBody
-                while(true) ;
-            }
+//            case HOST_FORWARDING -> {
+//                //noinspection InfiniteLoopStatement,StatementWithEmptyBody
+//                while(true) ;
+//            }
         }
 
         logger.warning("All done with tests (warning so it will show up on cmd line)");

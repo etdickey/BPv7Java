@@ -1,22 +1,22 @@
 {
-  "hostID" : "forwarding",
+  "hostID": "forwarding",
   "scenarioID": 0,
-  "minBundleSize" : 20,
-  "maxBundleSize" : 1000,
+  "minBundleSize": 20,
+  "maxBundleSize": 1000,
   "responseActions": {
     "lifetimeExpiredAction": true,
     "overUnidirectionalAction": true,
-    "transmissionCancelledAction":  true,
+    "transmissionCancelledAction": true,
     "depletedStorageAction": true,
-    "destinationUnavailableAction":  true,
+    "destinationUnavailableAction": true,
     "noKnownRouteToDestinationAction": true,
-    "noTimelyContactAction":  true,
+    "noTimelyContactAction": true,
     "blockUnintelligibleAction": true,
-    "hopLimitExceededAction":  true,
+    "hopLimitExceededAction": true,
     "trafficParedAction": true,
-    "blockUnsupportedAction":  true
+    "blockUnsupportedAction": true
   },
   "minSendDelayMS": 0,
   "maxSendDelayMS": 50,
-  "simLenSec": 10
+  "simLenSec": 1
 }
