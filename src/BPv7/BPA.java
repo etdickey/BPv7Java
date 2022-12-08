@@ -219,9 +219,14 @@ class BPA implements BPAInterface {//package-private (not private/public)
     @Override
     public Timestamp resendBundle(Timestamp bundleTimestamp) {
         if(bundleTimestamp.seqNum() != -1) {
-            bpaUtils.saveToQueue(bundleStatusMap.get(bundleTimestamp).bundle());
-            logger.info("Resending bundle with timestamp " + bundleTimestamp.creationTime().getTimeInMS());
-            return bundleTimestamp;
+            if(bundleStatusMap.containsKey(bundleTimestamp)){
+                bpaUtils.saveToQueue(bundleStatusMap.get(bundleTimestamp).bundle());
+                logger.info("Resending bundle with timestamp " + bundleTimestamp.creationTime().getTimeInMS());
+                return bundleTimestamp;
+            } else {
+                logger.severe("Can't find bundle with timestamp " + bundleTimestamp.creationTime().getTimeInMS());
+                return Timestamp.UNKNOWN_TIMESTAMP;
+            }
         }
         logger.warning("Unable to send bundle: " + bundleTimestamp.creationTime().getTimeInMS());
         return Timestamp.UNKNOWN_TIMESTAMP;

@@ -1,5 +1,7 @@
 package BPv7.containers;
 
+import java.util.Objects;
+
 /**
  * A DTN time is an unsigned integer indicating the number of milliseconds
  * that have elapsed since the DTN Epoch, 2000-01-01 00:00:00 +0000 (UTC).
@@ -58,5 +60,17 @@ public class DTNTime {
 
     public int getTimeInMS() {
         return timeInMS;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DTNTime dtnTime)) return false;
+        return timeInMS == dtnTime.timeInMS;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(timeInMS);
     }
 }
