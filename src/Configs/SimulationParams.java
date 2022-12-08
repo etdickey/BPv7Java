@@ -1,5 +1,6 @@
 package Configs;
 
+import BPv7.ApplicationAgent;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 
@@ -98,6 +99,7 @@ public class SimulationParams {
     public static void setUpSimulation(){
         SimulationParams.getInstance();
         ConvergenceLayerParams.getInstance();
+        ApplicationAgent.getInstance();
     }
 
     /**

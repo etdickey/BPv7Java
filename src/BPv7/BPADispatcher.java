@@ -74,8 +74,9 @@ public class BPADispatcher implements Runnable {
      */
     @Override
     public void run() {
+        //noinspection InfiniteLoopStatement
         while(true) {
-            Bundle bundleToSend = null;
+            Bundle bundleToSend;
             try {
                 bundleToSend = sendBuffer.take();
             } catch (InterruptedException e) {
@@ -102,7 +103,7 @@ public class BPADispatcher implements Runnable {
                         // send status report if ack requested
                         if (deliverFlag) {
                             StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 1);
-                            Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                            Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
                             sendBuffer.add(statusReportBundle);
                             logger.info("Sending status report, timestamp: " +
                                     bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
@@ -131,7 +132,7 @@ public class BPADispatcher implements Runnable {
                 // send status report if ack requested
                 if (deliverFlag) {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);
-                    Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                    Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
                     sendBuffer.add(statusReportBundle);
                     logger.info("deleted the bundle. Sending status report, timestamp: " +
                             bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());

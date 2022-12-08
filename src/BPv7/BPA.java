@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 class BPA implements BPAInterface {//package-private (not private/public)
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(BPA.class.getName());
-    public static Object resendBundle;
 
     /**
      * The only instance of this class allowed in the entire program
@@ -55,7 +54,9 @@ class BPA implements BPAInterface {//package-private (not private/public)
     /**
      * Threads for sending and receiving
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private final Thread sendingThread;
+    @SuppressWarnings("FieldCanBeLocal")
     private final Thread receivingThread;
     /**
      * Map to maintain bundle dispatching status
@@ -72,6 +73,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
      * (null -> instance), thus only one set of double-checked locking is needed
      */
     public static BPA getInstance() {
+        //noinspection DoubleCheckedLocking
         if (instance == null) {
             synchronized (BPA.class) {
                 if (instance == null) {
@@ -95,7 +97,6 @@ class BPA implements BPAInterface {//package-private (not private/public)
         logger.info("Started BPA sending and receiving threads");
     }
 
-    //@ethan todo:: switch branches/close containers.
 //    /**
 //     * Blocking call that waits for the sending buffer to empty (or only contain unreachable objects)
 //     * @return true if the queue only contains unreachable objects, or false if it contains no objects

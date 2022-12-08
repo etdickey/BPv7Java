@@ -31,6 +31,7 @@ public enum Host {
      * @return Host associated with given value
      * @throws InvalidParameterException if hostID value is out of range
      */
+    @SuppressWarnings("unused")
     public static Host getHost(int hostID) throws InvalidParameterException {
         for(Host h : Host.values()){
             if(h.val == hostID){
@@ -57,9 +58,11 @@ public enum Host {
     }
 
     /** @return value associated with the host */
+    @SuppressWarnings("unused")
     public int getVal() { return val; }
 
     /** @return host's purpose */
+    @SuppressWarnings("unused")
     public String getPurpose() { return purpose; }
 
     /** @return host's name */

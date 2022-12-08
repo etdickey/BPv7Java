@@ -94,7 +94,7 @@ public class App {
         syncMsg = ("Scenario = " + simParams.scenario.toStringShort()).getBytes();
 
         //set up BPA/entire Bundle protocol tech stack
-        ApplicationAgent.getInstance();
+        SimulationParams.setUpSimulation();
 
         //sync all hosts
         (new App()).doSync();
