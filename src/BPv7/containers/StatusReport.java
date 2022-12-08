@@ -132,8 +132,7 @@ public class StatusReport extends AdminRecord {
     void setLengthOfPayload(int a) { lengthOfPayload = a; }
 
     // getters
-
-    public BundleStatusItem[] getBundleStatus() { return this.statusIndicator; }
+    public BundleStatusItem[] getStatusIndicator() { return this.statusIndicator; }
     public int getReasonCode() { return this.reasonCode; }
     public NodeID getSourceBundleNodeID() { return this.sourceBundleNodeID; }
     public Timestamp getCreationTimestamp() { return this.creationTimestamp; }
