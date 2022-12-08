@@ -112,6 +112,8 @@ public class App {
                 while(true) ;
             }
         }
+
+        logger.warning("All done with tests (warning so it will show up on cmd line)");
     }
 
     /**
@@ -293,6 +295,6 @@ public class App {
                 //ignore
             }
         }
-        logger.info("Host " + simParams.hostID + " done sending!");
+        logger.warning("Host " + simParams.hostID + " done sending!");
     }
 }
