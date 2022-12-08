@@ -16,7 +16,7 @@
     "trafficParedAction": true,
     "blockUnsupportedAction":  true
   },
-  "minSendDelaysMs": 0,
+  "minSendDelayMS": 0,
   "maxSendDelayMS": 50,
   "simLenSec": 5
 }
