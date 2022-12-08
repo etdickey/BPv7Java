@@ -183,7 +183,8 @@ public class App {
                     bConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());
                     if(!bConfirmed) {
                         logger.severe("BAD SYNC FROM B, ABORT ABORT ABORT");
-                        aa.send((new String("ABORT ABORT ABORT")).getBytes(), bNID);
+                        aa.send(("ABORT ABORT ABORT").getBytes(), bNID);
+                        Thread.sleep(1000);//wait to send msg before exiting
                         System.exit(SYSERR);
                     }
                 } else if (fNID.equals(rp.sender())) {//check if from HOST_FORWARD
@@ -196,7 +197,8 @@ public class App {
                     fConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());//verify SYNC
                     if(!fConfirmed) {
                         logger.severe("BAD SYNC FROM FORWARDING, ABORT ABORT ABORT");
-                        aa.send((new String("ABORT ABORT ABORT")).getBytes(), fNID);
+                        aa.send(("ABORT ABORT ABORT").getBytes(), fNID);
+                        Thread.sleep(1000);//wait to send msg before exiting
                         System.exit(SYSERR);
                     }
                 } else {//something is very wrong
@@ -233,7 +235,8 @@ public class App {
                 //this function will exit if they aren't equal
                 if(!checkMsg(syncMsg, rp.payload(), rp.sender())) {
                     logger.severe("BAD SYNC FROM SENDER, ABORT ABORT ABORT");
-                    aa.send((new String("ABORT ABORT ABORT")).getBytes(), aNID);
+                    aa.send(("ABORT ABORT ABORT").getBytes(), aNID);
+                    Thread.sleep(1000);//wait to send msg before exiting
                     System.exit(SYSERR);
                 }
 
@@ -243,7 +246,8 @@ public class App {
 
             } else {//something is very wrong
                 logger.severe("Received message from unknown sender, NodeID = \"" + rp.sender().id() + "\"");
-                aa.send((new String("ABORT ABORT ABORT")).getBytes(), aNID);
+                aa.send(("ABORT ABORT ABORT").getBytes(), aNID);
+                Thread.sleep(1000);//wait to send msg before exiting
                 System.exit(SYSERR);
             }
         } catch (InterruptedException e) {
