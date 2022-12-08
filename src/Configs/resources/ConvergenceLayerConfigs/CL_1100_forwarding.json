@@ -8,6 +8,6 @@
   "queueCapacity" : -1,
   "nThreads" : 10,
   "maxConnections" : 100,
-  "connectionTimeout" : 100,
+  "connectionTimeout" : 10000,
   "queueTimeoutInMillis" : 100
 }
