@@ -142,7 +142,7 @@ public class App {
         if (!Arrays.equals(expected, actual)) {//verify SYNC
             logger.severe("Host " + sender.id() + " did not send back good SYNC message: actual: \""
                     + (new String(actual)) + "\", expected: \"" + (new String(expected)) + "\"");
-            System.exit(SYSERR);
+            return false;
         }
         return true;
     }
@@ -183,6 +183,7 @@ public class App {
                     bConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());
                     if(!bConfirmed) {
                         logger.severe("BAD SYNC FROM B, ABORT ABORT ABORT");
+                        aa.send((new String("ABORT ABORT ABORT")).getBytes(), bNID);
                         System.exit(SYSERR);
                     }
                 } else if (fNID.equals(rp.sender())) {//check if from HOST_FORWARD
@@ -193,6 +194,11 @@ public class App {
                     }
                     //this function will exit if they aren't equal, so this is gratuitous but whatever
                     fConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());//verify SYNC
+                    if(!fConfirmed) {
+                        logger.severe("BAD SYNC FROM FORWARDING, ABORT ABORT ABORT");
+                        aa.send((new String("ABORT ABORT ABORT")).getBytes(), fNID);
+                        System.exit(SYSERR);
+                    }
                 } else {//something is very wrong
                     logger.severe("Received message from unknown sender, NodeID = \"" + rp.sender().id() + "\"");
                     System.exit(SYSERR);
@@ -225,7 +231,11 @@ public class App {
             ReceivePackage rp = aa.read(simParams.maxBundleSize);
             if(rp.sender().equals(aNID)){//check correct sender
                 //this function will exit if they aren't equal
-                checkMsg(syncMsg, rp.payload(), rp.sender());
+                if(!checkMsg(syncMsg, rp.payload(), rp.sender())) {
+                    logger.severe("BAD SYNC FROM SENDER, ABORT ABORT ABORT");
+                    aa.send((new String("ABORT ABORT ABORT")).getBytes(), aNID);
+                    System.exit(SYSERR);
+                }
 
                 logger.info("Verified SYNC from " + rp.sender().id() + ", replying in kind");
                 //if success, reply in kind
