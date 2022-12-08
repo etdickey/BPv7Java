@@ -100,9 +100,9 @@ public class BPAUtils {
      * @return status of the bundle, NONE if invalid key
      */
     public DispatchStatus getBundleStatus(Timestamp key) {
-        if (key.getSeqNum() != -1 && bpa.bundleStatusMap.containsKey(key)) {
+        if (key.seqNum() != -1 && bpa.bundleStatusMap.containsKey(key)) {
             DispatchStatus status = BPA.bundleStatusMap.get(key).status();
-            logger.info("Bundle status" + status + " for timestamp " + key.getCreationTime().getTimeInMS());
+            logger.info("Bundle status" + status + " for timestamp " + key.creationTime().getTimeInMS());
             return status;
         }
         logger.warning("Unable to get bundle status for bundle timestamp: " + key);
@@ -118,7 +118,7 @@ public class BPAUtils {
         bpa.sendBuffer.add(bundle);
         Timestamp creationTimestamp = bundle.getPrimary().getCreationTimestamp();
         bpa.bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
-        logger.info("save the bundle in the sending queue: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        logger.info("save the bundle in the sending queue: " + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
         return creationTimestamp;
     }
 
@@ -156,7 +156,7 @@ public class BPAUtils {
      * @return : reason code if bundle needs to be deleted, -1 otherwise
      */
     public int checkIfBundleToDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
         if (timeGap > bundle.getPrimary().getLifetime()) {
             return 1;
         } else if (dtcp.canReach(bundle.getPrimary().getDestNode()) == ReachableStatus.UNKNOWN_ID) {

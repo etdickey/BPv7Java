@@ -1,8 +1,16 @@
 package BPv7.containers;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.naming.directory.InvalidAttributesException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.InvalidPropertiesFormatException;
+import java.util.logging.Logger;
 
 /**
  * Represents the first block containing bundle information.
@@ -17,7 +25,8 @@ public class PrimaryBlock extends Block {
     /**
      * Flag bitmasks
      */
-    private final int   FRAG = 0x1,//1 = is a fragment (bundle is fragged)
+    private static final int
+                        FRAG = 0x1,//1 = is a fragment (bundle is fragged)
                         ADMN = 0x2,//1 = admin record
                         NFRG = 0x4,//1 = DO NOT FRAGMENT
                         ACKR = 0x20,//1 = ack requested
@@ -30,6 +39,7 @@ public class PrimaryBlock extends Block {
 
     /**
      * BP version (using 7 here)
+     * @implSpec CBOR unsigned int (32 bit?)
      */
     protected final int version = 7;//CBOR unsigned
     /**
@@ -142,10 +152,45 @@ public class PrimaryBlock extends Block {
         this.crc = -1;
     }
 
+    /**
+     * Creates a primaryblock based on parameters. Primarily for Jackson JSON serialization
+     * @param flags flags
+     * @param destNode destination node
+     * @param srcNode source node
+     * @param reportToNode node to report to if different from source
+     * @param creationTimestamp creation timestamp
+     * @param lifetime lifetime of bundle
+     * @param fragmentOffset fragment offset, if fragment
+     * @param ADULen original bundle size, if fragment
+     * @param crc CRC (fancy checksum)
+     */
+    @JsonCreator
+    public PrimaryBlock(@JsonProperty("flags") long flags,
+                        @JsonProperty("destNode") NodeID destNode,
+                        @JsonProperty("srcNode") NodeID srcNode,
+                        @JsonProperty("reportToNode") NodeID reportToNode,
+                        @JsonProperty("creationTimestamp") Timestamp creationTimestamp,
+                        @JsonProperty("lifetime") int lifetime,
+                        @JsonProperty("fragmentOffset") int fragmentOffset,
+                        @JsonProperty("ADULen") int ADULen,
+                        @JsonProperty("crc") short crc) {
+        this.flags = flags;
+        this.destNode = destNode;
+        this.srcNode = srcNode;
+        this.reportToNode = reportToNode;
+        this.creationTimestamp = creationTimestamp;
+        this.lifetime = lifetime;
+        this.fragmentOffset = fragmentOffset;
+        this.ADULen = ADULen;
+        this.crc = crc;
+    }
+
     /*getters*/
+    @JsonIgnore
     public int getVersion() { return version; }
-    public long getFlags() { return flags; }
+    @JsonIgnore
     public int getCrcType() { return crcType; }
+    public long getFlags() { return flags; }
     public NodeID getDestNode() { return destNode; }
     public NodeID getSrcNode() { return srcNode; }
     public NodeID getReportToNode() { return reportToNode; }
@@ -155,17 +200,27 @@ public class PrimaryBlock extends Block {
     public int getADULen() { return ADULen; }
     public int getCrc() { return crc; }
     /*flag getters*/
+    @JsonIgnore
     public boolean getFRAG() { return (flags & FRAG) == FRAG;/*gets the FRAG flag*/ }
+    @JsonIgnore
     public boolean getADMN() { return (flags & ADMN) == ADMN;/*gets the ADMN flag*/ }
+    @JsonIgnore
     public boolean getNFRG() { return (flags & NFRG) == NFRG;/*gets the NFRG flag*/ }
+    @JsonIgnore
     public boolean getACKR() { return (flags & ACKR) == ACKR;/*gets the ACKR flag*/ }
+    @JsonIgnore
     public boolean getTIME() { return (flags & TIME) == TIME;/*gets the TIME flag*/ }
+    @JsonIgnore
     public boolean getRECP() { return (flags & RECP) == RECP;/*gets the RECP flag*/ }
+    @JsonIgnore
     public boolean getFRWD() { return (flags & FRWD) == FRWD;/*gets the FRWD flag*/ }
+    @JsonIgnore
     public boolean getDLIV() { return (flags & DLIV) == DLIV;/*gets the DLIV flag*/ }
+    @JsonIgnore
     public boolean getDELT() { return (flags & DELT) == DELT;/*gets the DELT flag*/ }
     
     /*setters*/
+    @JsonIgnore
     public boolean isAdminRecord() { return getADMN(); }
     public void setFRAG() { this.flags = flags | FRAG;/*sets the FRAG flag*/ }
     public void setADMN() { this.flags = flags | ADMN;/*sets the ADMN flag*/ }
@@ -217,26 +272,42 @@ public class PrimaryBlock extends Block {
     /**
      * Returns a valid network encoding as a byte array
      *
+     * @param logger logger to log things with (containers don't get loggers -- no context)
      * @return networking encoding
      * @throws InvalidPropertiesFormatException if block is not ready to be encoded
      */
+    @JsonIgnore
     @Override
-    public byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
-        //todo
-        return null;
+    public byte[] getNetworkEncoding(final Logger logger) throws InvalidPropertiesFormatException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(this);//no logging, done only in Bundle
+        } catch (JsonProcessingException e) {
+            logger.severe("ERROR! Unable to write PrimaryBlock to byte[]: " + e.getMessage());
+            throw new InvalidPropertiesFormatException(e.getMessage());
+        }
     }
 
     /**
      * Decodes the byte array into the implementing object (each class only responsible for its own decoding)
      *
      * @param toDecode network-encoded array to decode
+     * @param logger logger to log things with (containers don't get loggers -- no context)
      * @return instance of implementing class with fields populated from toDecode
      * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
      */
+    @JsonIgnore
     @Override
-    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
-        //todo
-        return null;
+    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode, final Logger logger) throws ParseException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.readValue(toDecode, PrimaryBlock.class);//no logging, done only in Bundle
+        } catch (IOException e) {
+            logger.severe("ERROR! Unable to read a PrimaryBlock from byte array: " + e.getMessage());
+            throw new ParseException(e.getMessage(), -1);
+        }
     }
 
     /**

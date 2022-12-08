@@ -142,11 +142,11 @@ class BPA implements BPAInterface {//package-private (not private/public)
             bundle = receiveBuffer.take();
             if (bundle.getPayload() != null && bundle.getPayload().getPayload() != null) {
                 logger.info("sending payload of the bundle to AA, timestamp: " +
-                        bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                        bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 return new ReceivePackage(bundle.getPayload().getPayload(), bundle.getPrimary().getSrcNode());
             } else {
                 logger.warning("Payload was null from bundle timestamp: "
-                        + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                        + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 return null;
             }
         } catch (InterruptedException e) {
@@ -166,7 +166,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     public Timestamp send(byte[] payload, NodeID destNodeID) {
         if(payload != null && payload.length > 0) {
             Bundle bundle = bpaUtils.createBundle(payload, destNodeID, false, false);
-            logger.info("saving the bundle, timestamp: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+            logger.info("saving the bundle, timestamp: " + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
             // save to queue
             return bpaUtils.saveToQueue(bundle);
         }
@@ -184,7 +184,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     public Timestamp sendWithACK(byte[] payload, NodeID destNodeID) {
         if(payload != null && payload.length > 0) {
             Bundle bundle = bpaUtils.createBundle(payload, destNodeID, false, true);
-            logger.info("saving the bundle with ack flag, timestamp: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+            logger.info("saving the bundle with ack flag, timestamp: " + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
             // save to queue
             return bpaUtils.saveToQueue(bundle);
         }
@@ -202,7 +202,7 @@ class BPA implements BPAInterface {//package-private (not private/public)
     public Timestamp sendWithAdminFlag(byte[] payload, NodeID destNodeID) {
         if(payload != null && payload.length > 0) {
             Bundle bundle = bpaUtils.createBundle(payload, destNodeID, true, false);
-            logger.info("saving the bundle with admin flag, timestamp: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+            logger.info("saving the bundle with admin flag, timestamp: " + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
             // save to queue
             return bpaUtils.saveToQueue(bundle);
         }
@@ -217,12 +217,12 @@ class BPA implements BPAInterface {//package-private (not private/public)
      */
     @Override
     public Timestamp resendBundle(Timestamp bundleTimestamp) {
-        if(bundleTimestamp.getSeqNum() != -1) {
+        if(bundleTimestamp.seqNum() != -1) {
             bpaUtils.saveToQueue(bundleStatusMap.get(bundleTimestamp).bundle());
-            logger.info("Resending bundle with timestamp " + bundleTimestamp.getCreationTime().getTimeInMS());
+            logger.info("Resending bundle with timestamp " + bundleTimestamp.creationTime().getTimeInMS());
             return bundleTimestamp;
         }
-        logger.warning("Unable to send bundle: " + bundleTimestamp.getCreationTime().getTimeInMS());
+        logger.warning("Unable to send bundle: " + bundleTimestamp.creationTime().getTimeInMS());
         return Timestamp.UNKNOWN_TIMESTAMP;
     }
 

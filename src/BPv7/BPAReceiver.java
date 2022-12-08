@@ -94,7 +94,7 @@ public class BPAReceiver implements Runnable {
                 Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
                 sendBuffer.add(statusReportBundle);
                 logger.info("Sending status report for deleted bundle, timestamp: " +
-                        statusReportBundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                        statusReportBundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 continue;
             }
             // TODO: @ethan get id of current NodeID
@@ -114,12 +114,12 @@ public class BPAReceiver implements Runnable {
                         Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
                         sendStatusReportBuffer.add(new StatusReportUtilObject(nodeID, timestamp, DELIVERED));
                         logger.info("Sending status report for delivered bundle, timestamp: " +
-                                timestamp.getCreationTime().getTimeInMS());
+                                timestamp.creationTime().getTimeInMS());
                     }
                     // add bundle to receiveBuffer
                     receiveBuffer.add(bundle);
                     logger.info("Added bundle to the queue for AA, timestamp: " +
-                            bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                            bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 }
             } else {//FORWARD
                 // check if bundle has ack flag
@@ -128,11 +128,11 @@ public class BPAReceiver implements Runnable {
                     Timestamp timestamp = bundle.getPrimary().getCreationTimestamp();
                     sendStatusReportBuffer.add(new StatusReportUtilObject(nodeID, timestamp, FORWARDED));
                     logger.info("Sending status report for forwarded bundle, timestamp: " +
-                            timestamp.getCreationTime().getTimeInMS());
+                            timestamp.creationTime().getTimeInMS());
                 }
                 bpaUtils.saveToQueue(bundle);
                 logger.info("Added bundle to send to DTCP, timestamp: " +
-                        bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                        bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
             }
         }
     }

@@ -111,7 +111,7 @@ public class DTCP implements DTCPInterface {
         byte[] bundleAsBytes;
         try {
             // Get the CBOR converted Byte Array
-            bundleAsBytes = toBeSent.getNetworkEncoding();
+            bundleAsBytes = toBeSent.getNetworkEncoding(logger);
         } catch (InvalidPropertiesFormatException e) {
             // Something is wrong with the bundle, not DTCPs fault, so just drop it
             logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);

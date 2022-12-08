@@ -4,7 +4,6 @@ import java.security.InvalidParameterException;
 
 /**
  * Parameters involving the Scenario
- * todo:: Ethan -- store variables you might need at the top layer as well
  * @param scenarioID ID of scenario this represents
  * @param description description of scenario
  * @param expectedDownProbability The probability of a link having an expected disconnect/ going "down".
