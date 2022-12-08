@@ -132,7 +132,8 @@ public class DTCP implements DTCPInterface {
         } catch (IOException e) {
             // Something happened (probably on OS side) that made this fail, not our problem, drop it
             logger.log(Level.WARNING, "Failed to send bundle over socket <ip: " + dest
-                    + ", port: " + simParams.scenario.dtcpPort() + ">. BundleID: " + loggingID);
+                    + ", port: " + simParams.scenario.dtcpPort() + ">. BundleID: " + loggingID + ":: Exception = "
+                    + e.getMessage());
             return false;
         }
         // Should have been sent by now
