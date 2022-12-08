@@ -181,6 +181,10 @@ public class App {
                     }
                     //this function will exit if they aren't equal, so this is gratuitous but whatever
                     bConfirmed = checkMsg(syncMsg, rp.payload(), rp.sender());
+                    if(!bConfirmed) {
+                        logger.severe("BAD SYNC FROM B, ABORT ABORT ABORT");
+                        System.exit(SYSERR);
+                    }
                 } else if (fNID.equals(rp.sender())) {//check if from HOST_FORWARD
                     if(fConfirmed){
                         logger.warning("Received a second SYNC message from B!");
