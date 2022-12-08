@@ -244,9 +244,11 @@ public class App {
         //noinspection InfiniteLoopStatement
         while(true) {
             try {
-                aa.read(simParams.maxBundleSize);
+                ReceivePackage r = aa.read(simParams.maxBundleSize);
+                logger.warning("(warn to make it show up in console) Received message from " + r.sender().id());
                 //respond with messages back ONLY IF A IS NOT SENDING WITH ACK (it is right now)
             } catch (InterruptedException e) {
+                logger.severe("Interrupted exception from read! " + e.getMessage());
                 throw new RuntimeException(e);
             }
         }
@@ -268,7 +270,7 @@ public class App {
 
         //run simulation for length of time
         while((currTime = System.currentTimeMillis()) - startTime < simParams.simLenMS){
-            logger.info("Sending new message to B!  CurrTime = " + currTime);
+            logger.warning("(warn to make it show up in console) Sending new message to B!  CurrTime = " + currTime);
             ////send random strings of size [minBundleSize, maxBundleSize] to B
             //generate new random byte[]
             int numBytesToSend = rand.nextInt(simParams.minBundleSize, simParams.maxBundleSize+1);//exclusive on right
