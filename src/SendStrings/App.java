@@ -290,5 +290,6 @@ public class App {
                 //ignore
             }
         }
+        logger.info("Host " + simParams.hostID + " done sending!");
     }
 }

@@ -8,9 +8,12 @@ import Configs.SimulationParams;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.InvalidPropertiesFormatException;
 import java.util.logging.Logger;
 
 import static BPv7.utils.DispatchStatus.NONE;
@@ -72,18 +75,31 @@ public class BPAUtils {
      * Function to convert object to byte array (serialization)
      * @param obj status report object
      * @return byte array
+     * @throws InvalidPropertiesFormatException if bad status report
      */
-    public static byte[] objectToByteArray(StatusReport obj) {//todo:: call CBOR functions
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            ObjectOutputStream out;
-            out = new ObjectOutputStream(bos);
-            out.writeObject(obj);
-            out.flush();
-            return bos.toByteArray();
-        } catch (Exception e) {
-            logger.severe("Unable to convert object to byte array");
-            return null;
+    public static byte[] objectToByteArray(StatusReport obj) throws InvalidPropertiesFormatException{//todo:: call CBOR functions
+        ObjectMapper mapper = new ObjectMapper();
+
+
+        try {
+            byte[] ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(obj);
+            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
+            return ret;
+        } catch (JsonProcessingException e) {
+            logger.severe("ERROR! Unable to write status report to byte[]: " + e.getMessage());
+            throw new InvalidPropertiesFormatException(e.getMessage());
         }
+
+//        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+//            ObjectOutputStream out;
+//            out = new ObjectOutputStream(bos);
+//            out.writeObject(obj);
+//            out.flush();
+//            return bos.toByteArray();
+//        } catch (Exception e) {
+//            logger.severe("Unable to convert object to byte array");
+//            return null;
+//        }
         // ignore close exception
     }
 

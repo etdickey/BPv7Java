@@ -100,25 +100,25 @@ public class AdminElement implements AdminElementInterface {
         return obj;
     }
 
-    /**
-     * Convert an object to a bytes array
-     * @throws IOException
-     */
-    public static byte[] objectToByteArray(StatusReport obj) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(bos);   
-            out.writeObject(obj);
-            out.flush();
-            byte[] yourBytes = bos.toByteArray();
-            return yourBytes;
-        } finally {
-            try {
-                bos.close();
-            } catch (IOException ex) {
-                // ignore close exception
-            }
-        }
-    }
+//    /**
+//     * Convert an object to a bytes array
+//     * @throws IOException
+//     */
+//    public static byte[] objectToByteArray(StatusReport obj) throws IOException {
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        ObjectOutputStream out = null;
+//        try {
+//            out = new ObjectOutputStream(bos);
+//            out.writeObject(obj);
+//            out.flush();
+//            byte[] yourBytes = bos.toByteArray();
+//            return yourBytes;
+//        } finally {
+//            try {
+//                bos.close();
+//            } catch (IOException ex) {
+//                // ignore close exception
+//            }
+//        }
+//    }
 }
