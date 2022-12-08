@@ -84,21 +84,29 @@ public class BPAReceiver implements Runnable {
         //noinspection InfiniteLoopStatement
         while(true) {
             Bundle bundle = dtcp.recv();
-            logger.info("[BPNetStats] BPA Received bundle: " + bundle.getLoggingBundleId() + ". Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS));
 
 
             int deletionCode = bpaUtils.checkIfBundleToDelete(bundle);
             boolean deliveryFlag = bundle.getPrimary().getDLIV();
             boolean adminFlag = bundle.getPrimary().isAdminRecord();
             //if we are deleting it and an delivery ACK is requested (and not admin record), send a status report back to the sender 
-            if (deletionCode != -1 && deliveryFlag && !adminFlag) {//TODO:: aidan:: change -1 to be better
+            if (deletionCode != -1 && deliveryFlag && !adminFlag) {
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
                 Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
                 sendBuffer.add(statusReportBundle);
                 logger.info("Sending status report for deleted bundle, timestamp: " +
                         statusReportBundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                logger.info("[NetStats] Bundle Deleted: " + bundle.getLoggingBundleId()
+                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                        + "; Size of bundle payload (bytes):" + bundle.getPayload().getPayload().length);
                 continue;
             }
+
+
+            logger.info("[NetStats] BPA Received: " + bundle.getLoggingBundleId()
+                    + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS));
+
+
 
             // read nodeID of system and see if matches bundle destination ID
             if (bundle.getPrimary().getDestNode().id().equals(simulationParams.hostID)) {//REACHED DESTINATION (this node)
@@ -122,6 +130,9 @@ public class BPAReceiver implements Runnable {
                     logger.info("Added bundle to the queue for AA, timestamp: " +
                             bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 }
+                logger.info("[NetStats] Bundle Arrived: " + bundle.getLoggingBundleId()
+                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                        + "; Size of bundle payload (bytes):" + bundle.getPayload().getPayload().length);
             } else {//FORWARD
                 // check if bundle has ack flag
                 if (deliveryFlag && !adminFlag) {

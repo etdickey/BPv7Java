@@ -59,7 +59,6 @@ class ClientHandler implements Runnable{
             //May need to change this later
             Bundle bundle = (new Bundle()).deserializeNetworkEncoding(result, logger);
             String bundleID = bundle.getLoggingBundleId();
-            logger.log(Level.INFO, "[DTCPNetStats] Bundle Received: " + bundleID + ". Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS));
             String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
             if (DTCPUtils.isConnectionDownUnexpected(srcAddress))
                 logger.log(Level.INFO, "Dropping bundle due to unexpected down: " + bundleID);
@@ -67,7 +66,9 @@ class ClientHandler implements Runnable{
                 logger.log(Level.INFO, "Queue is full, dropping bundle:" + bundleID);
             }
             else {
-                logger.log(Level.INFO, "Added bundle to queue:" + bundleID);
+                logger.log(Level.INFO, "[NetStats] Bundle Received: " + bundleID
+                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                        + "; Size of bundle payload (bytes):" + bundle.getPayload().getPayload().length);
             }
         } catch (IOException e) {
             logger.log(Level.WARNING, "Client IOException, Bundle Dropped: " + e.getMessage());

@@ -122,7 +122,9 @@ public class DTCP implements DTCPInterface {
         try (Socket socket = new Socket(dest, simParams.scenario.dtcpPort())) {
             // Just write the whole bundle
             socket.getOutputStream().write(bundleAsBytes);
-            logger.log(Level.INFO, "[DTCPNetStats] Successfully sent bundle. BundleID: " + loggingID + ". Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - toBeSent.getPrimary().getCreationTimestamp().creationTime().timeInMS));
+            logger.log(Level.INFO, "[NetStats] Bundle Sent: " + loggingID
+                                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - toBeSent.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                                        + "; Size of bundle payload (bytes):" + toBeSent.getPayload().getPayload().length);
         } catch (UnknownHostException e) {
             // Something is wrong on internet network backside, not our problem, drop it
             logger.log(Level.WARNING, "Failed to find destination host of Bundle. BundleID: " + loggingID);

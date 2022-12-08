@@ -51,6 +51,7 @@ class DTCPServer implements Runnable {
     public void run() {
         ExecutorService threadPool = null;
         try {//try-with-resources doesn't work on ExecutorService thread pools
+            //noinspection resource
             threadPool = Executors.newFixedThreadPool(convParams.nThreads);
             try (ServerSocket serverSocket = new ServerSocket(simParams.scenario.dtcpPort(), convParams.maxConnections)) {
                 logger.log(Level.INFO, "DTCP Server Started");
