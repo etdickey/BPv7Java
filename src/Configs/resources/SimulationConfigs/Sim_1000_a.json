@@ -18,5 +18,5 @@
   },
   "minSendDelayMS": 150,
   "maxSendDelayMS": 250,
-  "simLenSec": 1
+  "simLenSec": 10
 }
