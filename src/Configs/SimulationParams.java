@@ -165,8 +165,8 @@ public class SimulationParams {
                             @JsonProperty("scenarioID") int scenarioID,
                             @JsonProperty("maxBundleSize") int maxBundleSize,
                             @JsonProperty("responseActions") ReasonCodeResponseActions responseActions) throws InvalidParameterException {
-        this.hostID = hostID;
-        this.currHost = Host.getHost(hostID);
+        this.hostID = hostID.toLowerCase();
+        this.currHost = Host.getHost(hostID.toLowerCase());
         this.scenarioID = scenarioID;//todo:: validate scenario num (likely need an enum like Host)
         this.maxBundleSize = maxBundleSize;
         this.responseActions = responseActions;

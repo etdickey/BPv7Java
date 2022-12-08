@@ -3,6 +3,7 @@ package Configs;
 import java.io.File;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -194,8 +195,8 @@ public class ConvergenceLayerParams {
             throw new InvalidParameterException("Invalid queueTimeoutInMillis: " + queueTimeoutInMillis + ", must be (strictly) positive");
 
         // Set the values
-        this.idToAddressRoutingMap = idToAddressRoutingMap;
-        this.thisAddress = thisAddress;
+        this.idToAddressRoutingMap = idToAddressRoutingMap;//todo:: @aidan please convert all fields to lower case for consistency
+        this.thisAddress = thisAddress.toLowerCase(Locale.ROOT);
         this.queueCapacity = queueCapacity;
         this.nThreads = nThreads;
         this.maxConnections = maxConnections;
