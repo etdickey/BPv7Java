@@ -101,4 +101,15 @@ public class ApplicationAgent implements ApplicationAgentInterface {
             return false;
         }
     }
+
+    /**
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
+     */
+    @Override
+    public Timestamp sendWithACK(byte[] payload, NodeID destNodeID) {
+        return BPA.getInstance().sendWithACK(payload, destNodeID);
+    }
 }

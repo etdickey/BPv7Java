@@ -37,4 +37,12 @@ public interface ApplicationAgentInterface {
      * @return true if the “packet” has reached the next hop ONLY (else false)
      */
     boolean checkSent(Timestamp packetTimestamp);
+
+    /**
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
+     */
+    Timestamp sendWithACK(byte[] payload, NodeID destNodeID);
 }
