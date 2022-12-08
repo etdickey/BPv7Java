@@ -161,9 +161,9 @@ public class DTCP implements DTCPInterface {
     @Override
     public ReachableStatus canReach(NodeID ID) {
         String dest = nodeToNetwork(ID);
-        if (dest == null || !convParams.idToAddressRoutingMap.containsKey(dest))
+        if (!convParams.idToAddressRoutingMap.containsKey(ID.id()))
             return ReachableStatus.UNKNOWN_ID;
-        if (convParams.idToAddressRoutingMap.get(dest) == null)
+        if (dest == null)
             return ReachableStatus.NO_ROUTE;
         if (DTCPUtils.isConnectionDownExpected(dest))
             return ReachableStatus.EXPECTED_DOWN;
