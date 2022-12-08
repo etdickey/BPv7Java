@@ -103,7 +103,7 @@ public class App {
         (new App()).doSync();
 
         //run simulations
-        logger.info("Host " + simParams.hostID + ":: Starting scenario #" + simParams.scenario.toStringShort());
+        logger.warning("Host " + simParams.hostID + ":: Starting scenario #" + simParams.scenario.toStringShort());
         switch(SimulationParams.getInstance().currHost){
             //run multiple simulations here and record stats along the way
             case HOST_A -> (new App()).sendThoseStrings();
