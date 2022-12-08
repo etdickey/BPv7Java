@@ -1,6 +1,8 @@
 package BPv7.containers;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A class containing specification for bundle status reports and all its items:
@@ -81,7 +83,13 @@ public class StatusReport extends AdminRecord {
      * @param sBundleNodeID source of the bundle whose status is being reported
      * @param cTimeStamp creation timestamp of the bundle whose status is being reported
      */
-    public StatusReport(BundleStatusItem received, BundleStatusItem forwarded, BundleStatusItem delivered, BundleStatusItem deleted, int rCode, NodeID sBundleNodeID, Timestamp cTimeStamp) {
+    public StatusReport(BundleStatusItem received,
+                        BundleStatusItem forwarded,
+                        BundleStatusItem delivered,
+                        BundleStatusItem deleted,
+                        int rCode,
+                        NodeID sBundleNodeID,
+                        Timestamp cTimeStamp) {
         super(RECORD_TYPE_STATUS_REPORT);
         statusIndicator[0] = received;
         statusIndicator[1] = forwarded;
@@ -90,6 +98,31 @@ public class StatusReport extends AdminRecord {
         reasonCode = rCode;
         sourceBundleNodeID = sBundleNodeID;
         creationTimestamp = cTimeStamp;
+    }
+
+    /**
+     * Constructs a Status Report (used for Jackson Json serialization)
+     * @param statusIndicator [received, forwarded, delivered, deleted]
+     * @param reasonCode reason for transmission of status report
+     * @param sourceBundleNodeID source of the bundle whose status is being reported
+     * @param creationTimestamp creation timestamp of the bundle whose status is being reported
+     * @param fragmentOffset fragment offset, if present
+     * @param lengthOfPayload length of payload, if present
+     */
+    @JsonCreator
+    public StatusReport(@JsonProperty("statusIndicator") BundleStatusItem[] statusIndicator,
+                        @JsonProperty("reasonCode") int reasonCode,
+                        @JsonProperty("sourceBundleNodeID") NodeID sourceBundleNodeID,
+                        @JsonProperty("creationTimestamp") Timestamp creationTimestamp,
+                        @JsonProperty("fragmentOffset") int fragmentOffset,
+                        @JsonProperty("lengthOfPayload") int lengthOfPayload) {
+        super(RECORD_TYPE_STATUS_REPORT);
+        this.statusIndicator = statusIndicator;
+        this.reasonCode = reasonCode;
+        this.sourceBundleNodeID = sourceBundleNodeID;
+        this.creationTimestamp = creationTimestamp;
+        this.fragmentOffset = fragmentOffset;
+        this.lengthOfPayload = lengthOfPayload;
     }
 
     /** setter for fragment offset if present */
