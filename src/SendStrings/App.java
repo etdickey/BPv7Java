@@ -101,17 +101,17 @@ public class App {
         (new App()).doSync();
 
         //run simulations
-//        switch(SimulationParams.getInstance().currHost){
-//            //run multiple simulations here and record stats along the way
-//            case HOST_A -> (new App()).sendThoseStrings();
-//            //get ready to receive!
-//            case HOST_B -> (new App()).receiveThoseStrings();
-//            //note: HOST_FORWARD just needs BPA to be running, it doesn't receive anything
-////            case HOST_FORWARDING -> {
-////                //noinspection InfiniteLoopStatement,StatementWithEmptyBody
-////                while(true) ;
-////            }
-//        }
+        switch(SimulationParams.getInstance().currHost){
+            //run multiple simulations here and record stats along the way
+            case HOST_A -> (new App()).sendThoseStrings();
+            //get ready to receive!
+            case HOST_B -> (new App()).receiveThoseStrings();
+            //note: HOST_FORWARD just needs BPA to be running, it doesn't receive anything
+//            case HOST_FORWARDING -> {
+//                //noinspection InfiniteLoopStatement,StatementWithEmptyBody
+//                while(true) ;
+//            }
+        }
 
         logger.warning("All done with tests (warning so it will show up on cmd line)");
     }
