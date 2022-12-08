@@ -1,6 +1,6 @@
 {
   "scenarioID" : 0,
-  "description" : "Long time periods, but low expected distruptions",
+  "description" : "Long time periods, but low expected disruptions, long lifetime",
   "expectedDownProbability" : 0.0625,
   "unexpectedDownProbability" : 0.015625,
   "milliPerDownPeriod" : 2000,

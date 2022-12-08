@@ -1,6 +1,7 @@
 {
   "hostID" : "forwarding",
   "scenarioID": 0,
+  "minBundleSize" : 20,
   "maxBundleSize" : 1000,
   "responseActions": {
     "lifetimeExpiredAction": true,
@@ -14,5 +15,8 @@
     "hopLimitExceededAction":  true,
     "trafficParedAction": true,
     "blockUnsupportedAction":  true
-  }
+  },
+  "minSendDelaysMs": 0,
+  "maxSendDelayMS": 50,
+  "simLenSec": 10
 }
