@@ -92,6 +92,8 @@ public class BPADispatcher implements Runnable {
                 logger.info("DTCP reported: Can reach destination nodeID");
                 if(dtcp.send(bundleToSend)) {//try to send
                     bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, SENT));
+                    logger.info("[NetStats] BPA Sent: " + bundleToSend.getLoggingBundleId()
+                                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundleToSend.getPrimary().getCreationTimestamp().creationTime().timeInMS));
                     logger.info("Sent bundle to DTCP and updated the dispatch status for bundle timestamp: " +
                             bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 } else {//failed to send
@@ -109,6 +111,9 @@ public class BPADispatcher implements Runnable {
                                     bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                         }
                         bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, DELETED));
+                        logger.info("[NetStats] Bundle Deleted: " + bundleToSend.getLoggingBundleId()
+                                            + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundleToSend.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                                            + "; Size of bundle payload (bytes):" + bundleToSend.getPayload().getPayload().length);
                         logger.info("deleted the bundle, timestamp: " +
                                 bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                     }
@@ -120,6 +125,7 @@ public class BPADispatcher implements Runnable {
                             logger.log(Level.INFO, "Bundle not deliverable due to expected down and reached lifetime. Bundle: " + bundleToSend.getLoggingBundleId());
                         } else {
                             // This means it's temporarily down, but might not be in the future and hasn't reached lifetime, so re add it to the (back of) the queue
+                            //noinspection ResultOfMethodCallIgnored
                             sendBuffer.offer(bundleToSend);
                             continue;
                         }
