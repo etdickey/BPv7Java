@@ -7,6 +7,7 @@ import Configs.SimulationParams;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.logging.Logger;
 
 import static BPv7.BPA.*;
@@ -92,10 +93,16 @@ public class BPAReceiver implements Runnable {
             //if we are deleting it and an delivery ACK is requested (and not admin record), send a status report back to the sender 
             if (deletionCode != -1 && deliveryFlag && !adminFlag) {
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
-                Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
-                sendBuffer.add(statusReportBundle);
-                logger.info("Sending status report for deleted bundle, timestamp: " +
-                        statusReportBundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                Bundle statusReportBundle;
+                try {
+                    statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundle.getPrimary().getSrcNode(), true, false);
+                    sendBuffer.add(statusReportBundle);
+                    logger.info("Sending status report for deleted bundle, timestamp: " +
+                            statusReportBundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                } catch (InvalidPropertiesFormatException e) {
+                    logger.severe("Unable to parse status report! " + e.getMessage());
+                    //drop status report
+                }
                 logger.info("[NetStats] Bundle Deleted: " + bundle.getLoggingBundleId()
                         + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS)
                         + "; Size of bundle payload (bytes):" + bundle.getPayload().getPayload().length);

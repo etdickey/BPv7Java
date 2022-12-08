@@ -7,6 +7,7 @@ import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,10 +106,16 @@ public class BPADispatcher implements Runnable {
                         // send status report if ack requested
                         if (deliverFlag) {
                             StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 1);
-                            Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
-                            sendBuffer.add(statusReportBundle);
-                            logger.info("Sending status report, timestamp: " +
-                                    bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                            Bundle statusReportBundle;
+                            try {
+                                statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                                sendBuffer.add(statusReportBundle);
+                                logger.info("Sending status report, timestamp: " +
+                                        bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                            } catch (InvalidPropertiesFormatException e) {
+                                logger.severe("Unable to parse status report! " + e.getMessage());
+                                //drop status report
+                            }
                         }
                         bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, DELETED));
                         logger.info("[NetStats] Bundle Deleted: " + bundleToSend.getLoggingBundleId()
@@ -138,10 +145,16 @@ public class BPADispatcher implements Runnable {
                 // send status report if ack requested
                 if (deliverFlag) {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);
-                    Bundle statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
-                    sendBuffer.add(statusReportBundle);
-                    logger.info("deleted the bundle. Sending status report, timestamp: " +
-                            bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                    Bundle statusReportBundle;
+                    try {
+                        statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                        sendBuffer.add(statusReportBundle);
+                        logger.info("deleted the bundle. Sending status report, timestamp: " +
+                                bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                    } catch (InvalidPropertiesFormatException e) {
+                        logger.severe("Unable to parse status report! " + e.getMessage());
+                        //drop status report
+                    }
                 }
 
             }
