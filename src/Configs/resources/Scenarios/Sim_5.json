@@ -1,0 +1,9 @@
+{
+  "scenarioID" : 0,
+  "description" : "Long time periods, but low expected distruptions",
+  "expectedDownProbability" : 0.0625,
+  "unexpectedDownProbability" : 0.015625,
+  "milliPerDownPeriod" : 2000,
+  "dtcpPort" : 3827,
+  "bundleLifetimeMS": 50000
+}

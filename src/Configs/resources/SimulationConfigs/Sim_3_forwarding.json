@@ -1,0 +1,18 @@
+{
+  "hostID" : "forwarding",
+  "scenarioID": 0,
+  "maxBundleSize" : 1000,
+  "responseActions": {
+    "lifetimeExpiredAction": true,
+    "overUnidirectionalAction": true,
+    "transmissionCancelledAction":  true,
+    "depletedStorageAction": true,
+    "destinationUnavailableAction":  true,
+    "noKnownRouteToDestinationAction": true,
+    "noTimelyContactAction":  true,
+    "blockUnintelligibleAction": true,
+    "hopLimitExceededAction":  true,
+    "trafficParedAction": true,
+    "blockUnsupportedAction":  true
+  }
+}
