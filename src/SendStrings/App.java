@@ -229,6 +229,7 @@ public class App {
 
             } else {//something is very wrong
                 logger.severe("Received message from unknown sender, NodeID = \"" + rp.sender().id() + "\"");
+                aa.send((new String("ABORT ABORT ABORT")).getBytes(), aNID);
                 System.exit(SYSERR);
             }
         } catch (InterruptedException e) {
