@@ -31,7 +31,7 @@ public class App {
     /** list of all possible host IDs */
     private static final String[] hostids = {"A", "Forwarding", "B"};//converted to lowercase
     /** list of all possible simulation IDs */
-    private static final int[] simulationids = {0, 1, 2, 3, 4,
+    public static final int[] simulationids = {0, 1, 2, 3, 4,
                                                 1000, 1001, 1010, 1011,
                                                 1100, 1101, 1110, 1111};
     /** error message to display when program is not run with correct parameters */

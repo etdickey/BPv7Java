@@ -1,6 +1,11 @@
 package Configs;
 
+import SendStrings.App;
+
 import java.security.InvalidParameterException;
+import java.util.Arrays;
+
+import static SendStrings.App.simulationids;
 
 /**
  * Parameters involving the Scenario
@@ -29,8 +34,8 @@ public record Scenario(int scenarioID, String description, double expectedDownPr
      */
     public Scenario {
         // Check parameters
-        if (scenarioID < 0 || scenarioID > 2)
-            throw new InvalidParameterException("Scenario: ScenarioID must be in {0, 1, 2}.");
+        if (Arrays.stream(simulationids).noneMatch(id -> id == scenarioID))
+            throw new InvalidParameterException("Scenario: ScenarioID must be in " + Arrays.toString(simulationids));
         if (description == null)
             throw new InvalidParameterException("Scenario: Description cannot be null");
         if (expectedDownProbability < 0 || expectedDownProbability >= 1)
