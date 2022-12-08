@@ -3,6 +3,7 @@ package DTCP;
 import Configs.ConvergenceLayerParams;
 import Configs.SimulationParams;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.*;
 import java.util.logging.Level;
@@ -85,7 +86,11 @@ class DTCPUtils {
                 // result is the double representing where on [0,1) the current time frame check landed on
 //                result = (new Random(connectionID ^ timeFrame)).nextDouble();
                 //THIS NEEDS TO BE EXACTLY KNOWN ON BOTH SIDES OF THE CONNECTION (symmetric expected donws)
-                result = (new Random(connectionID + timeFrame)).nextDouble();
+                Random rand = new Random(connectionID + timeFrame);
+                result = rand.nextDouble();
+                for(int i=0; i<timeFrame%16; i++)
+                    result = rand.nextDouble();
+
                 connectionDownTimeFrame.put(connectionID, result);
                 logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + ", Value: " + result);
             }
