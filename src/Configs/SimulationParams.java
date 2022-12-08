@@ -85,10 +85,14 @@ public class SimulationParams {
     //todo:: define transmission timeout (how long to try to send a bundle, right now = 1min)
 
     /** Maximum size of a bundle's payload (easier for now) when sending from this specific host */
-    public final int maxBundleSize;
+    public final int minBundleSize, maxBundleSize;
 
     /** set of actions to take by Admin Element when responding to bundle loss Status Report */
     public final ReasonCodeResponseActions responseActions;
+
+    /** delay between sends at the Application layer (send strings) */
+    public final int minSendDelayMS, maxSendDelayMS;
+
 
 
 
@@ -163,13 +167,19 @@ public class SimulationParams {
     @JsonCreator
     public SimulationParams(@JsonProperty("hostID") String hostID,
                             @JsonProperty("scenarioID") int scenarioID,
+                            @JsonProperty("minBundleSize") int minBundleSize,
                             @JsonProperty("maxBundleSize") int maxBundleSize,
-                            @JsonProperty("responseActions") ReasonCodeResponseActions responseActions) throws InvalidParameterException {
+                            @JsonProperty("responseActions") ReasonCodeResponseActions responseActions,
+                            @JsonProperty("minSendDelayMS") int minSendDelayMS,
+                            @JsonProperty("maxSendDelayMS") int maxSendDelayMS) throws InvalidParameterException {
         this.hostID = hostID.toLowerCase();
         this.currHost = Host.getHost(hostID.toLowerCase());
         this.scenarioID = scenarioID;//todo:: validate scenario num (likely need an enum like Host)
+        this.minBundleSize = minBundleSize;
         this.maxBundleSize = maxBundleSize;
         this.responseActions = responseActions;
+        this.minSendDelayMS = minSendDelayMS;
+        this.maxSendDelayMS = maxSendDelayMS;
 
         //parse scenario from file ("dir/scenarios/Sim_0.json")
         String sceneFile = resourceDir + scenarioFolder + "Sim_" + scenarioID + cfgFileExtension;
