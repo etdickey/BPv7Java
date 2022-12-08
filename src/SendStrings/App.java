@@ -268,6 +268,7 @@ public class App {
 
         //run simulation for length of time
         while((currTime = System.currentTimeMillis()) - startTime < simParams.simLenMS){
+            logger.info("Sending new message to B!  CurrTime = " + currTime);
             ////send random strings of size [minBundleSize, maxBundleSize] to B
             //generate new random byte[]
             int numBytesToSend = rand.nextInt(simParams.minBundleSize, simParams.maxBundleSize+1);//exclusive on right

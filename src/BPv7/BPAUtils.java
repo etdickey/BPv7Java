@@ -82,9 +82,8 @@ public class BPAUtils {
 
 
         try {
-            byte[] ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(obj);
-            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
-            return ret;
+            //            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(obj);
         } catch (JsonProcessingException e) {
             logger.severe("ERROR! Unable to write status report to byte[]: " + e.getMessage());
             throw new InvalidPropertiesFormatException(e.getMessage());
