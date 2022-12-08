@@ -1,6 +1,6 @@
 {
   "scenarioID" : 1011,
-  "description" : "No distruptions, pure bundles over TCP",
+  "description" : "Low density of packets, large packets, high density of expected downs",
   "expectedDownProbability" : 0.25,
   "unexpectedDownProbability" : 0.0,
   "milliPerDownPeriod" : 100,

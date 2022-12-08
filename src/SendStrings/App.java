@@ -101,6 +101,7 @@ public class App {
         (new App()).doSync();
 
         //run simulations
+        logger.info("Host " + simParams.hostID + ":: Starting scenario #" + simParams.scenario.toStringShort());
         switch(SimulationParams.getInstance().currHost){
             //run multiple simulations here and record stats along the way
             case HOST_A -> (new App()).sendThoseStrings();
@@ -260,8 +261,6 @@ public class App {
      * Runs one simulation to completion
      */
     public void sendThoseStrings(){
-        logger.info("Starting scenario #" + simParams.scenario.toStringShort());
-
         //Get BP thingy!
         ApplicationAgentInterface aa = ApplicationAgent.getInstance();
 
