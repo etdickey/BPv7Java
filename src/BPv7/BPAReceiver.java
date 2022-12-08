@@ -1,9 +1,6 @@
 package BPv7;
 
-import BPv7.containers.Bundle;
-import BPv7.containers.NodeID;
-import BPv7.containers.StatusReport;
-import BPv7.containers.Timestamp;
+import BPv7.containers.*;
 import BPv7.utils.BundleStatusReport;
 import BPv7.utils.StatusReportUtilObject;
 import Configs.SimulationParams;
@@ -87,7 +84,8 @@ public class BPAReceiver implements Runnable {
         //noinspection InfiniteLoopStatement
         while(true) {
             Bundle bundle = dtcp.recv();
-            logger.info("BPA Received bundle: " + bundle.getLoggingBundleId());
+            logger.info("[BPNetStats] BPA Received bundle: " + bundle.getLoggingBundleId() + ". Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS));
+
 
             int deletionCode = bpaUtils.checkIfBundleToDelete(bundle);
             boolean deliveryFlag = bundle.getPrimary().getDLIV();

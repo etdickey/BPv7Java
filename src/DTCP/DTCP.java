@@ -1,6 +1,7 @@
 package DTCP;
 
 import BPv7.containers.Bundle;
+import BPv7.containers.DTNTime;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import Configs.SimulationParams;
@@ -112,6 +113,7 @@ public class DTCP implements DTCPInterface {
         try {
             // Get the CBOR converted Byte Array
             bundleAsBytes = toBeSent.getNetworkEncoding(logger);
+
         } catch (InvalidPropertiesFormatException e) {
             // Something is wrong with the bundle, not DTCPs fault, so just drop it
             logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
@@ -120,7 +122,7 @@ public class DTCP implements DTCPInterface {
         try (Socket socket = new Socket(dest, simParams.scenario.dtcpPort())) {
             // Just write the whole bundle
             socket.getOutputStream().write(bundleAsBytes);
-            logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);
+            logger.log(Level.INFO, "[DTCPNetStats] Successfully sent bundle. BundleID: " + loggingID + ". Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - toBeSent.getPrimary().getCreationTimestamp().creationTime().timeInMS));
         } catch (UnknownHostException e) {
             // Something is wrong on internet network backside, not our problem, drop it
             logger.log(Level.WARNING, "Failed to find destination host of Bundle. BundleID: " + loggingID);
