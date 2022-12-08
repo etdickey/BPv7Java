@@ -84,7 +84,8 @@ class DTCPUtils {
                 }
                 // result is the double representing where on [0,1) the current time frame check landed on
 //                result = (new Random(connectionID ^ timeFrame)).nextDouble();
-                result = rand.nextDouble();
+                //THIS NEEDS TO BE EXACTLY KNOWN ON BOTH SIDES OF THE CONNECTION (symmetric expected donws)
+                result = (new Random(connectionID + timeFrame)).nextDouble();
                 connectionDownTimeFrame.put(connectionID, result);
                 logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + ", Value: " + result);
             }
