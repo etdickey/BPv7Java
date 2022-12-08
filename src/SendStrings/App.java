@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -106,6 +107,10 @@ public class App {
             //get ready to receive!
             case HOST_B -> (new App()).receiveThoseStrings();
             //note: HOST_FORWARD just needs BPA to be running, it doesn't receive anything
+            case HOST_FORWARDING -> {
+                //noinspection InfiniteLoopStatement,StatementWithEmptyBody
+                while(true) ;
+            }
         }
     }
 
@@ -232,14 +237,20 @@ public class App {
      * Receives for one simulation to completion
      */
     private void receiveThoseStrings() {
-    }
+        //Get BP thingy!
+        ApplicationAgentInterface aa = ApplicationAgent.getInstance();
 
-//    /**
-//     * Writes a new general config file out
-//     */
-//    public void writeSimulationGeneralConfigs(){
-//
-//    }
+        //receive messages from A FOREVERRRR
+        //noinspection InfiniteLoopStatement
+        while(true) {
+            try {
+                aa.read(simParams.maxBundleSize);
+                //respond with messages back ONLY IF A IS NOT SENDING WITH ACK (it is right now)
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     /**
      * Runs one simulation to completion
@@ -247,13 +258,37 @@ public class App {
     public void sendThoseStrings(){
         logger.info("Starting scenario #" + simParams.scenario.toStringShort());
 
-        //todo:: receive response from other two hosts
+        //Get BP thingy!
+        ApplicationAgentInterface aa = ApplicationAgent.getInstance();
 
-        //todo:: send strings/simulate and drive network
+        //send strings/simulate and drive network
+        long startTime = System.currentTimeMillis(), currTime;
+        Random rand = new Random(System.currentTimeMillis());
+        NodeID bid = new NodeID(Host.HOST_B.getName());
 
-        //todo:: basic test: just send "strings" to the other side and see if they receive it, then send exact message back
+        //run simulation for length of time
+        while((currTime = System.currentTimeMillis()) - startTime < simParams.simLenMS){
+            ////send random strings of size [minBundleSize, maxBundleSize] to B
+            //generate new random byte[]
+            int numBytesToSend = rand.nextInt(simParams.minBundleSize, simParams.maxBundleSize+1);//exclusive on right
+            byte[] toSend = new byte[numBytesToSend];
+            rand.nextBytes(toSend);
 
-        //todo:: stress test: do max bundle size of 1000 bytes?
+            //send random bytes
+            aa.sendWithACK(toSend, bid);
 
+            //occasionally empty the receive buffer, I guess? NOPE, not if we are sending with ACK requested
+
+            //delay/sleep for [minSendDelayMS, maxSendDelayMS]
+            long toSleepFor = rand.nextLong(simParams.minSendDelayMS, simParams.maxSendDelayMS+1);//exclusive on right
+            try {
+                //left over = allotted time - time used
+                long timeLeftOver = Math.max(0, toSleepFor - (System.currentTimeMillis() - currTime));
+                //noinspection BusyWait
+                Thread.sleep(timeLeftOver);
+            } catch (InterruptedException e) {
+                //ignore
+            }
+        }
     }
 }
