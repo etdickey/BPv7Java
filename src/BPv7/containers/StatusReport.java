@@ -1,5 +1,7 @@
 package BPv7.containers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * A class containing specification for bundle status reports and all its items:
  *  Status Indicator, reason code, source bundle's nodeID, and creation time stamp.
@@ -102,4 +104,18 @@ public class StatusReport extends AdminRecord {
     public int getReasonCode() { return this.reasonCode; }
     public NodeID getSourceBundleNodeID() { return this.sourceBundleNodeID; }
     public Timestamp getCreationTimestamp() { return this.creationTimestamp; }
+
+
+
+    /**
+     * Generates a logging id for the given status report, of the form:
+     * original bundle src ID:[SRC NODE ID]::creationTime:[CREATION TIMESTAMP in MS]::seqNum:[SEQ NUMBER]
+     * @return the bundle logging ID
+     */
+    @JsonIgnore
+    public String getLoggingId() {
+        return "original bundle src ID:" + this.getSourceBundleNodeID().id()
+                + "::creationTime:" + this.getCreationTimestamp().creationTime().getTimeInMS()
+                + "::seqNum:" + this.getCreationTimestamp().seqNum();
+    }
 }

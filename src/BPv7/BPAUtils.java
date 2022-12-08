@@ -10,7 +10,6 @@ import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.logging.Logger;
 
@@ -33,22 +32,21 @@ public class BPAUtils {
      * (caching ok because all variables are final)
      */
     private static BPAUtils instance = null;
-    /**
-     * BPA class instance
-     */
-    private static BPA bpa = BPA.getInstance();
+//    /**
+//     * BPA class instance
+//     */
+//    private static final BPA bpa = BPA.getInstance();
     /**
      * DTCP class instance
      */
-    private static DTCPInterface dtcp = DTCP.getInstance();
+    private static final DTCPInterface dtcp = DTCP.getInstance();
 
     //functions!
 
     /**
      * Hiding this constructor to force use of singleton accessor getInstance()
      */
-    protected BPAUtils() {
-    }
+    protected BPAUtils() {}
 
     /**
      * Gets the singleton instance of the BPA
@@ -58,6 +56,7 @@ public class BPAUtils {
      * (null -> instance), thus only one set of double-checked locking is needed
      */
     public static BPAUtils getInstance() {
+        //noinspection DoubleCheckedLocking
         if (instance == null) {
             synchronized (BPAUtils.class) {
                 if (instance == null) {
@@ -75,9 +74,8 @@ public class BPAUtils {
      * @return byte array
      */
     public static byte[] objectToByteArray(StatusReport obj) {//todo:: call CBOR functions
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out;
-        try {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            ObjectOutputStream out;
             out = new ObjectOutputStream(bos);
             out.writeObject(obj);
             out.flush();
@@ -85,13 +83,8 @@ public class BPAUtils {
         } catch (Exception e) {
             logger.severe("Unable to convert object to byte array");
             return null;
-        } finally {
-            try {
-                bos.close();
-            } catch (IOException ex) {
-                // ignore close exception
-            }
         }
+        // ignore close exception
     }
 
     /**
@@ -99,8 +92,9 @@ public class BPAUtils {
      * @param key: bundle key
      * @return status of the bundle, NONE if invalid key
      */
+    @SuppressWarnings("unused")
     public DispatchStatus getBundleStatus(Timestamp key) {
-        if (key.seqNum() != -1 && bpa.bundleStatusMap.containsKey(key)) {
+        if (key.seqNum() != -1 && BPA.bundleStatusMap.containsKey(key)) {
             DispatchStatus status = BPA.bundleStatusMap.get(key).status();
             logger.info("Bundle status" + status + " for timestamp " + key.creationTime().getTimeInMS());
             return status;
@@ -115,9 +109,9 @@ public class BPAUtils {
      * @return creation Timestamp of the bundle
      */
     public Timestamp saveToQueue(Bundle bundle) {
-        bpa.sendBuffer.add(bundle);
+        BPA.sendBuffer.add(bundle);
         Timestamp creationTimestamp = bundle.getPrimary().getCreationTimestamp();
-        bpa.bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
+        BPA.bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
         logger.info("save the bundle in the sending queue: " + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
         return creationTimestamp;
     }
@@ -187,6 +181,7 @@ public class BPAUtils {
         BundleStatusItem deleted = new BundleStatusItem(status == BundleStatusReport.DELETED);
 
         StatusReport rep = new StatusReport(received, forwarded, delivered, deleted, rCode, destNode, timestamp);
+        logger.info("Created status report for sending: " + rep.getLoggingId());
         //send the status report
         return rep;
     }

@@ -34,19 +34,19 @@ public class BPAReceiver implements Runnable {
     /**
      * dtcp class Instance
      */
-    private static DTCPInterface dtcp = DTCP.getInstance();
+    private static final DTCPInterface dtcp = DTCP.getInstance();
     /**
      * Simulate params class Instance
      */
-    private static SimulationParams simulationParams = SimulationParams.getInstance();
-    /**
-     * BPA class Instance
-     */
-    private static BPA bpa = BPA.getInstance();
+    private static final SimulationParams simulationParams = SimulationParams.getInstance();
+//    /**
+//     * BPA class Instance
+//     */
+//    private static final BPA bpa = BPA.getInstance();
     /**
      * BPA util class Instance
      */
-    private static BPAUtils bpaUtils = BPAUtils.getInstance();
+    private static final BPAUtils bpaUtils = BPAUtils.getInstance();
 
 
     //functions!
@@ -59,6 +59,7 @@ public class BPAReceiver implements Runnable {
      *  (null -> instance), thus only one set of double-checked locking is needed
      */
     public static BPAReceiver getInstance() {
+        //noinspection DoubleCheckedLocking
         if(instance == null){
             synchronized (BPAReceiver.class) {
                 if(instance == null) {
@@ -83,6 +84,7 @@ public class BPAReceiver implements Runnable {
      */
     @Override
     public void run() {
+        //noinspection InfiniteLoopStatement
         while(true) {
             Bundle bundle = dtcp.recv();
             logger.info("BPA Received bundle: " + bundle.getLoggingBundleId());
