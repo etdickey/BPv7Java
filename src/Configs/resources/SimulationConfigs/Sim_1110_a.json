@@ -1,0 +1,22 @@
+{
+  "hostID" : "a",
+  "scenarioID": 1110,
+  "minBundleSize" : 9000,
+  "maxBundleSize" : 11000,
+  "responseActions": {
+    "lifetimeExpiredAction": true,
+    "overUnidirectionalAction": true,
+    "transmissionCancelledAction":  true,
+    "depletedStorageAction": true,
+    "destinationUnavailableAction":  true,
+    "noKnownRouteToDestinationAction": true,
+    "noTimelyContactAction":  true,
+    "blockUnintelligibleAction": true,
+    "hopLimitExceededAction":  true,
+    "trafficParedAction": true,
+    "blockUnsupportedAction":  true
+  },
+  "minSendDelayMS": 45,
+  "maxSendDelayMS": 55,
+  "simLenSec": 10
+}

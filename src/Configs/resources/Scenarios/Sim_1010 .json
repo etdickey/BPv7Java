@@ -1,0 +1,9 @@
+{
+  "scenarioID" : 1010,
+  "description" : "No distruptions, pure bundles over TCP",
+  "expectedDownProbability" : 0.001,
+  "unexpectedDownProbability" : 0.0,
+  "milliPerDownPeriod" : 100,
+  "dtcpPort" : 3827,
+  "bundleLifetimeMS": 50000
+}
