@@ -58,6 +58,7 @@ class DTCPServer implements Runnable {
                 //noinspection InfiniteLoopStatement
                 while (true) {
                     try (Socket client = serverSocket.accept()) {
+                        logger.info("Connected to client! " + client.getRemoteSocketAddress().toString());
                         client.setSoTimeout(convParams.connectionTimeout);
                         threadPool.execute(new ClientHandler(client, outQueue));
                     } catch (IOException e) {
