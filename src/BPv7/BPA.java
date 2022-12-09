@@ -4,6 +4,7 @@ package BPv7;
 import BPv7.containers.*;
 import BPv7.interfaces.BPAInterface;
 import BPv7.utils.BundleDispatchStatusMap;
+import BPv7.utils.DispatchStatus;
 import BPv7.utils.StatusReportUtilObject;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 class BPA implements BPAInterface {//package-private (not private/public)
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(BPA.class.getName());
+    public static Object resendBundle;
 
     /**
      * The only instance of this class allowed in the entire program
@@ -217,5 +219,13 @@ class BPA implements BPAInterface {//package-private (not private/public)
         }
         logger.warning("Unable to send bundle: " + bundleTimestamp.getCreationTime().getTimeInMS());
         return Timestamp.UNKNOWN_TIMESTAMP;
+    }
+
+    @Override
+    public DispatchStatus getBundleStatus(Timestamp bundleTimestamp) {
+        if(bundleTimestamp != null && bundleTimestamp != Timestamp.UNKNOWN_TIMESTAMP) {
+            return bundleStatusMap.get(bundleTimestamp).status();
+        }
+        return DispatchStatus.NONE;
     }
 }

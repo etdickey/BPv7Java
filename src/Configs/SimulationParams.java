@@ -32,6 +32,17 @@ public class SimulationParams {
      * @implNote MIGHT NEED TO CHANGE THIS @ethan
      */
     private static final String CONFIG_FILE = resourceDir + "GeneralConfigs" + cfgFileExtension;
+    public static boolean lifetimeExpiredAction;
+    public static boolean overUnidirectionalAction;
+    public static boolean transmissionCancelledAction;
+    public static boolean depletedStorageAction;
+    public static boolean destinationUnavailableAction;
+    public static boolean noKnownRouteToDestinationAction;
+    public static boolean noTimelyContactAction;
+    public static boolean blockUnintelligibleAction;
+    public static boolean hopLimitExceededAction;
+    public static boolean trafficParedAction;
+    public static boolean blockUnsupportedAction;
 
     /**
      * The only instance of this class allowed in the entire program
