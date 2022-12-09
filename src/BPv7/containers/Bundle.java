@@ -115,6 +115,7 @@ public class Bundle implements NetworkSerializable {
 
         try {
             byte[] ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(this);
+            logger.info("[UNIQUE IDENTIFIER] Wrote bundle as JSON (not logging for speed purposes");
 //            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this));
             return ret;
         } catch (JsonProcessingException e) {
