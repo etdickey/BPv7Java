@@ -6,10 +6,10 @@ import sys
 
 z = 0
 sims = []
-#sims.append((1000, "000"))
-#sims.append((1001, "001"))
-#sims.append((1010, "010"))
-#sims.append((1011, "011"))
+sims.append((1000, "000"))
+sims.append((1001, "001"))
+sims.append((1010, "010"))
+sims.append((1011, "011"))
 sims.append((1100, "100"))
 sims.append((1101, "101"))
 sims.append((1110, "110"))
@@ -17,10 +17,10 @@ sims.append((1111, "111"))
 x = []
 y = []
 from matplotlib import pyplot as plt  #plotting library
-fig, ax = plt.subplots()
 
 for f in range(len(sims)):
-    file = open("logger_b.log." + str(sims[f][0]))
+    fig, ax = plt.subplots()
+    file = open("logger_b.log.LONG." + str(sims[f][0]))
     bundles = []
     for line in file: # or file or whatever, could redirect file into stdin
         if "[NetStats]" in line:
@@ -68,13 +68,10 @@ for f in range(len(sims)):
     #print(x)
     #print(y)
     file.close()
-for f in range(len(sims)):
-    #print(x[f])
-    ax.plot(x[f], y[f], label=sims[f][1])
-#format plot
-ax.set(xlabel='time from first bundle arrives (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay For Large Bundles')
-ax.grid()
-ax.legend()
-#show plot
-#plt.show()
-fig.savefig("EndToEndLarge.png")#uncomment out this line to save to a file (recommended for command line)
+    ax.plot(xf, yf, label=sims[f][1])#format plot
+    ax.set(xlabel='Arrival Start (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay, Long Running For Scenario ' + sims[f][1])
+    ax.grid()
+    ax.legend()
+    #show plot
+    #plt.show()
+    fig.savefig("EndToEndLONG" + sims[f][1] + ".png")#uncomment out this line to save to a file (recommended for command line)
