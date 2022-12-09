@@ -115,7 +115,7 @@ public class Bundle implements NetworkSerializable {
 
         try {
             byte[] ret = mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(this);
-            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this));
+//            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this));
             return ret;
         } catch (JsonProcessingException e) {
             logger.severe("ERROR! Unable to write bundle to byte[]: " + e.getMessage());
