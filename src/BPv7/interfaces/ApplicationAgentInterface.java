@@ -12,7 +12,7 @@ public interface ApplicationAgentInterface {
      * @param payload byte[] payload of bundle
      * @param sender NodeID who sent the payload
      */
-    record ReceivePackage(byte[] payload, NodeID sender) {}
+    record ReceivePackage(byte[] payload, NodeID sender, Timestamp creationTime) {}
 
     /**
      * [blocking] Sends a message to the BPA to bundle and send to the end destination

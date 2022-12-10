@@ -2,6 +2,7 @@ package SendStrings;
 
 import BPv7.ApplicationAgent;
 import BPv7.containers.NodeID;
+import BPv7.containers.Timestamp;
 import BPv7.interfaces.ApplicationAgentInterface;
 import BPv7.interfaces.ApplicationAgentInterface.ReceivePackage;
 import Configs.Host;
@@ -269,7 +270,8 @@ public class App {
         while(true) {
             try {
                 ReceivePackage r = aa.read(simParams.maxBundleSize);
-                logger.warning("(warn to make it show up in console) Received message from " + r.sender().id());
+                logger.warning("(warn to make it show up in console) Received message from " + r.sender().id()
+                        + ", creation timestamp of bundle: " + r.creationTime().creationTime().getTimeInMS());
                 //respond with messages back ONLY IF A IS NOT SENDING WITH ACK (it is right now)
             } catch (InterruptedException e) {
                 logger.severe("Interrupted exception from read! " + e.getMessage());
@@ -300,7 +302,8 @@ public class App {
             rand.nextBytes(toSend);
 
             //send random bytes
-            aa.sendWithACK(toSend, bid);
+            Timestamp temp = aa.sendWithACK(toSend, bid);
+            logger.warning("  Timestamp of sent message: " + temp.creationTime().getTimeInMS());
 
             //occasionally empty the receive buffer, I guess? NOPE, not if we are sending with ACK requested
 

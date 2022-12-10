@@ -81,7 +81,7 @@ public class ApplicationAgent implements ApplicationAgentInterface {
         ReceivePackage read_payload = BPA.getInstance().getPayload();
         //todo:: save remainder of payload
         byte[] sizedPayload = Arrays.copyOfRange(read_payload.payload(), 0, Math.min(numToRead, read_payload.payload().length));
-        return new ReceivePackage(sizedPayload, read_payload.sender());
+        return new ReceivePackage(sizedPayload, read_payload.sender(), read_payload.creationTime());
     }
 
     /**
