@@ -108,7 +108,13 @@ public class DTCP implements DTCPInterface {
             logger.log(Level.WARNING, "Attempted to send to unreachable destination. BundleID: " + loggingID);
             return false;
         }
+
         String dest = nodeToNetwork(destNode); //Should be IPv4
+        if(dest.equals(convParams.thisAddress)){
+            logger.warning("NOTE: SENDING BUNDLE TO SELF");
+            return outQueue.offer(toBeSent);
+        }
+
         byte[] bundleAsBytes;
         try {
             // Get the CBOR converted Byte Array
