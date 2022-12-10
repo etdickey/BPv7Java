@@ -12,7 +12,7 @@ sims = []
 # sims.append((1011, "011"))
 sims.append((1100, "100"))
 sims.append((1101, "101"))
-sims.append((1110, "110"))
+# sims.append((1110, "110"))
 sims.append((1111, "111"))
 x = []
 y = []
@@ -72,10 +72,10 @@ for f in range(len(sims)):
     #print(x[f])
     ax.plot(x[f], y[f], label=sims[f][1])
 #format plot
-ax.set(xlabel='Time from first bundle arrival (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay For High Density, Long Running')
+ax.set(xlabel='Time from first bundle arrival (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay For High Density (No 110), Long Running')
 ax.grid()
 ax.legend()
 #show plot
 #plt.show()
-fig.savefig("EndToEndLONGHighDensity.png")#uncomment out this line to save to a file (recommended for command line)
+fig.savefig("EndToEndLONGHighDensity_No110.png")#uncomment out this line to save to a file (recommended for command line)
 # fig.savefig("EndToEndLONGLowDensity.png")#uncomment out this line to save to a file (recommended for command line)
