@@ -69,7 +69,7 @@ for f in range(len(sims)):
     #print(y)
     file.close()
     ax.plot(xf, yf, label=sims[f][1])#format plot
-    ax.set(xlabel='Arrival Start (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay, Long Running For Scenario ' + sims[f][1])
+    ax.set(xlabel='Time from first bundle arrival (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay, Long Running For Scenario ' + sims[f][1])
     ax.grid()
     ax.legend()
     #show plot
