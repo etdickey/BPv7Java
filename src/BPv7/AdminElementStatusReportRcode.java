@@ -111,7 +111,7 @@ public class AdminElementStatusReportRcode implements Runnable {
             // Lifetime expired.
             if(actions.lifetimeExpiredAction()) {
                 // resend!
-                BPA.getInstance().resendBundleWithExtendedTime(timestamp, 100000);//100s
+                BPA.getInstance().resendBundleWithExtendedTime(timestamp,  10000);//10s
             } //else {
                 // drop
                 // this statusreport was popped already.

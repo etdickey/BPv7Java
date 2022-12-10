@@ -251,7 +251,16 @@ class BPA implements BPAInterface {//package-private (not private/public)
     public Timestamp resendBundleWithExtendedTime(Timestamp bundleTimestamp, int extendedTime) {
         if(bundleTimestamp.seqNum() != -1 && extendedTime > 0) {
             Bundle bundle = bundleStatusMap.get(bundleTimestamp).bundle();
-            bundle.getPrimary().addLifetime(extendedTime);
+
+            //creation time: 0, TTL = 5 (deleted at time 5)
+            //current time = 100
+            //want to live until 100 + (5) + 10s
+            // = 115
+            //this allows us to compare to original creation time for TTL
+            int delta = DTNTime.getCurrentDTNTime().getTimeInMS() - bundleTimestamp.creationTime().timeInMS;
+
+            //original end time
+            bundle.getPrimary().addLifetime(delta + extendedTime);
             bpaUtils.saveToQueue(bundle);
             logger.info("Resending bundle with timestamp " + bundleTimestamp.creationTime().getTimeInMS());
             return bundleTimestamp;
