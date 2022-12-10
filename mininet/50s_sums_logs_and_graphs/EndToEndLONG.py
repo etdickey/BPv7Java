@@ -6,10 +6,10 @@ import sys
 
 z = 0
 sims = []
-#sims.append((1000, "000"))
-#sims.append((1001, "001"))
-#sims.append((1010, "010"))
-#sims.append((1011, "011"))
+# sims.append((1000, "000"))
+# sims.append((1001, "001"))
+# sims.append((1010, "010"))
+# sims.append((1011, "011"))
 sims.append((1100, "100"))
 sims.append((1101, "101"))
 sims.append((1110, "110"))
@@ -78,3 +78,4 @@ ax.legend()
 #show plot
 #plt.show()
 fig.savefig("EndToEndLONGHighDensity.png")#uncomment out this line to save to a file (recommended for command line)
+# fig.savefig("EndToEndLONGLowDensity.png")#uncomment out this line to save to a file (recommended for command line)
