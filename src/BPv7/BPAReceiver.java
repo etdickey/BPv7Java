@@ -94,7 +94,9 @@ public class BPAReceiver implements Runnable {
             if (deletionCode != -1 && deliveryFlag && !adminFlag) {
                 logger.info("Deleting bundle reason code = " + deletionCode + "! " + bundle.getLoggingBundleId());
                 if(deletionCode == 1){
-                    logger.info("  deleting bundle because it expired, bundle = " + bundle.getLoggingBundleId() + "; TTL = " + bundle.getPrimary().getLifetime());
+                    long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                    logger.info("  deleting bundle because it expired, bundle = " + bundle.getLoggingBundleId()
+                            + "; TTL = " + bundle.getPrimary().getLifetime() + "; time since creation: " + timeGap);
                 }
                 StatusReport statusReport = bpaUtils.sendStatusReport(bundle, BundleStatusReport.DELETED, deletionCode);
                 Bundle statusReportBundle;
