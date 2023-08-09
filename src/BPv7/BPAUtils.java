@@ -152,10 +152,9 @@ public class BPAUtils {
             primaryBlock.setDELT();
         }
 
-        Bundle bundle = new Bundle(primaryBlock);
-
         PayloadBlock payloadBlock = new PayloadBlock(payload);
-        bundle.setPayload(payloadBlock);
+        Bundle bundle = new Bundle(primaryBlock, payloadBlock, null);
+
         logger.info("creating bundle for the payload, bundle = " + bundle.getLoggingBundleId());
         return bundle;
     }

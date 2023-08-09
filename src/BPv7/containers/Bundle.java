@@ -34,14 +34,15 @@ public class Bundle implements NetworkSerializable {
     /** Payload block (actual content being sent) */
     private PayloadBlock payload = null;
 
-    /**
-     * Constructor
-     */
-    public Bundle(PrimaryBlock primary){
-        //todo: everything else
-        this.primary = primary;
-        setTimestampToCurrentTime();
-    }
+//    /**
+//     * Constructor
+//     * (is not used by anything, but might be useful in the future)
+//     */
+//    public Bundle(PrimaryBlock primary){
+//        //todo: everything else (if used in the future)
+//        this.primary = primary;
+//        setTimestampToCurrentTime();
+//    }
 
     /**
      * Constructs a Bundle based on parameters (primary for Jackson JSON serializer)
