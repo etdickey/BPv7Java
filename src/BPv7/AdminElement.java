@@ -78,7 +78,7 @@ public class AdminElement implements AdminElementInterface {
      */
     @Override
     public void run() {}
-
+    //MOVED TO BPAUtils
 //    /**
 //     * Convert a byte stream to an object
 //     */
@@ -99,7 +99,7 @@ public class AdminElement implements AdminElementInterface {
 //        }
 //        return obj;
 //    }
-
+    //MOVED TO BPAUtils
 //    /**
 //     * Convert an object to a bytes array
 //     * @throws IOException
