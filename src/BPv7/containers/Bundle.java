@@ -61,6 +61,7 @@ public class Bundle implements NetworkSerializable {
     /**
      * ONLY FOR USE WHEN CALLING getNetworkSerialization() !!!!
      * DO NOT USE FOR ANY OTHER PURPOSE!
+     * (it is required syntatically by ObjectMapper for auto-serialization code in getNetworkSerialization())
      */
     public Bundle(){ /* DO NOT USE*/ }
 

@@ -78,47 +78,14 @@ public class AdminElement implements AdminElementInterface {
      */
     @Override
     public void run() {}
-
+    //MOVED TO BPAUtils: they should not have been in this class to begin with.
 //    /**
 //     * Convert a byte stream to an object
 //     */
-//    public static Object bytesToObject(byte[] bytes) {
-//        if (bytes == null) {
-//            return null;
-//        }
-//        Object obj = null;
-//        try {
-//            // bytearray to object
-//            ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
-//            ObjectInputStream oi = new ObjectInputStream(bi);
-//            obj = oi.readObject();
-//            bi.close();
-//            oi.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return obj;
-//    }
-
+//    public static Object bytesToObject(byte[] bytes)
 //    /**
 //     * Convert an object to a bytes array
 //     * @throws IOException
 //     */
-//    public static byte[] objectToByteArray(StatusReport obj) throws IOException {
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        ObjectOutputStream out = null;
-//        try {
-//            out = new ObjectOutputStream(bos);
-//            out.writeObject(obj);
-//            out.flush();
-//            byte[] yourBytes = bos.toByteArray();
-//            return yourBytes;
-//        } finally {
-//            try {
-//                bos.close();
-//            } catch (IOException ex) {
-//                // ignore close exception
-//            }
-//        }
-//    }
+//    public static byte[] objectToByteArray(StatusReport obj) throws IOException 
 }

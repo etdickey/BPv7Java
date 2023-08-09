@@ -77,7 +77,7 @@ public class BPAUtils {
      * @return byte array
      * @throws InvalidPropertiesFormatException if bad status report
      */
-    public static byte[] objectToByteArray(StatusReport obj) throws InvalidPropertiesFormatException{//todo:: call CBOR functions
+    public static byte[] objectToByteArray(StatusReport obj) throws InvalidPropertiesFormatException{//if CBOR is desired:: call CBOR functions here
         ObjectMapper mapper = new ObjectMapper();
 
 
