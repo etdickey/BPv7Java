@@ -1,8 +1,11 @@
 #@Author: Ethan Dickey
 #This file creates the time delay plots for each simulation listed.
+#  It creates a separate file for each plot ("...Each.py").
 #Much of this is done manually due to the limited time given to create
 # them.  Thus, it is not very extendible and may require some work for
 # different naming conventions/output format.
+#A better thing would be to merge this with the other script and set a
+# flag for putting them all on one plot vs multiple
 
 #python libs
 import re
@@ -28,8 +31,6 @@ sims.append((1100, "100"))
 sims.append((1101, "101"))
 sims.append((1110, "110"))
 sims.append((1111, "111"))
-x = []
-y = []
 
 #plot for each simulation listed above
 for f in range(len(sims)):
@@ -64,8 +65,8 @@ for f in range(len(sims)):
             if header[1] == "Bundle":
                 #if it is a status report about a bundle arriving or being deleted/dropped in transport
                 if header[2] == "Arrived" or header[2] == "Deleted":
-                    if DEBUG: print("  Info: " + str(currTime) + " " + str(int(results[13])))#results[13] is time since creation
-                    bundles.append((currTime, int(results[13])))
+                    if DEBUG: print("  Info: " + str(currTime) + " " + str(int(results[13])))
+                    bundles.append((currTime, int(results[13])))#results[13] is time since creation
 
             #FOR A MORE ROBUST IMPLEMENTATION, COMPLETE THE FOLLOWING STEPS:
             #todo:: most importantly, save time since creation at BPAReceiver in an array
@@ -94,13 +95,14 @@ for f in range(len(sims)):
     if DEBUG:
         print(xf)
         print(yf)
-    x.append(xf)
-    y.append(yf)
 
-    ax.plot(xf, yf, label=sims[f][1])#plot with labels
+    #plot with labels
+    ax.plot(xf, yf, label=sims[f][1])
+    #format plot
     ax.set(xlabel='Time from first bundle arrival (ms)', ylabel='Delay from creation to end (ms)', title='Time vs Delay, Long Running For Scenario ' + sims[f][1])
     ax.grid()
     ax.legend()
-    #show plot
+
+    #display plot
     #plt.show()#uncomment if working with jupyter, etc.
     fig.savefig("EndToEndLONG" + sims[f][1] + ".png")#uncomment out this line to save to a file (recommended for command line)
