@@ -1,0 +1,9 @@
+{
+  "scenarioID" : 0,
+  "description" : "Lots of predictable disruptions, should just be delayed a lot, long lifetime",
+  "expectedDownProbability" : 0.5,
+  "unexpectedDownProbability" : 0.0,
+  "milliPerDownPeriod" : 100,
+  "dtcpPort" : 3827,
+  "bundleLifetimeMS": 50000
+}

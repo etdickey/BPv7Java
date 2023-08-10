@@ -6,6 +6,12 @@ out/
 .idea/
 .idea
 .idea/workspace.xml
+*.log
+compiled/
+mininet/compiled/
+mininet/lib/
+mininet/resources/
+mininet/jdk-19.0.1/
 
 ### Eclipse ###
 .apt_generated

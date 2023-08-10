@@ -1,6 +1,7 @@
 package DTCP;
 
 import BPv7.containers.Bundle;
+import BPv7.containers.DTNTime;
 import BPv7.containers.NodeID;
 import Configs.ConvergenceLayerParams;
 import Configs.SimulationParams;
@@ -107,11 +108,18 @@ public class DTCP implements DTCPInterface {
             logger.log(Level.WARNING, "Attempted to send to unreachable destination. BundleID: " + loggingID);
             return false;
         }
+
         String dest = nodeToNetwork(destNode); //Should be IPv4
+        if(dest.equals(convParams.thisAddress)){
+            logger.warning("NOTE: SENDING BUNDLE TO SELF");
+            return outQueue.offer(toBeSent);
+        }
+
         byte[] bundleAsBytes;
         try {
             // Get the CBOR converted Byte Array
-            bundleAsBytes = toBeSent.getNetworkEncoding();
+            bundleAsBytes = toBeSent.getNetworkEncoding(logger);
+
         } catch (InvalidPropertiesFormatException e) {
             // Something is wrong with the bundle, not DTCPs fault, so just drop it
             logger.log(Level.WARNING, "Attempted to send a bundle with invalid properties. BundleID: " + loggingID);
@@ -120,14 +128,18 @@ public class DTCP implements DTCPInterface {
         try (Socket socket = new Socket(dest, simParams.scenario.dtcpPort())) {
             // Just write the whole bundle
             socket.getOutputStream().write(bundleAsBytes);
-            logger.log(Level.INFO, "Successfully sent bundle. BundleID: " + loggingID);
+            logger.log(Level.INFO, "[NetStats] Bundle Sent: " + loggingID
+                                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - toBeSent.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                                        + "; Size of bundle payload (bytes):" + toBeSent.getPayload().getPayload().length);
         } catch (UnknownHostException e) {
             // Something is wrong on internet network backside, not our problem, drop it
             logger.log(Level.WARNING, "Failed to find destination host of Bundle. BundleID: " + loggingID);
             return false;
         } catch (IOException e) {
             // Something happened (probably on OS side) that made this fail, not our problem, drop it
-            logger.log(Level.WARNING, "Failed to send bundle over socket. BundleID: " + loggingID);
+            logger.log(Level.WARNING, "Failed to send bundle over socket <ip: " + dest
+                    + ", port: " + simParams.scenario.dtcpPort() + ">. BundleID: " + loggingID + ":: Exception = "
+                    + e.getMessage());
             return false;
         }
         // Should have been sent by now
@@ -155,9 +167,9 @@ public class DTCP implements DTCPInterface {
     @Override
     public ReachableStatus canReach(NodeID ID) {
         String dest = nodeToNetwork(ID);
-        if (dest == null)
+        if (!ID.equals(NodeID.getNullSourceID()) && !convParams.idToAddressRoutingMap.containsKey(ID.id()))
             return ReachableStatus.UNKNOWN_ID;
-        if (dest.compareTo(convParams.thisAddress) == 0)
+        if (dest == null)
             return ReachableStatus.NO_ROUTE;
         if (DTCPUtils.isConnectionDownExpected(dest))
             return ReachableStatus.EXPECTED_DOWN;

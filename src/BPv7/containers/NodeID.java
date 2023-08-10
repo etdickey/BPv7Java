@@ -1,5 +1,7 @@
 package BPv7.containers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 /**
@@ -16,6 +18,7 @@ public record NodeID(String id) {
     private static final String NULL_SOURCE_ID = "dtn:none";
 
     //default generated
+    @JsonIgnore
     public static NodeID getNullSourceID() { return new NodeID(NULL_SOURCE_ID); }
 
     //default generated
@@ -23,7 +26,7 @@ public record NodeID(String id) {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NodeID nodeID)) return false;//I am confused but intellij suggested using a "pattern variable"
-        return id == nodeID.id;
+        return Objects.equals(id, nodeID.id);
     }
 
     //default generated

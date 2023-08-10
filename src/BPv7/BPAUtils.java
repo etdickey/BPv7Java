@@ -4,13 +4,16 @@ import BPv7.containers.*;
 import BPv7.utils.BundleDispatchStatusMap;
 import BPv7.utils.BundleStatusReport;
 import BPv7.utils.DispatchStatus;
+import Configs.SimulationParams;
 import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.InvalidPropertiesFormatException;
 import java.util.logging.Logger;
 
 import static BPv7.utils.DispatchStatus.NONE;
@@ -32,22 +35,21 @@ public class BPAUtils {
      * (caching ok because all variables are final)
      */
     private static BPAUtils instance = null;
-    /**
-     * BPA class instance
-     */
-    private static BPA bpa = BPA.getInstance();
+//    /**
+//     * BPA class instance
+//     */
+//    private static final BPA bpa = BPA.getInstance();
     /**
      * DTCP class instance
      */
-    private static DTCPInterface dtcp = DTCP.getInstance();
+    private static final DTCPInterface dtcp = DTCP.getInstance();
 
     //functions!
 
     /**
      * Hiding this constructor to force use of singleton accessor getInstance()
      */
-    protected BPAUtils() {
-    }
+    protected BPAUtils() {}
 
     /**
      * Gets the singleton instance of the BPA
@@ -57,6 +59,7 @@ public class BPAUtils {
      * (null -> instance), thus only one set of double-checked locking is needed
      */
     public static BPAUtils getInstance() {
+        //noinspection DoubleCheckedLocking
         if (instance == null) {
             synchronized (BPAUtils.class) {
                 if (instance == null) {
@@ -72,25 +75,31 @@ public class BPAUtils {
      * Function to convert object to byte array (serialization)
      * @param obj status report object
      * @return byte array
+     * @throws InvalidPropertiesFormatException if bad status report
      */
-    public static byte[] objectToByteArray(StatusReport obj) {//todo:: call CBOR functions
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out;
+    public static byte[] objectToByteArray(StatusReport obj) throws InvalidPropertiesFormatException{//if CBOR is desired:: call CBOR functions here
+        ObjectMapper mapper = new ObjectMapper();
+
+
         try {
-            out = new ObjectOutputStream(bos);
-            out.writeObject(obj);
-            out.flush();
-            return bos.toByteArray();
-        } catch (Exception e) {
-            logger.severe("Unable to convert object to byte array");
-            return null;
-        } finally {
-            try {
-                bos.close();
-            } catch (IOException ex) {
-                // ignore close exception
-            }
+            //            logger.info("Wrote this bundle as JSON:\n" + mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj));
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(obj);
+        } catch (JsonProcessingException e) {
+            logger.severe("ERROR! Unable to write status report to byte[]: " + e.getMessage());
+            throw new InvalidPropertiesFormatException(e.getMessage());
         }
+
+//        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+//            ObjectOutputStream out;
+//            out = new ObjectOutputStream(bos);
+//            out.writeObject(obj);
+//            out.flush();
+//            return bos.toByteArray();
+//        } catch (Exception e) {
+//            logger.severe("Unable to convert object to byte array");
+//            return null;
+//        }
+        // ignore close exception
     }
 
     /**
@@ -98,10 +107,11 @@ public class BPAUtils {
      * @param key: bundle key
      * @return status of the bundle, NONE if invalid key
      */
+    @SuppressWarnings("unused")
     public DispatchStatus getBundleStatus(Timestamp key) {
-        if (key.getSeqNum() != -1 && bpa.bundleStatusMap.containsKey(key)) {
+        if (key.seqNum() != -1 && BPA.bundleStatusMap.containsKey(key)) {
             DispatchStatus status = BPA.bundleStatusMap.get(key).status();
-            logger.info("Bundle status" + status + " for timestamp " + key.getCreationTime().getTimeInMS());
+            logger.info("Bundle status" + status + " for timestamp " + key.creationTime().getTimeInMS());
             return status;
         }
         logger.warning("Unable to get bundle status for bundle timestamp: " + key);
@@ -114,10 +124,10 @@ public class BPAUtils {
      * @return creation Timestamp of the bundle
      */
     public Timestamp saveToQueue(Bundle bundle) {
-        bpa.sendBuffer.add(bundle);
+        BPA.sendBuffer.add(bundle);
         Timestamp creationTimestamp = bundle.getPrimary().getCreationTimestamp();
-        bpa.bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
-        logger.info("save the bundle in the sending queue: " + bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        BPA.bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundle, PENDING));
+        logger.info("save the bundle in the sending queue: " + bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
         return creationTimestamp;
     }
 
@@ -130,9 +140,9 @@ public class BPAUtils {
      * @return newly created bundle
      */
     public Bundle createBundle(byte[] payload, NodeID destID, boolean adminFlag, boolean ackFlag) {
-        Bundle bundle = new Bundle();
-        // TODO: @ethan read lifetime from config files
-        PrimaryBlock primaryBlock = new PrimaryBlock(destID, NodeID.getNullSourceID(), 500);
+        //read lifetime from config files
+        PrimaryBlock primaryBlock = new PrimaryBlock(destID, new NodeID(SimulationParams.getInstance().hostID),
+                                                     SimulationParams.getInstance().scenario.bundleLifetimeMS());
         if (adminFlag) {
             primaryBlock.setADMN();
         }
@@ -141,10 +151,11 @@ public class BPAUtils {
             primaryBlock.setFRWD();
             primaryBlock.setDELT();
         }
+
         PayloadBlock payloadBlock = new PayloadBlock(payload);
-        bundle.setPrimary(primaryBlock);
-        bundle.setPayload(payloadBlock);
-        logger.info("creating bundle for the payload");
+        Bundle bundle = new Bundle(primaryBlock, payloadBlock, null);
+
+        logger.info("creating bundle for the payload, bundle = " + bundle.getLoggingBundleId());
         return bundle;
     }
 
@@ -153,7 +164,7 @@ public class BPAUtils {
      * @return : reason code if bundle needs to be deleted, -1 otherwise
      */
     public int checkIfBundleToDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
         if (timeGap > bundle.getPrimary().getLifetime()) {
             return 1;
         } else if (dtcp.canReach(bundle.getPrimary().getDestNode()) == ReachableStatus.UNKNOWN_ID) {
@@ -184,6 +195,7 @@ public class BPAUtils {
         BundleStatusItem deleted = new BundleStatusItem(status == BundleStatusReport.DELETED);
 
         StatusReport rep = new StatusReport(received, forwarded, delivered, deleted, rCode, destNode, timestamp);
+        logger.info("Created status report for sending: " + rep.getLoggingId());
         //send the status report
         return rep;
     }

@@ -1,0 +1,1573 @@
+2022-12-08 20:24:24.198 INFO SendStrings.App main Starting main app
+2022-12-08 20:24:24.625 INFO Configs.SimulationParams readGeneralConfigFile Parsed config file info
+2022-12-08 20:24:24.626 INFO Configs.SimulationParams getInstance Created SimulationParameters singleton
+2022-12-08 20:24:24.639 INFO Configs.ConvergenceLayerParams readConvergenceLayerConfigFile Parsed config file info
+2022-12-08 20:24:24.640 INFO Configs.ConvergenceLayerParams getInstance Created ConvergenceLayerParams singleton
+2022-12-08 20:24:24.640 INFO Configs.SimulationParams readGeneralConfigFile Parsed config file info
+2022-12-08 20:24:24.641 INFO Configs.SimulationParams getInstance Created SimulationParameters singleton
+2022-12-08 20:24:24.643 INFO BPv7.AdminElementStatusReportBuilder getInstance Created AdminElementStatusReportBuilder singleton
+2022-12-08 20:24:24.644 INFO BPv7.AdminElementStatusReportRcode getInstance Created AdminElementStatusReportRcode singleton
+2022-12-08 20:24:24.646 INFO BPv7.AdminElement getInstance Created AdminElement singleton
+2022-12-08 20:24:24.647 INFO BPv7.ApplicationAgent getInstance Created ApplicationAgent singleton
+2022-12-08 20:24:24.647 INFO SendStrings.App receiveSync Starting AA and subclass threads
+2022-12-08 20:24:24.648 INFO SendStrings.App receiveSync Receiving SYNC message on host b
+2022-12-08 20:24:24.650 INFO DTCP.DTCP getInstance Created DTCP singleton
+2022-12-08 20:24:24.651 INFO BPv7.BPAUtils getInstance Created BPA singleton
+2022-12-08 20:24:24.661 INFO DTCP.DTCPServer run DTCP Server Started
+2022-12-08 20:24:24.662 INFO BPv7.BPA <init> Started BPA sending and receiving threads
+2022-12-08 20:24:24.662 INFO BPv7.BPA getInstance Created BPA singleton
+2022-12-08 20:24:27.059 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57768
+2022-12-08 20:24:27.181 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126277372::seqNum:0"
+2022-12-08 20:24:27.190 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.40169529956774197
+2022-12-08 20:24:27.194 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126277372::seqNum:0; Time (ms) since creation: 443
+2022-12-08 20:24:27.195 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126277372
+2022-12-08 20:24:27.195 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126277372
+2022-12-08 20:24:27.196 INFO SendStrings.App receiveSync Verified SYNC from a, replying in kind
+2022-12-08 20:24:27.196 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126277820::seqNum:0
+2022-12-08 20:24:27.196 INFO BPv7.BPA send saving the bundle, timestamp: 126277820
+2022-12-08 20:24:27.197 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.7040429300457399
+2022-12-08 20:24:27.197 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:27.206 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126277372::seqNum:0; Time (ms) since creation: 444; Size of bundle payload (bytes):89
+2022-12-08 20:24:27.206 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126277372::seqNum:0; Time (ms) since creation: 453; Size of bundle payload (bytes):89
+2022-12-08 20:24:27.220 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126277820
+2022-12-08 20:24:27.220 WARNING SendStrings.App receiveSync Host b finished with SYNC receive
+2022-12-08 20:24:27.223 WARNING SendStrings.App main Host b:: Starting scenario #1001:: "Low density of packets, small packets, high density of expected downs"
+2022-12-08 20:24:27.246 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 0,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126277820
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "U2NlbmFyaW8gPSAxMDAxOjogIkxvdyBkZW5zaXR5IG9mIHBhY2tldHMsIHNtYWxsIHBhY2tldHMsIGhpZ2ggZGVuc2l0eSBvZiBleHBlY3RlZCBkb3ducyI=",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:27.257 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126277820::seqNum:0; Time (ms) since creation: 61; Size of bundle payload (bytes):89
+2022-12-08 20:24:27.261 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126277820::seqNum:0; Time (ms) since creation: 65
+2022-12-08 20:24:27.262 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126277820
+2022-12-08 20:24:27.485 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57776
+2022-12-08 20:24:27.544 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126277969::seqNum:0"
+2022-12-08 20:24:27.550 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.49417858244723456
+2022-12-08 20:24:27.551 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126277969::seqNum:0; Time (ms) since creation: 206; Size of bundle payload (bytes):382
+2022-12-08 20:24:27.551 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126277969::seqNum:0; Time (ms) since creation: 206
+2022-12-08 20:24:27.554 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126277969
+2022-12-08 20:24:27.554 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126277969
+2022-12-08 20:24:27.555 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126277969::seqNum:0; Time (ms) since creation: 210; Size of bundle payload (bytes):382
+2022-12-08 20:24:27.554 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126277969
+2022-12-08 20:24:27.558 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:27.568 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126278190::seqNum:0
+2022-12-08 20:24:27.569 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126278190
+2022-12-08 20:24:27.569 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.6945100368795617
+2022-12-08 20:24:27.570 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:27.575 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126278190
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc3OTY5CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:27.580 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126278190::seqNum:0; Time (ms) since creation: 14; Size of bundle payload (bytes):312
+2022-12-08 20:24:27.582 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126278190
+2022-12-08 20:24:27.582 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126278190::seqNum:0; Time (ms) since creation: 16
+2022-12-08 20:24:27.582 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126278190
+2022-12-08 20:24:27.793 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57786
+2022-12-08 20:24:27.814 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57792
+2022-12-08 20:24:27.833 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126278144::seqNum:0"
+2022-12-08 20:24:27.842 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.45816370341450763
+2022-12-08 20:24:27.842 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126278144::seqNum:0; Time (ms) since creation: 322
+2022-12-08 20:24:27.842 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126278144
+2022-12-08 20:24:27.843 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126278144
+2022-12-08 20:24:27.843 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126278144::seqNum:0; Time (ms) since creation: 323; Size of bundle payload (bytes):701
+2022-12-08 20:24:27.843 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126278144
+2022-12-08 20:24:27.843 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:27.845 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126278144::seqNum:0; Time (ms) since creation: 325; Size of bundle payload (bytes):701
+2022-12-08 20:24:27.847 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126278471::seqNum:0
+2022-12-08 20:24:27.847 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126278471
+2022-12-08 20:24:27.849 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.5270521040515368
+2022-12-08 20:24:27.849 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:27.855 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126278345::seqNum:0"
+2022-12-08 20:24:27.855 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126278345::seqNum:0; Time (ms) since creation: 134
+2022-12-08 20:24:27.855 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126278345
+2022-12-08 20:24:27.855 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126278345
+2022-12-08 20:24:27.856 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126278345::seqNum:0; Time (ms) since creation: 135; Size of bundle payload (bytes):323
+2022-12-08 20:24:27.856 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126278345
+2022-12-08 20:24:27.856 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:27.855 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126278471
+2022-12-08 20:24:27.855 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126278471
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc4MTQ0CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:27.860 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126278471::seqNum:0; Time (ms) since creation: 13; Size of bundle payload (bytes):312
+2022-12-08 20:24:27.861 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126278471::seqNum:0; Time (ms) since creation: 14
+2022-12-08 20:24:27.861 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126278471
+2022-12-08 20:24:27.864 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126278488::seqNum:0
+2022-12-08 20:24:27.862 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126278345::seqNum:0; Time (ms) since creation: 141; Size of bundle payload (bytes):323
+2022-12-08 20:24:27.871 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126278488
+2022-12-08 20:24:27.871 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126278488
+2022-12-08 20:24:27.872 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:27.880 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126278488
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc4MzQ1CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:27.894 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126278488::seqNum:0; Time (ms) since creation: 30; Size of bundle payload (bytes):312
+2022-12-08 20:24:27.895 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126278488::seqNum:0; Time (ms) since creation: 31
+2022-12-08 20:24:27.895 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126278488
+2022-12-08 20:24:27.951 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57806
+2022-12-08 20:24:28.009 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126278498::seqNum:0"
+2022-12-08 20:24:28.023 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.6894468588259675
+2022-12-08 20:24:28.025 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126278498::seqNum:0; Time (ms) since creation: 151
+2022-12-08 20:24:28.025 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126278498
+2022-12-08 20:24:28.025 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126278498
+2022-12-08 20:24:28.026 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126278498::seqNum:0; Time (ms) since creation: 152; Size of bundle payload (bytes):123
+2022-12-08 20:24:28.028 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126278498
+2022-12-08 20:24:28.028 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:28.030 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126278654::seqNum:0
+2022-12-08 20:24:28.031 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126278654
+2022-12-08 20:24:28.032 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.6166537797619213
+2022-12-08 20:24:28.032 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:28.036 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126278654
+2022-12-08 20:24:28.040 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126278654
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc4NDk4CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:28.043 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126278498::seqNum:0; Time (ms) since creation: 168; Size of bundle payload (bytes):123
+2022-12-08 20:24:28.051 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126278654::seqNum:0; Time (ms) since creation: 21; Size of bundle payload (bytes):312
+2022-12-08 20:24:28.051 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126278654::seqNum:0; Time (ms) since creation: 21
+2022-12-08 20:24:28.051 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126278654
+2022-12-08 20:24:28.109 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57812
+2022-12-08 20:24:28.153 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126278655::seqNum:0"
+2022-12-08 20:24:28.158 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.7579687038691779
+2022-12-08 20:24:28.158 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126278655::seqNum:0; Time (ms) since creation: 127; Size of bundle payload (bytes):605
+2022-12-08 20:24:28.160 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126278655::seqNum:0; Time (ms) since creation: 129
+2022-12-08 20:24:28.160 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126278655
+2022-12-08 20:24:28.160 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126278655
+2022-12-08 20:24:28.160 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126278655::seqNum:0; Time (ms) since creation: 129; Size of bundle payload (bytes):605
+2022-12-08 20:24:28.163 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126278787::seqNum:0
+2022-12-08 20:24:28.164 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126278787
+2022-12-08 20:24:28.164 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.8405711984312215
+2022-12-08 20:24:28.164 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:28.165 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126278655
+2022-12-08 20:24:28.166 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:28.168 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126278787
+2022-12-08 20:24:28.170 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126278787
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc4NjU1CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:28.173 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126278787::seqNum:0; Time (ms) since creation: 10; Size of bundle payload (bytes):312
+2022-12-08 20:24:28.174 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126278787::seqNum:0; Time (ms) since creation: 11
+2022-12-08 20:24:28.174 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126278787
+2022-12-08 20:24:28.262 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57820
+2022-12-08 20:24:28.291 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126278848::seqNum:0"
+2022-12-08 20:24:28.292 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.3557484769429876
+2022-12-08 20:24:28.292 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126278848::seqNum:0; Time (ms) since creation: 68
+2022-12-08 20:24:28.292 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126278848
+2022-12-08 20:24:28.293 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126278848
+2022-12-08 20:24:28.293 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126278848::seqNum:0; Time (ms) since creation: 69; Size of bundle payload (bytes):808
+2022-12-08 20:24:28.296 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126278920::seqNum:0
+2022-12-08 20:24:28.296 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126278920
+2022-12-08 20:24:28.296 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.4894330003098837
+2022-12-08 20:24:28.296 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:28.297 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126278848
+2022-12-08 20:24:28.298 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:28.302 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126278920
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc4ODQ4CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:28.302 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126278920
+2022-12-08 20:24:28.309 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126278848::seqNum:0; Time (ms) since creation: 85; Size of bundle payload (bytes):808
+2022-12-08 20:24:28.310 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126278920::seqNum:0; Time (ms) since creation: 14; Size of bundle payload (bytes):312
+2022-12-08 20:24:28.311 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126278920::seqNum:0; Time (ms) since creation: 15
+2022-12-08 20:24:28.311 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126278920
+2022-12-08 20:24:28.506 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57836
+2022-12-08 20:24:28.545 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126279095::seqNum:0"
+2022-12-08 20:24:28.545 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.178714561928059
+2022-12-08 20:24:28.546 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126279095::seqNum:0; Time (ms) since creation: 75
+2022-12-08 20:24:28.546 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126279095
+2022-12-08 20:24:28.546 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126279095
+2022-12-08 20:24:28.546 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126279095::seqNum:0; Time (ms) since creation: 75; Size of bundle payload (bytes):257
+2022-12-08 20:24:28.547 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126279095
+2022-12-08 20:24:28.547 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:28.547 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126279095::seqNum:0; Time (ms) since creation: 76; Size of bundle payload (bytes):257
+2022-12-08 20:24:28.549 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126279173::seqNum:0
+2022-12-08 20:24:28.549 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126279173
+2022-12-08 20:24:28.549 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.9909107133408168
+2022-12-08 20:24:28.550 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:28.553 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126279173
+2022-12-08 20:24:28.554 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126279173
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc5MDk1CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:28.560 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126279173::seqNum:0; Time (ms) since creation: 11; Size of bundle payload (bytes):312
+2022-12-08 20:24:28.561 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126279173::seqNum:0; Time (ms) since creation: 12
+2022-12-08 20:24:28.583 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126279173
+2022-12-08 20:24:28.682 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57852
+2022-12-08 20:24:28.718 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126279266::seqNum:0"
+2022-12-08 20:24:28.719 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.5049108550200495
+2022-12-08 20:24:28.727 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126279266::seqNum:0; Time (ms) since creation: 85
+2022-12-08 20:24:28.727 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126279266
+2022-12-08 20:24:28.727 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126279266
+2022-12-08 20:24:28.727 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126279266::seqNum:0; Time (ms) since creation: 85; Size of bundle payload (bytes):289
+2022-12-08 20:24:28.727 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126279266
+2022-12-08 20:24:28.728 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:28.728 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126279266::seqNum:0; Time (ms) since creation: 86; Size of bundle payload (bytes):289
+2022-12-08 20:24:28.730 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126279354::seqNum:0
+2022-12-08 20:24:28.730 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126279354
+2022-12-08 20:24:28.730 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126279354
+2022-12-08 20:24:28.731 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.8072585003992088
+2022-12-08 20:24:28.731 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:28.736 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126279354
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc5MjY2CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:28.740 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126279354::seqNum:0; Time (ms) since creation: 10; Size of bundle payload (bytes):312
+2022-12-08 20:24:28.750 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126279354::seqNum:0; Time (ms) since creation: 20
+2022-12-08 20:24:28.750 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126279354
+2022-12-08 20:24:29.059 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57862
+2022-12-08 20:24:29.090 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57872
+2022-12-08 20:24:29.102 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126279437::seqNum:0"
+2022-12-08 20:24:29.103 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.043620426810898616
+2022-12-08 20:24:29.103 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126279437::seqNum:0; Time (ms) since creation: 290
+2022-12-08 20:24:29.104 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126279437
+2022-12-08 20:24:29.104 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126279437
+2022-12-08 20:24:29.104 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126279437::seqNum:0; Time (ms) since creation: 291; Size of bundle payload (bytes):966
+2022-12-08 20:24:29.104 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126279437
+2022-12-08 20:24:29.104 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:29.106 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126279437::seqNum:0; Time (ms) since creation: 292; Size of bundle payload (bytes):966
+2022-12-08 20:24:29.107 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.107 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126279731
+2022-12-08 20:24:29.107 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.24395189614438706
+2022-12-08 20:24:29.109 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.109 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.109 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.109 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.110 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.110 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.110 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.111 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.111 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.111 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.112 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.112 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.112 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.112 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.113 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.113 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.113 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.113 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.114 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.114 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.114 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.114 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.115 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.115 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.118 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.118 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.118 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.118 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.121 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.121 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.107 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126279619::seqNum:0"
+2022-12-08 20:24:29.111 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126279731
+2022-12-08 20:24:29.122 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126279619::seqNum:0; Time (ms) since creation: 127
+2022-12-08 20:24:29.122 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126279619
+2022-12-08 20:24:29.122 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126279619
+2022-12-08 20:24:29.123 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126279619::seqNum:0; Time (ms) since creation: 128; Size of bundle payload (bytes):976
+2022-12-08 20:24:29.123 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126279619
+2022-12-08 20:24:29.123 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:29.127 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.127 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126279751
+2022-12-08 20:24:29.127 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126279751
+2022-12-08 20:24:29.127 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126279619::seqNum:0; Time (ms) since creation: 132; Size of bundle payload (bytes):976
+2022-12-08 20:24:29.128 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.128 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.128 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.128 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.129 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.131 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.132 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.132 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.133 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.133 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.135 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.136 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.136 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.136 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.139 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.139 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.139 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.139 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.140 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.142 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.142 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.143 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.143 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.144 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.144 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.144 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.147 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.147 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.147 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.147 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.148 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.150 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.150 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.151 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.151 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.151 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.153 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.154 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.156 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.157 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.157 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.157 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.157 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.158 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.158 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.159 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.160 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.160 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.160 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.160 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.167 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.168 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.168 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.168 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.170 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.171 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.171 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.171 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.171 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.171 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.172 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.173 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.174 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.175 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.177 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.178 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.178 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.180 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.180 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.180 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.187 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.188 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.190 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.191 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.191 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.192 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.195 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.195 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.195 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279731::seqNum:0
+2022-12-08 20:24:29.195 INFO BPv7.BPADispatcher run Expected down, readding to the buffer: from:b::to:a::creationTime:126279751::seqNum:0
+2022-12-08 20:24:29.200 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.7241445163322161
+2022-12-08 20:24:29.201 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:29.223 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126279731
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc5NDM3CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:29.228 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126279731::seqNum:0; Time (ms) since creation: 121; Size of bundle payload (bytes):312
+2022-12-08 20:24:29.229 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126279731::seqNum:0; Time (ms) since creation: 122
+2022-12-08 20:24:29.229 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126279731
+2022-12-08 20:24:29.229 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:29.249 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57876
+2022-12-08 20:24:29.264 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126279751
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc5NjE5CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:29.267 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126279788::seqNum:0"
+2022-12-08 20:24:29.268 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.24902228689820027
+2022-12-08 20:24:29.268 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126279788::seqNum:0; Time (ms) since creation: 104
+2022-12-08 20:24:29.269 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126279788
+2022-12-08 20:24:29.269 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126279788
+2022-12-08 20:24:29.269 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126279788::seqNum:0; Time (ms) since creation: 105; Size of bundle payload (bytes):255
+2022-12-08 20:24:29.271 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126279788
+2022-12-08 20:24:29.272 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:29.271 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126279895::seqNum:0
+2022-12-08 20:24:29.273 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126279895
+2022-12-08 20:24:29.273 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126279895
+2022-12-08 20:24:29.273 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126279788::seqNum:0; Time (ms) since creation: 109; Size of bundle payload (bytes):255
+2022-12-08 20:24:29.274 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126279751::seqNum:0; Time (ms) since creation: 147; Size of bundle payload (bytes):312
+2022-12-08 20:24:29.275 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126279751::seqNum:0; Time (ms) since creation: 148
+2022-12-08 20:24:29.275 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126279751
+2022-12-08 20:24:29.275 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:29.307 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126279895
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc5Nzg4CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:29.319 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126279895::seqNum:0; Time (ms) since creation: 48; Size of bundle payload (bytes):312
+2022-12-08 20:24:29.321 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126279895::seqNum:0; Time (ms) since creation: 50
+2022-12-08 20:24:29.321 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126279895
+2022-12-08 20:24:29.646 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57884
+2022-12-08 20:24:29.653 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126280105::seqNum:0"
+2022-12-08 20:24:29.667 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.9540418550651338
+2022-12-08 20:24:29.667 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126280105::seqNum:0; Time (ms) since creation: 186
+2022-12-08 20:24:29.667 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126280105
+2022-12-08 20:24:29.667 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126280105
+2022-12-08 20:24:29.668 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126280105::seqNum:0; Time (ms) since creation: 186; Size of bundle payload (bytes):145
+2022-12-08 20:24:29.669 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126280105
+2022-12-08 20:24:29.670 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:29.672 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126280296::seqNum:0
+2022-12-08 20:24:29.672 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126280296
+2022-12-08 20:24:29.672 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126280296
+2022-12-08 20:24:29.672 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.8812487760010876
+2022-12-08 20:24:29.673 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:29.676 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126280296
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgwMTA1CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:29.684 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126280296::seqNum:0; Time (ms) since creation: 12; Size of bundle payload (bytes):312
+2022-12-08 20:24:29.685 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126280296::seqNum:0; Time (ms) since creation: 13
+2022-12-08 20:24:29.686 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126280296
+2022-12-08 20:24:29.691 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126280105::seqNum:0; Time (ms) since creation: 210; Size of bundle payload (bytes):145
+2022-12-08 20:24:29.701 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57894
+2022-12-08 20:24:29.720 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126279953::seqNum:0"
+2022-12-08 20:24:29.720 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.5579509079086848
+2022-12-08 20:24:29.720 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126279953::seqNum:0; Time (ms) since creation: 391
+2022-12-08 20:24:29.721 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126279953
+2022-12-08 20:24:29.721 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126279953
+2022-12-08 20:24:29.721 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126279953::seqNum:0; Time (ms) since creation: 392; Size of bundle payload (bytes):824
+2022-12-08 20:24:29.721 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126279953
+2022-12-08 20:24:29.721 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:29.723 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126280347::seqNum:0
+2022-12-08 20:24:29.723 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126280347
+2022-12-08 20:24:29.724 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126280347
+2022-12-08 20:24:29.724 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126279953::seqNum:0; Time (ms) since creation: 395; Size of bundle payload (bytes):824
+2022-12-08 20:24:29.724 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.6405534024707285
+2022-12-08 20:24:29.724 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:29.742 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57910
+2022-12-08 20:24:29.745 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126280347
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2Mjc5OTUzCiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:29.747 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126280294::seqNum:0"
+2022-12-08 20:24:29.747 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126280294::seqNum:0; Time (ms) since creation: 77; Size of bundle payload (bytes):224
+2022-12-08 20:24:29.747 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126280294::seqNum:0; Time (ms) since creation: 77
+2022-12-08 20:24:29.748 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126280294
+2022-12-08 20:24:29.748 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126280294
+2022-12-08 20:24:29.748 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126280294::seqNum:0; Time (ms) since creation: 78; Size of bundle payload (bytes):224
+2022-12-08 20:24:29.748 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126280294
+2022-12-08 20:24:29.748 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:29.750 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126280374::seqNum:0
+2022-12-08 20:24:29.750 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126280374
+2022-12-08 20:24:29.750 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126280374
+2022-12-08 20:24:29.758 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126280347::seqNum:0; Time (ms) since creation: 35; Size of bundle payload (bytes):312
+2022-12-08 20:24:29.758 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126280347::seqNum:0; Time (ms) since creation: 35
+2022-12-08 20:24:29.758 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126280347
+2022-12-08 20:24:29.759 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:29.762 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126280374
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgwMjk0CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:29.776 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126280374::seqNum:0; Time (ms) since creation: 25; Size of bundle payload (bytes):312
+2022-12-08 20:24:29.776 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126280374::seqNum:0; Time (ms) since creation: 26
+2022-12-08 20:24:29.776 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126280374
+2022-12-08 20:24:30.035 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57922
+2022-12-08 20:24:30.064 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126280495::seqNum:0"
+2022-12-08 20:24:30.065 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.5058013076516202
+2022-12-08 20:24:30.065 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126280495::seqNum:0; Time (ms) since creation: 194
+2022-12-08 20:24:30.065 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126280495
+2022-12-08 20:24:30.066 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126280495
+2022-12-08 20:24:30.066 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126280495::seqNum:0; Time (ms) since creation: 195; Size of bundle payload (bytes):238
+2022-12-08 20:24:30.066 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126280495
+2022-12-08 20:24:30.066 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.068 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126280692::seqNum:0
+2022-12-08 20:24:30.069 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126280692
+2022-12-08 20:24:30.069 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.930866424515919
+2022-12-08 20:24:30.069 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.071 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126280692
+2022-12-08 20:24:30.079 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126280692
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgwNDk1CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:30.081 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126280692::seqNum:0; Time (ms) since creation: 13; Size of bundle payload (bytes):312
+2022-12-08 20:24:30.082 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126280692::seqNum:0; Time (ms) since creation: 14
+2022-12-08 20:24:30.082 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126280692
+2022-12-08 20:24:30.091 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126280495::seqNum:0; Time (ms) since creation: 220; Size of bundle payload (bytes):238
+2022-12-08 20:24:30.209 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57934
+2022-12-08 20:24:30.216 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126280670::seqNum:0"
+2022-12-08 20:24:30.216 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.6733932192076483
+2022-12-08 20:24:30.217 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126280670::seqNum:0; Time (ms) since creation: 171
+2022-12-08 20:24:30.217 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126280670
+2022-12-08 20:24:30.217 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126280670
+2022-12-08 20:24:30.217 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126280670::seqNum:0; Time (ms) since creation: 171; Size of bundle payload (bytes):228
+2022-12-08 20:24:30.219 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126280670
+2022-12-08 20:24:30.219 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.226 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126280850::seqNum:0
+2022-12-08 20:24:30.227 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126280850
+2022-12-08 20:24:30.227 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.611693376540049
+2022-12-08 20:24:30.228 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.240 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126280850
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgwNjcwCiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:30.245 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126280850
+2022-12-08 20:24:30.249 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126280850::seqNum:0; Time (ms) since creation: 23; Size of bundle payload (bytes):312
+2022-12-08 20:24:30.250 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126280850::seqNum:0; Time (ms) since creation: 24
+2022-12-08 20:24:30.250 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126280850
+2022-12-08 20:24:30.255 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126280670::seqNum:0; Time (ms) since creation: 209; Size of bundle payload (bytes):228
+2022-12-08 20:24:30.332 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57936
+2022-12-08 20:24:30.355 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126280854::seqNum:0"
+2022-12-08 20:24:30.357 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.19526420356428797
+2022-12-08 20:24:30.358 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126280854::seqNum:0; Time (ms) since creation: 128
+2022-12-08 20:24:30.358 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126280854
+2022-12-08 20:24:30.359 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126280854
+2022-12-08 20:24:30.359 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126280854::seqNum:0; Time (ms) since creation: 129; Size of bundle payload (bytes):205
+2022-12-08 20:24:30.361 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126280985::seqNum:0
+2022-12-08 20:24:30.361 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126280985
+2022-12-08 20:24:30.361 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126280854
+2022-12-08 20:24:30.361 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.362 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.4976118340422859
+2022-12-08 20:24:30.362 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.365 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126280985
+2022-12-08 20:24:30.366 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126280985
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgwODU0CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:30.368 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126280985::seqNum:0; Time (ms) since creation: 7; Size of bundle payload (bytes):312
+2022-12-08 20:24:30.369 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126280985::seqNum:0; Time (ms) since creation: 8
+2022-12-08 20:24:30.369 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126280985
+2022-12-08 20:24:30.377 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126280854::seqNum:0; Time (ms) since creation: 147; Size of bundle payload (bytes):205
+2022-12-08 20:24:30.410 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57940
+2022-12-08 20:24:30.421 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126281010::seqNum:0"
+2022-12-08 20:24:30.422 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.4399632891230131
+2022-12-08 20:24:30.422 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126281010::seqNum:0; Time (ms) since creation: 36; Size of bundle payload (bytes):512
+2022-12-08 20:24:30.422 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126281010::seqNum:0; Time (ms) since creation: 36
+2022-12-08 20:24:30.422 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126281010
+2022-12-08 20:24:30.422 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126281010
+2022-12-08 20:24:30.423 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126281010::seqNum:0; Time (ms) since creation: 37; Size of bundle payload (bytes):512
+2022-12-08 20:24:30.425 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126281049::seqNum:0
+2022-12-08 20:24:30.425 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126281049
+2022-12-08 20:24:30.425 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.89192253272028
+2022-12-08 20:24:30.425 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.426 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126281010
+2022-12-08 20:24:30.426 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.427 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126281049
+2022-12-08 20:24:30.436 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126281049
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgxMDEwCiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:30.439 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126281049::seqNum:0; Time (ms) since creation: 14; Size of bundle payload (bytes):312
+2022-12-08 20:24:30.440 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126281049::seqNum:0; Time (ms) since creation: 15
+2022-12-08 20:24:30.440 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126281049
+2022-12-08 20:24:30.569 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57948
+2022-12-08 20:24:30.587 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126281169::seqNum:0"
+2022-12-08 20:24:30.588 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.8081612077730431
+2022-12-08 20:24:30.591 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126281169::seqNum:0; Time (ms) since creation: 46
+2022-12-08 20:24:30.592 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126281169
+2022-12-08 20:24:30.592 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126281169
+2022-12-08 20:24:30.592 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126281169::seqNum:0; Time (ms) since creation: 47; Size of bundle payload (bytes):755
+2022-12-08 20:24:30.593 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126281169
+2022-12-08 20:24:30.594 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.596 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126281220::seqNum:0
+2022-12-08 20:24:30.596 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126281220
+2022-12-08 20:24:30.596 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126281220
+2022-12-08 20:24:30.596 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.480693456356974
+2022-12-08 20:24:30.596 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.596 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126281169::seqNum:0; Time (ms) since creation: 51; Size of bundle payload (bytes):755
+2022-12-08 20:24:30.599 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126281220
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgxMTY5CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:30.602 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126281220::seqNum:0; Time (ms) since creation: 6; Size of bundle payload (bytes):312
+2022-12-08 20:24:30.602 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126281220::seqNum:0; Time (ms) since creation: 6
+2022-12-08 20:24:30.602 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126281220
+2022-12-08 20:24:30.826 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57960
+2022-12-08 20:24:30.844 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126281346::seqNum:0"
+2022-12-08 20:24:30.848 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.32565232987910986
+2022-12-08 20:24:30.848 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126281346::seqNum:0; Time (ms) since creation: 126
+2022-12-08 20:24:30.848 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126281346
+2022-12-08 20:24:30.848 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126281346
+2022-12-08 20:24:30.849 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126281346::seqNum:0; Time (ms) since creation: 127; Size of bundle payload (bytes):431
+2022-12-08 20:24:30.851 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126281475::seqNum:0
+2022-12-08 20:24:30.851 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126281475
+2022-12-08 20:24:30.851 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.8007745444119644
+2022-12-08 20:24:30.851 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.853 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126281346
+2022-12-08 20:24:30.853 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.855 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126281475
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgxMzQ2CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:30.855 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126281475
+2022-12-08 20:24:30.857 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126281475::seqNum:0; Time (ms) since creation: 6; Size of bundle payload (bytes):312
+2022-12-08 20:24:30.857 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126281475::seqNum:0; Time (ms) since creation: 6
+2022-12-08 20:24:30.857 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126281475
+2022-12-08 20:24:30.857 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126281346::seqNum:0; Time (ms) since creation: 135; Size of bundle payload (bytes):431
+2022-12-08 20:24:30.977 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57976
+2022-12-08 20:24:30.985 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126281582::seqNum:0"
+2022-12-08 20:24:30.990 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.4630211146227001
+2022-12-08 20:24:30.990 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126281582::seqNum:0; Time (ms) since creation: 32
+2022-12-08 20:24:30.991 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126281582
+2022-12-08 20:24:30.991 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126281582
+2022-12-08 20:24:30.991 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126281582::seqNum:0; Time (ms) since creation: 33; Size of bundle payload (bytes):451
+2022-12-08 20:24:30.991 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126281582
+2022-12-08 20:24:30.991 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:30.994 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126281618::seqNum:0
+2022-12-08 20:24:30.994 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126281618
+2022-12-08 20:24:30.994 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126281618
+2022-12-08 20:24:30.994 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.8024238680684685
+2022-12-08 20:24:30.994 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:30.994 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126281582::seqNum:0; Time (ms) since creation: 36; Size of bundle payload (bytes):451
+2022-12-08 20:24:30.998 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126281618
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgxNTgyCiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:31.023 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126281618::seqNum:0; Time (ms) since creation: 29; Size of bundle payload (bytes):312
+2022-12-08 20:24:31.023 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126281618::seqNum:0; Time (ms) since creation: 29
+2022-12-08 20:24:31.023 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126281618
+2022-12-08 20:24:31.168 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57988
+2022-12-08 20:24:31.174 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126281765::seqNum:0"
+2022-12-08 20:24:31.174 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.011090741171706275
+2022-12-08 20:24:31.175 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126281765::seqNum:0; Time (ms) since creation: 34
+2022-12-08 20:24:31.175 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126281765
+2022-12-08 20:24:31.175 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126281765
+2022-12-08 20:24:31.175 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126281765::seqNum:0; Time (ms) since creation: 34; Size of bundle payload (bytes):330
+2022-12-08 20:24:31.179 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126281803::seqNum:0
+2022-12-08 20:24:31.179 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126281803
+2022-12-08 20:24:31.180 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.45608057665499824
+2022-12-08 20:24:31.180 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:31.181 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126281765
+2022-12-08 20:24:31.181 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:31.184 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126281803
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgxNzY1CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:31.182 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126281803
+2022-12-08 20:24:31.190 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126281765::seqNum:0; Time (ms) since creation: 49; Size of bundle payload (bytes):330
+2022-12-08 20:24:31.200 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126281803::seqNum:0; Time (ms) since creation: 21; Size of bundle payload (bytes):312
+2022-12-08 20:24:31.200 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126281803::seqNum:0; Time (ms) since creation: 21
+2022-12-08 20:24:31.200 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126281803
+2022-12-08 20:24:31.421 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:57990
+2022-12-08 20:24:31.428 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126281947::seqNum:0"
+2022-12-08 20:24:31.428 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.266800126287862
+2022-12-08 20:24:31.429 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126281947::seqNum:0; Time (ms) since creation: 106
+2022-12-08 20:24:31.429 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126281947
+2022-12-08 20:24:31.429 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126281947
+2022-12-08 20:24:31.429 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126281947::seqNum:0; Time (ms) since creation: 106; Size of bundle payload (bytes):628
+2022-12-08 20:24:31.434 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126282058::seqNum:0
+2022-12-08 20:24:31.434 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126282058
+2022-12-08 20:24:31.434 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.40048464965475805
+2022-12-08 20:24:31.435 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:31.435 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126282058
+2022-12-08 20:24:31.436 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126281947
+2022-12-08 20:24:31.437 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:31.437 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126281947::seqNum:0; Time (ms) since creation: 114; Size of bundle payload (bytes):628
+2022-12-08 20:24:31.448 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126282058
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgxOTQ3CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:31.460 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126282058::seqNum:0; Time (ms) since creation: 26; Size of bundle payload (bytes):312
+2022-12-08 20:24:31.460 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126282058::seqNum:0; Time (ms) since creation: 26
+2022-12-08 20:24:31.460 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126282058
+2022-12-08 20:24:31.737 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:58000
+2022-12-08 20:24:31.751 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126282329::seqNum:0"
+2022-12-08 20:24:31.752 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.6425703443540892
+2022-12-08 20:24:31.754 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126282329::seqNum:0; Time (ms) since creation: 49; Size of bundle payload (bytes):201
+2022-12-08 20:24:31.754 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126282329::seqNum:0; Time (ms) since creation: 49
+2022-12-08 20:24:31.754 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126282329
+2022-12-08 20:24:31.754 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126282329
+2022-12-08 20:24:31.755 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126282329::seqNum:0; Time (ms) since creation: 50; Size of bundle payload (bytes):201
+2022-12-08 20:24:31.756 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126282380::seqNum:0
+2022-12-08 20:24:31.757 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126282380
+2022-12-08 20:24:31.757 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.454766495766847
+2022-12-08 20:24:31.757 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:31.759 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126282380
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgyMzI5CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:31.759 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126282329
+2022-12-08 20:24:31.760 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:31.761 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126282380
+2022-12-08 20:24:31.793 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126282380::seqNum:0; Time (ms) since creation: 37; Size of bundle payload (bytes):312
+2022-12-08 20:24:31.794 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126282380::seqNum:0; Time (ms) since creation: 38
+2022-12-08 20:24:31.794 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126282380
+2022-12-08 20:24:31.803 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:58010
+2022-12-08 20:24:31.809 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126282114::seqNum:0"
+2022-12-08 20:24:31.810 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.5657558513547682
+2022-12-08 20:24:31.810 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126282114::seqNum:0; Time (ms) since creation: 320
+2022-12-08 20:24:31.810 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126282114
+2022-12-08 20:24:31.810 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126282114
+2022-12-08 20:24:31.810 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126282114::seqNum:0; Time (ms) since creation: 320; Size of bundle payload (bytes):223
+2022-12-08 20:24:31.812 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126282436::seqNum:0
+2022-12-08 20:24:31.812 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126282436
+2022-12-08 20:24:31.812 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.5040560086871689
+2022-12-08 20:24:31.813 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:31.815 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126282436
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgyMTE0CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:31.815 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126282114
+2022-12-08 20:24:31.815 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:31.816 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126282436
+2022-12-08 20:24:31.816 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126282114::seqNum:0; Time (ms) since creation: 326; Size of bundle payload (bytes):223
+2022-12-08 20:24:31.835 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126282436::seqNum:0; Time (ms) since creation: 23; Size of bundle payload (bytes):312
+2022-12-08 20:24:31.835 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126282436::seqNum:0; Time (ms) since creation: 23
+2022-12-08 20:24:31.836 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126282436
+2022-12-08 20:24:31.916 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:58014
+2022-12-08 20:24:31.929 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126282511::seqNum:0"
+2022-12-08 20:24:31.930 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.2984797590165955
+2022-12-08 20:24:31.935 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126282511::seqNum:0; Time (ms) since creation: 48
+2022-12-08 20:24:31.936 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126282511
+2022-12-08 20:24:31.936 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126282511
+2022-12-08 20:24:31.936 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126282511::seqNum:0; Time (ms) since creation: 49; Size of bundle payload (bytes):518
+2022-12-08 20:24:31.937 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126282511
+2022-12-08 20:24:31.937 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:31.939 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126282563::seqNum:0
+2022-12-08 20:24:31.939 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126282563
+2022-12-08 20:24:31.939 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.6008273894945935
+2022-12-08 20:24:31.939 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:31.943 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126282563
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgyNTExCiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:31.943 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126282563
+2022-12-08 20:24:31.943 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126282511::seqNum:0; Time (ms) since creation: 56; Size of bundle payload (bytes):518
+2022-12-08 20:24:31.944 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126282563::seqNum:0; Time (ms) since creation: 5; Size of bundle payload (bytes):312
+2022-12-08 20:24:31.944 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126282563::seqNum:0; Time (ms) since creation: 5
+2022-12-08 20:24:31.944 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126282563
+2022-12-08 20:24:32.129 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:58026
+2022-12-08 20:24:32.133 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126282707::seqNum:0"
+2022-12-08 20:24:32.134 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.7025414257092815
+2022-12-08 20:24:32.134 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126282707::seqNum:0; Time (ms) since creation: 51
+2022-12-08 20:24:32.134 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126282707
+2022-12-08 20:24:32.134 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126282707
+2022-12-08 20:24:32.135 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126282707::seqNum:0; Time (ms) since creation: 52; Size of bundle payload (bytes):931
+2022-12-08 20:24:32.136 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126282760::seqNum:0
+2022-12-08 20:24:32.136 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126282760
+2022-12-08 20:24:32.136 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126282760
+2022-12-08 20:24:32.137 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126282707
+2022-12-08 20:24:32.137 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.3750736593920512
+2022-12-08 20:24:32.137 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:32.137 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:32.141 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126282760
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgyNzA3CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:32.142 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126282707::seqNum:0; Time (ms) since creation: 59; Size of bundle payload (bytes):931
+2022-12-08 20:24:32.146 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126282760::seqNum:0; Time (ms) since creation: 10; Size of bundle payload (bytes):312
+2022-12-08 20:24:32.147 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126282760::seqNum:0; Time (ms) since creation: 11
+2022-12-08 20:24:32.147 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126282760
+2022-12-08 20:24:32.318 INFO DTCP.DTCPServer run Connected to client! /10.0.0.2:58032
+2022-12-08 20:24:32.331 INFO BPv7.containers.Bundle deserializeNetworkEncoding Deserialized bundle ID = "from:a::to:b::creationTime:126282876::seqNum:0"
+2022-12-08 20:24:32.331 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 87960931270656, Value: 0.64861345764747
+2022-12-08 20:24:32.331 INFO DTCP.ClientHandler run [NetStats] Bundle Received: from:a::to:b::creationTime:126282876::seqNum:0; Time (ms) since creation: 79; Size of bundle payload (bytes):329
+2022-12-08 20:24:32.335 INFO BPv7.BPAReceiver run [NetStats] BPA Received: from:a::to:b::creationTime:126282876::seqNum:0; Time (ms) since creation: 83
+2022-12-08 20:24:32.335 INFO BPv7.BPAReceiver run Sending status report for delivered bundle, timestamp: 126282876
+2022-12-08 20:24:32.335 INFO BPv7.BPAReceiver run Added bundle to the queue for AA, timestamp: 126282876
+2022-12-08 20:24:32.335 INFO BPv7.BPAReceiver run [NetStats] Bundle Arrived: from:a::to:b::creationTime:126282876::seqNum:0; Time (ms) since creation: 83; Size of bundle payload (bytes):329
+2022-12-08 20:24:32.337 INFO BPv7.BPA getPayload sending payload of the bundle to AA, timestamp: 126282876
+2022-12-08 20:24:32.337 WARNING SendStrings.App receiveThoseStrings (warn to make it show up in console) Received message from a
+2022-12-08 20:24:32.339 INFO BPv7.BPAUtils createBundle creating bundle for the payload, bundle = from:b::to:a::creationTime:126282963::seqNum:0
+2022-12-08 20:24:32.340 INFO BPv7.BPA sendWithAdminFlag saving the bundle with admin flag, timestamp: 126282963
+2022-12-08 20:24:32.340 INFO DTCP.DTCPUtils getConnectionValue New Connection Check For Connection Id: 43980465897472, Value: 0.8489449269809584
+2022-12-08 20:24:32.340 INFO BPv7.BPADispatcher run DTCP reported: Can reach destination nodeID
+2022-12-08 20:24:32.342 INFO BPv7.containers.Bundle getNetworkEncoding Wrote this bundle as JSON:
+{
+  "primary" : {
+    "flags" : 2,
+    "destNode" : {
+      "id" : "a"
+    },
+    "srcNode" : {
+      "id" : "b"
+    },
+    "reportToNode" : {
+      "id" : "b"
+    },
+    "creationTimestamp" : {
+      "creationTime" : {
+        "timeInMS" : 126282963
+      },
+      "seqNum" : 0
+    },
+    "lifetime" : 50000,
+    "fragmentOffset" : -1,
+    "crc" : -1,
+    "adulen" : -1
+  },
+  "payload" : {
+    "payload" : "ewogICJzdGF0dXNJbmRpY2F0b3IiIDogWyB7CiAgICAic3RhdHVzIiA6IHRydWUKICB9LCB7CiAgICAic3RhdHVzIiA6IGZhbHNlCiAgfSwgewogICAgInN0YXR1cyIgOiB0cnVlCiAgfSwgewogICAgInN0YXR1cyIgOiBmYWxzZQogIH0gXSwKICAicmVhc29uQ29kZSIgOiAwLAogICJzb3VyY2VCdW5kbGVOb2RlSUQiIDogewogICAgImlkIiA6ICJhIgogIH0sCiAgImNyZWF0aW9uVGltZXN0YW1wIiA6IHsKICAgICJjcmVhdGlvblRpbWUiIDogewogICAgICAidGltZUluTVMiIDogMTI2MjgyODc2CiAgICB9LAogICAgInNlcU51bSIgOiAwCiAgfQp9",
+    "blockType" : 1,
+    "blockNum" : 1,
+    "flags" : 0,
+    "crc" : -1
+  }
+}
+2022-12-08 20:24:32.343 INFO BPv7.BPAUtils saveToQueue save the bundle in the sending queue: 126282963
+2022-12-08 20:24:32.345 INFO DTCP.DTCP send [NetStats] Bundle Sent: from:b::to:a::creationTime:126282963::seqNum:0; Time (ms) since creation: 6; Size of bundle payload (bytes):312
+2022-12-08 20:24:32.346 INFO BPv7.BPADispatcher run [NetStats] BPA Sent: from:b::to:a::creationTime:126282963::seqNum:0; Time (ms) since creation: 7
+2022-12-08 20:24:32.346 INFO BPv7.BPADispatcher run Sent bundle to DTCP and updated the dispatch status for bundle timestamp: 126282963

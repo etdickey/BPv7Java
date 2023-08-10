@@ -1,8 +1,16 @@
 package BPv7.containers;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.naming.directory.InvalidAttributesException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.InvalidPropertiesFormatException;
+import java.util.logging.Logger;
 
 /**
  * Represents every block except the first containing who knows what.
@@ -87,10 +95,31 @@ public abstract class CanonicalBlock extends Block {
         this.crc = -1;
     }
 
+    /**
+     * Primary constructor with all fields (used for Jackson JSON serialization)
+     * @param flags flags
+     * @param blockType type of block
+     * @param blockNum unique identifier within the bundle
+     * @param crc crc
+     */
+    @JsonCreator
+    public CanonicalBlock(@JsonProperty("flags") long flags,
+                          @JsonProperty("blockType") int blockType,
+                          @JsonProperty("blockNum") int blockNum,
+                          @JsonProperty("crc") short crc) {
+        this.flags = flags;
+        this.blockType = blockType;
+        this.blockNum = blockNum;
+        this.crc = crc;
+    }
+
+
+
     //getters
     public int getBlockType() { return blockType; }
     public int getBlockNum() { return blockNum; }
     public long getFlags() { return flags; }
+    @JsonIgnore
     public int getCrcType() { return crcType; }
     public int getCrc() { return crc; }
 
@@ -110,26 +139,43 @@ public abstract class CanonicalBlock extends Block {
     /**
      * Returns a valid network encoding as a byte array
      *
+     * @param logger logger to log things with (containers don't get loggers -- no context)
      * @return networking encoding
      * @throws InvalidPropertiesFormatException if block is not ready to be encoded
      */
+    @JsonIgnore
     @Override
-    public byte[] getNetworkEncoding() throws InvalidPropertiesFormatException {
-        //todo
-        return null;
+    public byte[] getNetworkEncoding(final Logger logger) throws InvalidPropertiesFormatException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(this);//no logging, done only in Bundle
+        } catch (JsonProcessingException e) {
+            logger.severe("ERROR! Unable to write CanonicalBlock to byte[]: " + e.getMessage());
+            throw new InvalidPropertiesFormatException(e.getMessage());
+        }
     }
 
     /**
      * Decodes the byte array into the implementing object (each class only responsible for its own decoding)
      *
      * @param toDecode network-encoded array to decode
+     * @param logger logger to log things with (containers don't get loggers -- no context)
      * @return instance of implementing class with fields populated from toDecode
      * @throws ParseException if invalid input (bad formatting, not enough fields, too many fields, etc)
      */
     @Override
-    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode) throws ParseException {
+    public NetworkSerializable deserializeNetworkEncoding(byte[] toDecode, final Logger logger) throws ParseException {
         //todo:: figure out which subclass to instantiate and finish decoding with
-        return null;
+        //  isn't this done automatically?
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.readValue(toDecode, CanonicalBlock.class);//no logging, done only in Bundle
+        } catch (IOException e) {
+            logger.severe("ERROR! Unable to read a CanonicalBlock from byte array: " + e.getMessage());
+            throw new ParseException(e.getMessage(), -1);
+        }
     }
 
     /**

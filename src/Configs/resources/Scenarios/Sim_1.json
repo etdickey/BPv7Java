@@ -1,0 +1,9 @@
+{
+  "scenarioID" : 1,
+  "description" : "low expected down probability, highish unexpected down probability, long lifetime",
+  "expectedDownProbability" : 0.015625,
+  "unexpectedDownProbability" : 0.125,
+  "milliPerDownPeriod" : 100,
+  "dtcpPort" : 3827,
+  "bundleLifetimeMS": 50000
+}

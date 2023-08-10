@@ -3,6 +3,7 @@ package Configs;
 import java.io.File;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -15,9 +16,6 @@ import com.fasterxml.jackson.databind.*;
  * and are PER HOST
  * Examples include which port DTCP receives on and which IP our host/other hosts are.
  */
-
-
-
 public class ConvergenceLayerParams {
     /** Logger for this class. Prepends all logs from this class with the class name */
     private static final Logger logger = Logger.getLogger(ConvergenceLayerParams.class.getName());
@@ -32,19 +30,21 @@ public class ConvergenceLayerParams {
 
     /** The config file this was read from */
     private static String CONFIG_FILE = null;
+    /** convergence layer configs folder within SimulationParams.resouceDir */
+    private static final String convergenceConfigFolder = "ConvergenceLayerConfigs/";
 
     /** Whether the Config File has been set or not */
     private static boolean hasSetConfig = false;
 
     /**
      * The method for setting the ConvergenceLayerParams config file
-     * @param file the config file for this instance
+     * @param filename the config file for this instance without extension or directories!
      */
     @SuppressWarnings("unused")
-    public static void setConfigFile(String file) {
+    public static void setConfigFile(String filename) {
         if (!hasSetConfig) {
             hasSetConfig = true;
-            CONFIG_FILE = file;
+            CONFIG_FILE = SimulationParams.resourceDir + convergenceConfigFolder + filename + SimulationParams.cfgFileExtension;
             getInstance();
         }
     }
@@ -195,8 +195,8 @@ public class ConvergenceLayerParams {
             throw new InvalidParameterException("Invalid queueTimeoutInMillis: " + queueTimeoutInMillis + ", must be (strictly) positive");
 
         // Set the values
-        this.idToAddressRoutingMap = idToAddressRoutingMap;
-        this.thisAddress = thisAddress;
+        this.idToAddressRoutingMap = idToAddressRoutingMap;//todo:: @aidan please convert all fields to lower case for consistency
+        this.thisAddress = thisAddress.toLowerCase(Locale.ROOT);
         this.queueCapacity = queueCapacity;
         this.nThreads = nThreads;
         this.maxConnections = maxConnections;

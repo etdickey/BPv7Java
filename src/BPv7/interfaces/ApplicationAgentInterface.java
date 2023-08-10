@@ -7,6 +7,12 @@ import BPv7.containers.Timestamp;
  * Defines the interface for interacting with BP from the application-level perspective
  */
 public interface ApplicationAgentInterface {
+    /**
+     * Simple wrapper to tell the receiver who sent the payload
+     * @param payload byte[] payload of bundle
+     * @param sender NodeID who sent the payload
+     */
+    record ReceivePackage(byte[] payload, NodeID sender, Timestamp creationTime) {}
 
     /**
      * [blocking] Sends a message to the BPA to bundle and send to the end destination
@@ -18,10 +24,12 @@ public interface ApplicationAgentInterface {
     /**
      * Returns the next message from the stream.
      * Calls BPA::getPayload once and saves all the payload in a buffer to return to user at some point
+     *
      * @param numToRead number of bytes to read from the stream
-     * @return byte[] of size numToRead
+     * @return byte[] of size numToRead and sender NodeID (ReceivePackage)
+     * @throws InterruptedException if unable to read next payload
      */
-    byte[] read(int numToRead) throws InterruptedException;
+    ReceivePackage read(int numToRead) throws InterruptedException;
     /**
      * Checks if the packet ID passed in has been sent to the next hop
      * Will trash record of complete transmission after >=1 minute (config file)
@@ -29,4 +37,12 @@ public interface ApplicationAgentInterface {
      * @return true if the “packet” has reached the next hop ONLY (else false)
      */
     boolean checkSent(Timestamp packetTimestamp);
+
+    /**
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
+     */
+    Timestamp sendWithACK(byte[] payload, NodeID destNodeID);
 }

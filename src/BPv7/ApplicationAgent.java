@@ -2,9 +2,7 @@ package BPv7;
 
 import BPv7.containers.NodeID;
 import BPv7.containers.Timestamp;
-import BPv7.interfaces.AdminElementInterface;
 import BPv7.interfaces.ApplicationAgentInterface;
-import BPv7.utils.BundleStatusReport;
 import BPv7.utils.DispatchStatus;
 
 import java.util.Arrays;
@@ -74,13 +72,16 @@ public class ApplicationAgent implements ApplicationAgentInterface {
      * todo:: Calls BPA::getPayload once and saves the entire payload in a buffer to return to user at some point
      *
      * @param numToRead number of bytes to read from the stream
-     * @return byte[] of size numToRead
+     * @return byte[] of size numToRead and sender NodeID (ReceivePackage)
+     * @throws InterruptedException if unable to read next payload
      */
     @Override
-    public byte[] read(int numToRead) throws InterruptedException {
+    public ReceivePackage read(int numToRead) throws InterruptedException {
         // interface with BPA
-        byte[] read_payload = BPA.getInstance().getPayload();
-        return Arrays.copyOfRange(read_payload, 0, numToRead);
+        ReceivePackage read_payload = BPA.getInstance().getPayload();
+        //todo:: save remainder of payload
+        byte[] sizedPayload = Arrays.copyOfRange(read_payload.payload(), 0, Math.min(numToRead, read_payload.payload().length));
+        return new ReceivePackage(sizedPayload, read_payload.sender(), read_payload.creationTime());
     }
 
     /**
@@ -99,5 +100,16 @@ public class ApplicationAgent implements ApplicationAgentInterface {
         } else {
             return false;
         }
+    }
+
+    /**
+     * create the bundle and request an ACK from [the next hop, the final destination]
+     * @param payload message to send in payload block of the bundle
+     * @param destNodeID destination node id of the bundle
+     * @return key (timestamp) for the bundle
+     */
+    @Override
+    public Timestamp sendWithACK(byte[] payload, NodeID destNodeID) {
+        return BPA.getInstance().sendWithACK(payload, destNodeID);
     }
 }

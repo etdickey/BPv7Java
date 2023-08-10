@@ -1,5 +1,8 @@
 package BPv7.containers;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * This class contains the status and status report's time for a bundle for one
  *  of received, forwarded, delivered and deleted.
@@ -24,12 +27,11 @@ public class BundleStatusItem {
     DTNTime reportStatusTime = null;
 
     /** Constructor taking only status as parameter. */
-    public BundleStatusItem(boolean a) { status = a; }
+    @JsonCreator
+    public BundleStatusItem(@JsonProperty("status") boolean status) { this.status = status; }
 
     /** setter for reportStatusTime if "Report status time" flag was set to 1. */
     void setReportStatusTime(DTNTime a) { reportStatusTime = a; }
 
-    public boolean getStatus() {
-        return this.status;
-    }
+    public boolean getStatus() { return this.status; }
 }

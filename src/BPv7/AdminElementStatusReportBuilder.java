@@ -79,8 +79,8 @@ public class AdminElementStatusReportBuilder implements Runnable {
                     BPA.getInstance().resendBundle(statusReportRevd.bundleTimestamp());
                 }
                 else {
-                    byte[] statusReportBytes = AdminElement.objectToByteArray(statusReport);
-                    BPA.getInstance().sendWithACK(statusReportBytes, statusReportRevd.sourceNodeID());
+                    byte[] statusReportBytes = BPAUtils.objectToByteArray(statusReport);
+                    BPA.getInstance().sendWithAdminFlag(statusReportBytes, statusReportRevd.sourceNodeID());
                 }
             } catch (InterruptedException e) {
                 // TODO: just continue or something

@@ -3,8 +3,12 @@ import BPv7.containers.StatusReport;
 import BPv7.containers.Timestamp;
 import BPv7.utils.BundleStatusReport;
 import BPv7.utils.StatusReportUtilObject;
+import Configs.ReasonCodeResponseActions;
 import Configs.SimulationParams;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 import static BPv7.BPA.*;
@@ -65,7 +69,15 @@ public class AdminElementStatusReportRcode implements Runnable {
                 //}
 
                 byte[] payload = BPA.readStatusReportBuffer.take();//blocks, putting thread to sleep (ideal behavior) (until something arrives)
-                StatusReport replyStatusReport = (StatusReport)AdminElement.bytesToObject(payload);
+                ObjectMapper mapper = new ObjectMapper();
+
+                StatusReport replyStatusReport;
+                try {
+                    replyStatusReport = mapper.readValue(payload, StatusReport.class);
+                } catch (IOException e) {
+                    logger.severe("ERROR! Unable to read a bundle from byte array: " + e.getMessage());
+                    continue;
+                }
 
                 int reasonCode = replyStatusReport.getReasonCode();
                 this.action(reasonCode, replyStatusReport.getCreationTimestamp());
@@ -93,12 +105,13 @@ public class AdminElementStatusReportRcode implements Runnable {
      *     17-254 -> Unassigned.
      *     255 -> Reserved.
      */
-    private void action(int reasonCode, Timestamp timestamp) {
+    private void action(int reasonCode, Timestamp timestamp) {//todo: ethan
+        ReasonCodeResponseActions actions = SimulationParams.getInstance().responseActions;
         if (reasonCode == 1) {
             // Lifetime expired.
-            if(SimulationParams.lifetimeExpiredAction) {
+            if(actions.lifetimeExpiredAction()) {
                 // resend!
-                BPA.getInstance().resendBundle(timestamp);
+                BPA.getInstance().resendBundleWithExtendedTime(timestamp,  100000);//100s
             } //else {
                 // drop
                 // this statusreport was popped already.
@@ -111,7 +124,7 @@ public class AdminElementStatusReportRcode implements Runnable {
             Do not expect to receive ACK or anything else
             So nothing I guess?
              */
-            if(SimulationParams.overUnidirectionalAction){
+            if(actions.overUnidirectionalAction()){
                 // nothing?
             } else {
                 // nothing?
@@ -119,55 +132,55 @@ public class AdminElementStatusReportRcode implements Runnable {
         }
         else if (reasonCode == 3) {
             // Transmission canceled.
-            if(SimulationParams.transmissionCancelledAction) {
+            if(actions.transmissionCancelledAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 4) {
             // Depleted storage.
-            if(SimulationParams.depletedStorageAction) {
+            if(actions.depletedStorageAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 5) {
             // Destination endpoint ID unavailable.
-            if(SimulationParams.destinationUnavailableAction) {
+            if(actions.destinationUnavailableAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 6) {
             // No known route to destination from here.
-            if(SimulationParams.noKnownRouteToDestinationAction) {
+            if(actions.noKnownRouteToDestinationAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 7) {
             // No timely contact with next node on route.
-            if(SimulationParams.noTimelyContactAction) {
+            if(actions.noTimelyContactAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 8) {
             // Block unintelligible.
-            if(SimulationParams.blockUnintelligibleAction) {
+            if(actions.blockUnintelligibleAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 9) {
             // Hop limit exceeded.
-            if(SimulationParams.hopLimitExceededAction) {
+            if(actions.hopLimitExceededAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 10) {
             // Traffic pared (e.g., status reports).
-            if(SimulationParams.trafficParedAction) {
+            if(actions.trafficParedAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }
         else if (reasonCode == 11) {
             // Block unsupported.
-            if(SimulationParams.blockUnsupportedAction) {
+            if(actions.blockUnsupportedAction()) {
                 BPA.getInstance().resendBundle(timestamp);
             }
         }

@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import BPv7.containers.Bundle;
+import BPv7.containers.DTNTime;
 import Configs.ConvergenceLayerParams;
 
 /**
@@ -56,9 +57,8 @@ class ClientHandler implements Runnable{
             byte[] result = client.getInputStream().readAllBytes();
 
             //May need to change this later
-            Bundle bundle = (Bundle) (new Bundle()).deserializeNetworkEncoding(result);
+            Bundle bundle = (new Bundle()).deserializeNetworkEncoding(result, logger);
             String bundleID = bundle.getLoggingBundleId();
-            logger.log(Level.INFO, "Bundle Received: " + bundleID);
             String srcAddress = ((InetSocketAddress) client.getRemoteSocketAddress()).getAddress().getHostAddress();
             if (DTCPUtils.isConnectionDownUnexpected(srcAddress))
                 logger.log(Level.INFO, "Dropping bundle due to unexpected down: " + bundleID);
@@ -66,14 +66,16 @@ class ClientHandler implements Runnable{
                 logger.log(Level.INFO, "Queue is full, dropping bundle:" + bundleID);
             }
             else {
-                logger.log(Level.INFO, "Added bundle to queue:" + bundleID);
+                logger.log(Level.INFO, "[NetStats] Bundle Received: " + bundleID
+                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundle.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                        + "; Size of bundle payload (bytes):" + bundle.getPayload().getPayload().length);
             }
         } catch (IOException e) {
-            logger.log(Level.WARNING, "Client IOException, Bundle Dropped");
+            logger.log(Level.WARNING, "Client IOException, Bundle Dropped: " + e.getMessage());
         } catch (InterruptedException e) {
-            logger.log(Level.WARNING, "Queue Interrupt Expection, Bundle Dropped");
+            logger.log(Level.WARNING, "Queue Interrupt Expection, Bundle Dropped: " + e.getMessage());
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Unspecified Failure To Read Bundle and add to Queue");
+            logger.log(Level.WARNING, "Unspecified Failure To Read Bundle and add to Queue: " + e.getMessage());
         }
     }
 }

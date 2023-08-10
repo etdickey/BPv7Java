@@ -7,6 +7,7 @@ import DTCP.DTCP;
 import DTCP.interfaces.DTCPInterface;
 import DTCP.interfaces.ReachableStatus;
 
+import java.util.InvalidPropertiesFormatException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,8 +75,9 @@ public class BPADispatcher implements Runnable {
      */
     @Override
     public void run() {
+        //noinspection InfiniteLoopStatement
         while(true) {
-            Bundle bundleToSend = null;
+            Bundle bundleToSend;
             try {
                 bundleToSend = sendBuffer.take();
             } catch (InterruptedException e) {
@@ -88,53 +90,84 @@ public class BPADispatcher implements Runnable {
             boolean deliverFlag = bundleToSend.getPrimary().getDLIV();
             ReachableStatus reachable = dtcp.canReach(destNode);
             if(reachable == ReachableStatus.REACHABLE) {
-                logger.info("Can reach destination nodeID");
+                logger.info("DTCP reported: Can reach destination nodeID");
                 if(dtcp.send(bundleToSend)) {//try to send
                     bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, SENT));
+                    logger.info("[NetStats] BPA Sent: " + bundleToSend.getLoggingBundleId()
+                                        + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundleToSend.getPrimary().getCreationTimestamp().creationTime().timeInMS));
                     logger.info("Sent bundle to DTCP and updated the dispatch status for bundle timestamp: " +
-                            bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                            bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                 } else {//failed to send
                     if(!canDelete(bundleToSend)) {//try to delete
                         sendBuffer.add(bundleToSend);
                         logger.info("Adding the bundle again to the queue for resending, timestamp: " +
-                                bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                                bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                     } else {//delete!
                         // send status report if ack requested
                         if (deliverFlag) {
                             StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 1);
-                            Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
-                            sendBuffer.add(statusReportBundle);
-                            logger.info("Sending status report, timestamp: " +
-                                    bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                            Bundle statusReportBundle;
+                            try {
+                                statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                                sendBuffer.add(statusReportBundle);
+                                logger.info("Sending status report, timestamp: " +
+                                        bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                            } catch (InvalidPropertiesFormatException e) {
+                                logger.severe("Unable to parse status report! " + e.getMessage());
+                                //drop status report
+                            }
                         }
                         bundleStatusMap.put(creationTimestamp, new BundleDispatchStatusMap(bundleToSend, DELETED));
+                        logger.info("[NetStats] Bundle Deleted: " + bundleToSend.getLoggingBundleId()
+                                            + "; Time (ms) since creation: " + (DTNTime.getCurrentDTNTime().timeInMS - bundleToSend.getPrimary().getCreationTimestamp().creationTime().timeInMS)
+                                            + "; Size of bundle payload (bytes):" + bundleToSend.getPayload().getPayload().length);
                         logger.info("deleted the bundle, timestamp: " +
-                                bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                                bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
                     }
                 }
             } else {//can't reach destination for some reason...
                 switch (reachable) {
                     case EXPECTED_DOWN ->  {
-                        if (bundleToSend.getPrimary().getLifetime() + bundleToSend.getPrimary().getCreationTimestamp().creationTime.timeInMS <= DTNTime.getCurrentDTNTime().timeInMS) {
+                        if (bundleToSend.getPrimary().getLifetime() + bundleToSend.getPrimary().getCreationTimestamp().creationTime().timeInMS <= DTNTime.getCurrentDTNTime().timeInMS) {
                             logger.log(Level.INFO, "Bundle not deliverable due to expected down and reached lifetime. Bundle: " + bundleToSend.getLoggingBundleId());
                         } else {
                             // This means it's temporarily down, but might not be in the future and hasn't reached lifetime, so re add it to the (back of) the queue
-                            sendBuffer.offer(bundleToSend);
-                            continue;
+                            if(!sendBuffer.offer(bundleToSend)){
+                                logger.severe("Could not readd bundle " + bundleToSend.getLoggingBundleId() + " to send buffer!!");
+                            } else {
+                                logger.info("Expected down, readding to the buffer: "  + bundleToSend.getLoggingBundleId());
+                            }
+                            continue;//don't send deleted status report
                         }
                     }
-                    case NO_ROUTE -> logger.log(Level.INFO, "Bundle not deliverable due to no known route. Bundle: " + bundleToSend.getLoggingBundleId());
-                    case UNKNOWN_ID -> logger.log(Level.INFO, "Bundle not deliverable due to an unknown Destination ID. Bundle: " + bundleToSend.getLoggingBundleId());
+                    case NO_ROUTE -> logger.log(Level.INFO, "Bundle not deliverable due to no known route. Bundle: "
+                            + bundleToSend.getLoggingBundleId());
+                    case UNKNOWN_ID -> logger.log(Level.INFO, "Bundle not deliverable due to an unknown Destination ID = \""
+                            + bundleToSend.getPrimary().getDestNode().id() + "\". Bundle: " + bundleToSend.getLoggingBundleId());
+                    default -> {
+                        logger.warning("UNKNOWN REACHABLE ID = " + reachable + " readding to send queue...");
+                        if(!sendBuffer.offer(bundleToSend)){
+                            logger.severe("Could not readd bundle " + bundleToSend.getLoggingBundleId() + " to send buffer!!");
+                        } else {
+                            logger.info("Expected down, readding to the buffer: "  + bundleToSend.getLoggingBundleId());
+                        }
+                        continue;//don't send deleted status report
+                    }
                 }
                 // send status report if ack requested
                 if (deliverFlag) {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);
-                    Bundle statusReportBundle = bpaUtils.createBundle(bpaUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
-                    sendBuffer.add(statusReportBundle);
-                    logger.info("deleted the bundle. Sending status report, timestamp: " +
-                            bundleToSend.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+                    Bundle statusReportBundle;
+                    try {
+                        statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                        sendBuffer.add(statusReportBundle);
+                        logger.info("deleted the bundle. Sending status report, timestamp: " +
+                                bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
+                    } catch (InvalidPropertiesFormatException e) {
+                        logger.severe("Unable to parse status report! " + e.getMessage());
+                        //drop status report
+                    }
                 }
-
             }
         }
     }
@@ -145,7 +178,7 @@ public class BPADispatcher implements Runnable {
      * @return boolean(), true if we can delete it, else false.
      */
     private boolean canDelete(Bundle bundle) {
-        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().getCreationTime().getTimeInMS());
+        long timeGap = Math.subtractExact(DTNTime.getCurrentDTNTime().getTimeInMS(), bundle.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
         return timeGap > bundle.getPrimary().getLifetime();
     }
 }

@@ -3,6 +3,7 @@ package DTCP;
 import Configs.ConvergenceLayerParams;
 import Configs.SimulationParams;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.*;
 import java.util.logging.Level;
@@ -28,7 +29,7 @@ class DTCPUtils {
      * The latest timeFrame where a down check occured. Basically the last timeframe where the connectionDownTimeFrame
      * was updated
      */
-    private static Long lastTimeFrame;
+    private static Long lastTimeFrame = 0L;
 
     /**
      * A lock for messing with timeFrame stuff, since could be happening by several threads
@@ -47,6 +48,8 @@ class DTCPUtils {
      * Might not be needed, but better to be safe than sorry
      */
      static final Logger logger = Logger.getLogger(DTCPUtils.class.getName());
+
+     private static final Random rand = new Random(0);
 
     /**
      * Gets the current timeframe, aka the number of milliseconds between occurrences and length of
@@ -81,9 +84,15 @@ class DTCPUtils {
                     connectionDownTimeFrame = new HashMap<>();
                 }
                 // result is the double representing where on [0,1) the current time frame check landed on
-                result = (new Random(connectionID ^ timeFrame)).nextDouble();
+//                result = (new Random(connectionID ^ timeFrame)).nextDouble();
+                //THIS NEEDS TO BE EXACTLY KNOWN ON BOTH SIDES OF THE CONNECTION (symmetric expected donws)
+                Random rand = new Random(connectionID + timeFrame);
+                result = rand.nextDouble();
+                for(int i=0; i<timeFrame%16; i++)
+                    result = rand.nextDouble();
+
                 connectionDownTimeFrame.put(connectionID, result);
-                logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + "Value: " + result);
+                logger.log(Level.INFO, "New Connection Check For Connection Id: " + connectionID + ", Value: " + result);
             }
         }
         return result;

@@ -3,6 +3,7 @@ package BPv7.interfaces;
 import BPv7.containers.NodeID;
 import BPv7.containers.Timestamp;
 import BPv7.utils.DispatchStatus;
+import BPv7.interfaces.ApplicationAgentInterface.ReceivePackage;
 
 /**
  * Defines the API for the BPA!
@@ -27,9 +28,10 @@ public interface BPAInterface {
     /**
      * [blocking call]
      * Returns the next bundle’s entire payload
-     * @return byteStream of payload
+     * @return byteStream of payload and sender NodeID (ReceivePackage)
+     * @throws InterruptedException if unable to read next payload
      */
-    byte[] getPayload();
+    ReceivePackage getPayload() throws InterruptedException;
 
     /**
      * create the bundle and save to sending queue
@@ -62,5 +64,18 @@ public interface BPAInterface {
      */
     Timestamp resendBundle(Timestamp bundleTimestamp);
 
+    /**
+     * Sends the bundle dispatch status from BPA end
+     * @param bundleTimestamp timestamp of the bundle
+     * @return dispatch status
+     */
     DispatchStatus getBundleStatus(Timestamp bundleTimestamp);
+
+    /**
+     * Resend old bundle with extended lifetime
+     * @param bundleTimestamp timestamp of the bundle to be resent
+     * @param extendedTime increased lifetime of the new bundle (in milliseconds)
+     * @return key (timestamp) for the bundle
+     */
+    Timestamp resendBundleWithExtendedTime(Timestamp bundleTimestamp, int extendedTime);
 }

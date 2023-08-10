@@ -1,0 +1,9 @@
+{
+  "scenarioID" : 1101,
+  "description" : "High density of packets, small packets, high density of expected downs",
+  "expectedDownProbability" : 0.25,
+  "unexpectedDownProbability" : 0.0,
+  "milliPerDownPeriod" : 100,
+  "dtcpPort" : 3827,
+  "bundleLifetimeMS": 50000
+}
