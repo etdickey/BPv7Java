@@ -69,6 +69,7 @@ ID name resolution, some practical details about routing must at
 least be mentioned and described.
 
 Individual graphs:
+
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/a5c2d8ab-eb52-4c41-a7d0-89f493549dc9)
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/8c6f4180-e1ba-4cb3-a05f-2284645b6b5b)
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/92f412a9-5fcb-402d-adda-78f6d772d454)
