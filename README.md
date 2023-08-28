@@ -5,13 +5,17 @@ The src folder contains DTCP which has the code for Disruption-TCP (DTCP) a de f
 The main BP code is in the BPv7 folder.
 
 The method to run the code is as follows:
-First install dependencies which include:
-<Insert dependencies>
-With the following commands:
-<Terminal commands to install dependencies>
+Dependencies:
+EC2 AWS instance with mininet and ONOS
 
-To run the code go into the <folder> directory and run:
-<command>
+Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
+1. Clone this repository
+2. Open four separate command shells
+3. In the first shell, start ONOS: make controller
+4. In the second terminal, start Mininet: make mininet
+5. Start the ONOS command-line interface (CLI) from the third terminal: make cli
+6. In the fourth terminal, run ONOS netcfg script: make netcfg
+7. You can try (h1 ping h2) to see if responds.
 
 EXAMPLE TRANSMISSION:
 The example transmission following the figure shown below (An example transmission from Node A to Node B through Node F the ‘Forwarder.’)
