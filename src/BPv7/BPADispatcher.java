@@ -159,7 +159,8 @@ public class BPADispatcher implements Runnable {
                     StatusReport statusReport = bpaUtils.sendStatusReport(bundleToSend, BundleStatusReport.DELETED, 5);
                     Bundle statusReportBundle;
                     try {
-                        statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getDestNode(), true, false);
+                        //should be sending status reports on deletions to the original source node
+                        statusReportBundle = bpaUtils.createBundle(BPAUtils.objectToByteArray(statusReport), bundleToSend.getPrimary().getSrcNode(), true, false);
                         sendBuffer.add(statusReportBundle);
                         logger.info("deleted the bundle. Sending status report, timestamp: " +
                                 bundleToSend.getPrimary().getCreationTimestamp().creationTime().getTimeInMS());
