@@ -1,16 +1,16 @@
 # BPv7Java
 This repository consists of the code implementing bundle protocol version 7 as described in the paper (insert link here). 
-The protocol is implemented based on RFC 9171, but due to use of JSON over CBOR it is not strictly following the RFC.
-The src folder contains DTCP which has the code for Disruption-TCP (DTCP) a de facto convergence layer.
+The protocol is implemented based on RFC 9171, but due to use of JSON over CBOR it is not fully RFC 9171 compliant.
+The src folder contains DTCP which has the code for Disruption-TCP (DTCP) a de facto convergence layer that we created for this research. Please refer to the paper (Section II.A) for details.
 The main BP code is in the BPv7 folder.
 
 The method to run the code is as follows:
 Dependencies:
-EC2 AWS instance with mininet and ONOS
+Mininet and ONOS
 
 Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
 1. Clone this repository
-2. Open four separate command shells
+2. Open four separate terminals
 3. In the first shell, start ONOS:
   
    ```markdown
@@ -27,10 +27,13 @@ Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
 
    ```markdown
    make netcfg
-7. You can try (h1 ping h2) to see if responds.
+7. You can try to ping hosts from one another to see if they respond correctly.
 
 EXAMPLE TRANSMISSION:
 The example transmission following the figure shown below (An example transmission from Node A to Node B through Node F the ‘Forwarder.’)
+
+![image](https://github.com/etdickey/BPv7Java/assets/61432064/c59483ce-641f-44fa-a7d5-19cd99034999)
+```markdown
 (1) Sending the message: send(a).
 (2) User API sends the received message a to the BPA: send(a).
 (3) BPA storing the received message a with its id as a key
@@ -71,10 +74,7 @@ bytes n.
 (32) receiveBuffer returns a[n].
 (33) Stores a[n] to a local buffer just in case.
 (34) Returns a[n] to the application.
-
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/c59483ce-641f-44fa-a7d5-19cd99034999)
-
-
+```
 Absence of Routing Method. Information about routing and
 forwarding is provided in Sections 3.8 and 4.3 of RFC 4838, the first
 RFC describing the basic architecture of DTN. However, it provides
