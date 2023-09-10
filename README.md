@@ -11,11 +11,14 @@ EC2 AWS instance with mininet and ONOS
 Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
 1. Clone this repository
 2. Open four separate command shells
-3. In the first shell, start ONOS: make controller
-4. In the second terminal, start Mininet: make mininet
-5. Start the ONOS command-line interface (CLI) from the third terminal: make cli
-6. In the fourth terminal, run ONOS netcfg script: make netcfg
-7. You can try (h1 ping h2) to see if responds.
+3. In the first shell, start ONOS:
+  
+   '''bash
+   make controller
+7. In the second terminal, start Mininet: make mininet
+8. Start the ONOS command-line interface (CLI) from the third terminal: make cli
+9. In the fourth terminal, run ONOS netcfg script: make netcfg
+10. You can try (h1 ping h2) to see if responds.
 
 EXAMPLE TRANSMISSION:
 The example transmission following the figure shown below (An example transmission from Node A to Node B through Node F the ‘Forwarder.’)
