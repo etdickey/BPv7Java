@@ -13,12 +13,21 @@ Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
 2. Open four separate command shells
 3. In the first shell, start ONOS:
   
-   '''bash
+   ```markdown
    make controller
-7. In the second terminal, start Mininet: make mininet
-8. Start the ONOS command-line interface (CLI) from the third terminal: make cli
-9. In the fourth terminal, run ONOS netcfg script: make netcfg
-10. You can try (h1 ping h2) to see if responds.
+4. In the second terminal, start Mininet:
+   
+   ```markdown
+   make mininet
+5. Start the ONOS command-line interface (CLI) from the third terminal. The password is "rocks":
+
+   ```markdown
+   make cli
+6. In the fourth terminal, run ONOS netcfg script:
+
+   ```markdown
+   make netcfg
+7. You can try (h1 ping h2) to see if responds.
 
 EXAMPLE TRANSMISSION:
 The example transmission following the figure shown below (An example transmission from Node A to Node B through Node F the ‘Forwarder.’)
@@ -62,7 +71,9 @@ bytes n.
 (32) receiveBuffer returns a[n].
 (33) Stores a[n] to a local buffer just in case.
 (34) Returns a[n] to the application.
+
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/c59483ce-641f-44fa-a7d5-19cd99034999)
+
 
 Absence of Routing Method. Information about routing and
 forwarding is provided in Sections 3.8 and 4.3 of RFC 4838, the first
@@ -74,7 +85,6 @@ versions of the RFC since 4838 appeared. Although RFC 9171 and
 the existence of a convergence layer protocol for handling node
 ID name resolution, some practical details about routing must at
 least be mentioned and described.
-
 Individual graphs:
 
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/a5c2d8ab-eb52-4c41-a7d0-89f493549dc9)
