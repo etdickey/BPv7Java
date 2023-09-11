@@ -35,27 +35,33 @@ The main BP code is in the BPv7 folder.
 * [Open Network Operating System (ONOS)](https://opennetworking.org/onos/): Software providing the control plane for an SDN. This is the operating system for the SDN controller inside our Mininet.
 
 ### Instruction
-Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
+The video tutorial (demo video) is available in this link: https://youtu.be/aika4nRm7wM
 1. Clone this repository
 2. Open four separate terminals
 3. In the first shell, start ONOS:
   
-   ```markdown
+   ```
    make controller
+   ```
 4. In the second terminal, start Mininet:
    
-   ```markdown
+   ```
    make mininet
+   ```
 5. Start the ONOS command-line interface (CLI) from the third terminal. The password is "rocks":
 
-   ```markdown
+   ```
    make cli
-6. In the fourth terminal, run ONOS netcfg script:
+   ```
+6. In the fourth terminal, run the ONOS netcfg script:
 
-   ```markdown
+   ```
    make netcfg
-7. You can try to ping hosts from one another to see if they respond correctly.
-
+   ```
+7. You can try to ping hosts from one another to see if they respond correctly. For example, in the default setting, there are three hosts: `h1`, `h2`, and `h3`. One can test if `h2` is reachable from `h1` using the following script:
+	```
+	h1 ping h2
+	```
 
 ## Example Transmission
 
