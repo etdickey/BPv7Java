@@ -43,7 +43,7 @@ The [mininet](mininet) folder contains the files for network configurations (e.g
 * [Open Network Operating System (ONOS)](https://opennetworking.org/onos/): Software providing the control plane for an SDN. This is the operating system for the SDN controller inside our Mininet.
 
 ### Instruction
-The video tutorial (demo video) is available in this link: https://youtu.be/aika4nRm7wM
+The video tutorial (demo video) is available in this link: https://youtu.be/aika4nRm7wM.
 1. Clone this repository
 2. Open four separate terminals
 3. In the first shell, start ONOS:
@@ -58,15 +58,21 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
    ```
    make cli
    ```
-6. In the fourth terminal, run the ONOS [netcfg](mininet/cfg/netcfg.json) script:
+   and activate the routing application `fwd` using this command:
+   ```
+   app activate fwd
+   ```
+7. In the fourth terminal, run the ONOS [netcfg](mininet/cfg/netcfg.json) script:
    ```
    make netcfg
    ```
-7. You can try to ping hosts from one another to see if they respond correctly. For example, in the default setting (see [Makefile](mininet/Makefile) in `mininet` folder), there are three hosts: `h1`, `h2`, and `h3`. One can test if `h2` is reachable from `h1` using the following script:
+8. You can try to ping hosts from one another to see if they respond correctly. For example, in the default setting (see [Makefile](mininet/Makefile) in `mininet` folder), there are three hosts: `h1`, `h2`, and `h3`. One can test if `h2` is reachable from `h1` using the following script:
 	```
 	h1 ping h2
 	```
-8. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS) as needed, to simulate more complicated network topology. The default setup is: three hosts (`h1`, `h2`, and `h3`) being connected to switch `s1` acting as a gateway. However, our DTCP forces a topology of `h1 -- h3 -- h2`, basically making `h3` act as a forwarding node.
+9. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS) as needed, to simulate more complicated network topology. The default setup is: three hosts (`h1`, `h2`, and `h3`) being connected to switch `s1` acting as a gateway. However, our DTCP forces a topology of `h1 -- h3 -- h2`, basically making `h3` act as a forwarding node.
+
+For more details, please refer to our demo video https://youtu.be/aika4nRm7wM or [mininet/Steps to run mininet.txt](mininet/Steps to run mininet.txt).
 	
 
 ## Example Transmission
@@ -88,10 +94,10 @@ Explanations for each step are as follows:
 * **(7)** `SenderThread` makes `send_buffer` mark `a` as sent.
 * **(8)** `SenderThread` inquires DTCP via DTCP API whether the next node – `Node F` – is currently reachable or not: `canReach(nodeID)`.
   
-	If DTCP API returns `No`, run (8) again; if `Yes`, then move on to (9).
+	If DTCP API returns `No`, run **(8)** again; if `Yes`, then move on to **(9)**.
 
 * **(8.5)** DTCP API checks whether `Node F` is reachable or not, then response back to `SenderThread`.
-* **(9)** Once DTCP API sends `Yes` in (8), process `a` into a bundle and send: `Send(Bundle(a))`.
+* **(9)** Once DTCP API sends `Yes` in **(8)**, process `a` into a bundle and send: `Send(Bundle(a))`.
 * **(10)** ANSF: Process `Send(Bundle(a))` into network serializable format and send it over to TCP.
 * **(11)** Transmit it to the next node via TCP.
 * **(12-13)** ANSF.
