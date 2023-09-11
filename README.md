@@ -108,14 +108,14 @@ Explanations for each step are as follows:
 This is a continuation of **Section III** (Analysis) of our paper.
 
 The following figures are the graphs of the delay from application layer to application layer between sender and receiver, for each scenario.
-* **Figure 4.** Scenario 000: Low density, small packet sizes, low expected disruption density.
-* **Figure 5.** Scenario 001: Low density, small packet sizes, high expected disruption density.
-* **Figure 6.** Scenario 010: Low density, large packet sizes, low expected disruption density.
-* **Figure 7.** Scenario 011: Low density, large packet sizes, high expected disruption density.
-* **Figure 8.** Scenario 100: High density, small packet sizes, low expected disruption density.
-* **Figure 9.** Scenario 101: High density, small packet sizes, high expected disruption density.
-* **Figure 10.** Scenario 110: High density, large packet sizes, low expected disruption density.
-* **Figure 11.** Scenario 111: High density, large packet sizes, high expected disruption density.
+* [**Figure 4.** Scenario 000: Low density, small packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png)
+* [**Figure 5.** Scenario 001: Low density, small packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png)
+* [**Figure 6.** Scenario 010: Low density, large packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png)
+* [**Figure 7.** Scenario 011: Low density, large packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG011.png)
+* [**Figure 8.** Scenario 100: High density, small packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG100.png)
+* [**Figure 9.** Scenario 101: High density, small packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png)
+* [**Figure 10.** Scenario 110: High density, large packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG110.png)
+* [**Figure 11.** Scenario 111: High density, large packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png)
   
 
 
