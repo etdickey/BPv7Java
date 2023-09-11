@@ -26,7 +26,7 @@ This is a lightweight, easy-to-understand, framework specifically designed to si
 
 **Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully [RFC9171](https://datatracker.ietf.org/doc/rfc9171/)-compliant. JSON was chosen over CBOR for the ease of analysis and debugging process, as one of our goals was to create an easy-to-understand testbed for BPv7.
 
-The [src](src) folder is the main folder. It largely consists of two subfolders: [DTCP](src/DTCP) and [BPv7](src/BPv7). [DTCP](src/DTCP) folder contains DTCP which has the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this research. Please refer to **Section II-A** of our paper for details. The main BP code is in the [BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
+The [src](src) folder is the main folder. It largely consists of two subfolders: [DTCP](src/DTCP) and [BPv7](src/BPv7). The [DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project; please refer to **Section II-A** of our paper for details. The main BP code is in the [BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
 
 
 
@@ -48,7 +48,7 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
    ```
    make mininet
    ```
-5. Start the ONOS command-line interface (CLI) from the third terminal. The password is "rocks":
+5. Start the ONOS command-line interface (CLI) from the third terminal. The password is `rocks`:
    ```
    make cli
    ```
