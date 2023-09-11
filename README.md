@@ -20,15 +20,15 @@ This repository consists of the code implementing Bundle Protocol version 7 (BPv
 </table>
 </center>
 
-#### Description
+### Description
 
-This is a lightweight, easy-to-understand, framework specifically designed to simulate and test BPv7. It was implemented solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/), the IETF standardization document that defines and specifies BPv7. 
+This is a lightweight, easy-to-understand, framework specifically designed to simulate and test BPv7. It was implemented solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) (see the disclaimer below), the IETF standardization document that defines and specifies BPv7. 
+
+The [src](src) folder is the main folder that contains the implementation of BPv7 architecture. It largely consists of two subfolders: [DTCP](src/DTCP) and [BPv7](src/BPv7). 
+* The [src/DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project. It is our configurable faulty network CLA that is capable of simulating disruptions, both expected and unexpected ones. Please refer to **Section II-A** of our paper for details. Simulation scenarios can be found and added in [src/Configs/resources](src/Configs/resources) folder. 
+* The main BPv7 code is in the [src/BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
 
 **Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully [RFC9171](https://datatracker.ietf.org/doc/rfc9171/)-compliant. JSON was chosen over CBOR for the ease of analysis and debugging process, as one of our goals was to create an easy-to-understand testbed for BPv7.
-
-The [src](src) folder is the main folder that contains the implementation of BPv7 architecture. It largely consists of two subfolders: [DTCP](src/DTCP) and [BPv7](src/BPv7). The [src/DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project; please refer to **Section II-A** of our paper for details. The main BPv7 code is in the [src/BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
-
-
 
 ## Running the code
 
@@ -127,6 +127,7 @@ Figure 1-3 are combinations of Figure 4-11. In particular,
 * For [**Figure 2**](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity.png), see [**Figure 8**](mininet/50s_sums_logs_and_graphs/EndToEndLONG100.png), [**Figure 9**](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png), [**Figure 10**](mininet/50s_sums_logs_and_graphs/EndToEndLONG110.png), and [**Figure 11**](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png).
 * For [**Figure 3**](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png), see [**Figure 4**](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png), [**Figure 5**](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png), [**Figure 6**](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png), and [**Figure 7**](mininet/50s_sums_logs_and_graphs/EndToEndLONG011.png).
 
+And as said, simulation scenarios can be found and added in [src/Configs/resources](src/Configs/resources) folder. 
 
 
 ## Missing Critical Features in RFC 9171
