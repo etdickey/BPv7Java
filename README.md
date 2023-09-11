@@ -112,7 +112,7 @@ This is a continuation of **Section III** (Analysis) of our paper. Here is the l
 * [**Figure 3.** Scenario 000, 001, 010, 011: Delay between application layers of sender and receiver, low density tests. Packets stopped sending from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png) 
 	This is also **Figure 3** of our paper.
 
-The following figures are also the graphs of the delay from application layer to application layer between sender and receiver, but for each scenario.
+The following figures are also the graphs of the delay from application layer to application layer between sender and receiver (also packets stopped being sent from the application layer at t=50s), but **for each scenario**.
 * [**Figure 4.** Scenario 000: Low density, small packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png)
 * [**Figure 5.** Scenario 001: Low density, small packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png)
 * [**Figure 6.** Scenario 010: Low density, large packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png)
