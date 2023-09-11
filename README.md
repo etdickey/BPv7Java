@@ -1,14 +1,41 @@
 # BPv7Java
-This repository consists of the code implementing bundle protocol version 7 as described in the paper (insert link here). 
-The protocol is implemented based on RFC 9171, but due to use of JSON over CBOR it is not fully RFC 9171 compliant.
-The src folder contains DTCP which has the code for Disruption-TCP (DTCP) a de facto convergence layer that we created for this research. Please refer to the paper (Section II.A) for details.
+
+This repository consists of the code implementing Bundle Protocol version 7 (BPv7) and supplementary information for the paper 
+<i><a href="">Bundle Protocol version 7 Implementation with Configurable Faulty Network and Evaluation</a></i> published in [IEEE WiSEE 2023](https://2023.ieee-wisee.org/) at Aveiro, Portugal. 
+
+#### Contributors / Authors
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/aarcc530"><img src="https://avatars.githubusercontent.com/u/24422787?v=4" width="100px;" alt="Aidan Casey"/><br /><sub><b>Aidan Casey</b></sub></a><br /></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/etdickey"><img src="https://avatars.githubusercontent.com/u/16783711?v=4" width="100px;" alt="Ethan Dickey"/><br /><sub><b>Ethan Dickey</b></sub></a><br /></td>
+			<td align="center" valign="top" width="16.66%"><a href="https://github.com/jihunhwang"><img src="https://avatars.githubusercontent.com/u/29069044?v=4" width="100px;" alt="Jimmy Hwang"/><br /><sub><b>Jihun Hwang</b></sub></a><br /></td>
+			<td align="center" valign="top" width="16.66%"><a href="https://github.com/Sachitkothari"><img src="https://avatars.githubusercontent.com/u/61432064?v=4" width="100px;" alt="Sachit Kothari"/><br /><sub><b>Sachit Kothari</b></sub></a><br /></td>
+			<td align="center" valign="top" width="16.66%"><a href="https://github.com/007rau"><img src="https://avatars.githubusercontent.com/u/20044189?v=4" width="100px;" alt="Raushan Pandey"/><br /><sub><b>Raushan Pandey</b></sub></a><br /></td>
+			<td align="center" valign="top" width="16.66%"><a href="https://github.com/wenboxie-umass"><img src="https://avatars.githubusercontent.com/u/29896922?v=4" width="100px;" alt="Wenbo Xie"/><br /><sub><b>Wenbo Xie</b></sub></a><br /></td>
+    </tr>
+  </tbody>
+</table>
+
+#### Description
+
+This is a lightweight, easy-to-understand, framework specifically designed to simulate and test BPv7. It was implemented solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/), the IETF standardization document that defines and specifies BPv7. 
+
+**Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully RFC9171-compliant. JSON was chosen over CBOR for the ease of analysis and debugging process, as one of our goals was to create an easy-to-understand testbed for BPv7.
+
+The src folder contains DTCP which has the code for Disruption-TCP (DTCP) a de facto convergence layer that we created for this research. Please refer to the paper (Section II-A) for details.
 The main BP code is in the BPv7 folder.
 
-The method to run the code is as follows:
-Dependencies:
-Mininet and ONOS
 
-Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
+
+## Running the code
+
+### Dependencies
+* [Mininet](http://mininet.org/): Software-defined networking (SDN) based network emulator.
+* [Open Network Operating System (ONOS)](https://opennetworking.org/onos/): Software providing the control plane for an SDN. This is the operating system for the SDN controller inside our Mininet.
+
+### Instruction
+Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
 1. Clone this repository
 2. Open four separate terminals
 3. In the first shell, start ONOS:
@@ -29,7 +56,9 @@ Running the code: Video tutorial: https://www.youtube.com/watch?v=aika4nRm7wM
    make netcfg
 7. You can try to ping hosts from one another to see if they respond correctly.
 
-EXAMPLE TRANSMISSION:
+
+## Example Transmission
+
 The example transmission following the figure shown below (An example transmission from Node A to Node B through Node F the ‘Forwarder.’)
 
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/c59483ce-641f-44fa-a7d5-19cd99034999)
@@ -85,7 +114,9 @@ versions of the RFC since 4838 appeared. Although RFC 9171 and
 the existence of a convergence layer protocol for handling node
 ID name resolution, some practical details about routing must at
 least be mentioned and described.
-Individual graphs:
+
+### Individual graphs
+See
 
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/a5c2d8ab-eb52-4c41-a7d0-89f493549dc9)
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/8c6f4180-e1ba-4cb3-a05f-2284645b6b5b)
@@ -100,4 +131,5 @@ Individual graphs:
 
 
 
-
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/etdickey/BPv7Java/graphs/contributors
