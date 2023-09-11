@@ -24,11 +24,17 @@ This repository consists of the code implementing Bundle Protocol version 7 (BPv
 
 This is a lightweight, easy-to-understand, framework specifically designed to simulate and test BPv7. It was implemented solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) (see the disclaimer below), the IETF standardization document that defines and specifies BPv7. 
 
-The [src](src) folder is the main folder that contains the implementation of BPv7 architecture. It largely consists of two subfolders: [DTCP](src/DTCP) and [BPv7](src/BPv7). 
-* The [src/DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project. It is our configurable faulty network CLA that is capable of simulating disruptions, both expected and unexpected ones. Please refer to **Section II-A** of our paper for details. Simulation scenarios can be found and added in [src/Configs/resources](src/Configs/resources) folder. 
+The [src](src) folder is the main folder that contains the implementation of BPv7 architecture. It largely consists of three subfolders: [DTCP](src/DTCP), [BPv7](src/BPv7), [Configs](src/Configs). 
+* The [src/DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project. It is our configurable faulty network CLA that is capable of simulating disruptions, both expected and unexpected ones. Please refer to **Section II-A** of our paper for details. 
 * The main BPv7 code is in the [src/BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
+* Various parameters (e.g., bundle lifetime, sending delay range between bundles, etc.) can be set in the [src/Configs](src/Configs) folder. Moreover, simulation scenarios can be found and added in [src/Configs/resources](src/Configs/resources) folder.
 
-**Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully [RFC9171](https://datatracker.ietf.org/doc/rfc9171/)-compliant. JSON was chosen over CBOR for the ease of analysis and debugging process, as one of our goals was to create an easy-to-understand testbed for BPv7.
+The [mininet](mininet) folder contains the files for network configurations (e.g., changing the topology of networks). 
+* [mininet/Makefile](mininet/Makefile) file allows users to add more hosts.
+* [mininet/cfg/netcfg.json](mininet/cfg/netcfg.json) file is for configuring switches/gateways that connect hosts. 
+
+
+**Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully [RFC9171](https://datatracker.ietf.org/doc/rfc9171/)-compliant. JSON was chosen over CBOR for understandability and ease of implementation and analysis, as one of our goals was to create an easy-to-understand testbed for BPv7.
 
 ## Running the code
 
