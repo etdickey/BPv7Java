@@ -72,9 +72,9 @@ The example transmission following the figure shown below (An example transmissi
 * **(3)** BPA storing the received message a with its id as a key `a_id=4` inside the send buffer `send_buffer` if there is a space available for it.
 * **(4)** BPA's `send_buffer` returns the key of a which is `4`.
 * **(5)** The sender thread `SenderThread` is spawned by BPA. The thread calls `next_bundle` function to retrieve a message that needs to be sent.
-* **(6)** send_buffer returns a to SenderThread
-* **(7)** SenderThread makes send_buffer mark `a` as sent.
-* **(8)** SenderThread inquires DTCP via DTCP API whether the next node – `Node F` – is currently reachable or not: `canReach(nodeID)`.
+* **(6)** `send_buffer` returns a to `SenderThread`
+* **(7)** `SenderThread` makes `send_buffer` mark `a` as sent.
+* **(8)** `SenderThread` inquires DTCP via DTCP API whether the next node – `Node F` – is currently reachable or not: `canReach(nodeID)`.
   
 	If DTCP API returns `No`, run (8) again; if `Yes`, then move on to (9).
 
@@ -96,19 +96,17 @@ The example transmission following the figure shown below (An example transmissi
 * **(33)** Stores `a[n]` to a local buffer just in case.
 * **(34)** Returns `a[n]` to the application.
 
+## Missing Critical Features in RFC 9171
+This is the continuation of Section IV-C (Architectural Improvements - Missing Critical Features) of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC 4838/5050/9171. 
 
-Absence of Routing Method. Information about routing and
-forwarding is provided in Sections 3.8 and 4.3 of RFC 4838, the first
-RFC describing the basic architecture of DTN. However, it provides
-only rough, high-level intuition on how routings in DTN can be
-modeled mathematically. There have not been any updates or new
-versions of the RFC since 4838 appeared. Although RFC 9171 and
-5050 are strictly about a specific protocol, given that they assume
-the existence of a convergence layer protocol for handling node
-ID name resolution, some practical details about routing must at
-least be mentioned and described.
+### Undefined Notion of Clock Accuracy and Method of Synchronization
+As described in Section 8 of RFC 9171, BPv7 makes use of absolute timestamps in many places, and includes provisions for nodes having inaccurate clocks. However, it states that nodes may be unaware that their clock is inaccurate and exhibit unexpected behavior, but does not say how to synchronize clocks within DTN, or how nodes can learn if their clocks are inaccurate. This is a major potential flaw and needs to be addressed in the future. Assuming that a network --- especially a (potentially) large unstable network with prevailing disconnectivity and asymmetric data rates like DTN --- is always time synchronized is a huge, or maybe unrealistic, assumption.
 
-### Individual graphs
+### Absence of Routing Method. 
+Information about routing and forwarding is provided in Sections 3.8 and 4.3 of RFC 4838, the first RFC describing the basic architecture of DTN. However, it provides only rough, high-level intuition on how routings in DTN can be modeled mathematically. There have not been any updates or new versions of the RFC since 4838 appeared. Although RFC 9171 and 5050 are strictly about a specific protocol, given that they assume the existence of a convergence layer protocol for handling node ID name resolution, some practical details about routing must at least be mentioned and described.
+
+
+## Individual graphs
 See
 
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/a5c2d8ab-eb52-4c41-a7d0-89f493549dc9)
