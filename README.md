@@ -139,6 +139,15 @@ Figure 1-3 are combinations of Figure 4-11. In particular,
 * For [**Figure 2**](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity.png), see [**Figure 8**](mininet/50s_sums_logs_and_graphs/EndToEndLONG100.png), [**Figure 9**](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png), [**Figure 10**](mininet/50s_sums_logs_and_graphs/EndToEndLONG110.png), and [**Figure 11**](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png).
 * For [**Figure 3**](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png), see [**Figure 4**](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png), [**Figure 5**](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png), [**Figure 6**](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png), and [**Figure 7**](mininet/50s_sums_logs_and_graphs/EndToEndLONG011.png).
 
+More accurate figure for **Figure 10 (Scenario 110)** can be found here: ![image](https://github.com/etdickey/BPv7Java/assets/29069044/257afb12-e87d-447a-881c-68e22d3dd844)
+This plot represents the case of **BPA Thrashing** where the queue in the forwarding host got so big that by the time a bundle queued up, it had already expired, and so they needed their lifetime extended by the sending host and to be resent. And this thrashing was under what we consider normal network loads.
+![image](https://github.com/etdickey/BPv7Java/assets/29069044/3ed207a0-3c11-41a0-b7a9-0e99f6f7c7cd)
+
+This also changes Figure 1 as follows ![image](https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f)
+
+
+
+
 And as said, simulation scenarios can be found and added in [src/Configs/resources](src/Configs/resources) folder. 
 
 
