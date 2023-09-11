@@ -39,29 +39,27 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
 1. Clone this repository
 2. Open four separate terminals
 3. In the first shell, start ONOS:
-  
    ```
    make controller
    ```
 4. In the second terminal, start Mininet:
-   
    ```
    make mininet
    ```
 5. Start the ONOS command-line interface (CLI) from the third terminal. The password is "rocks":
-
    ```
    make cli
    ```
-6. In the fourth terminal, run the ONOS netcfg script:
-
+6. In the fourth terminal, run the ONOS [netcfg](mininet/cfg/netcfg.json) script:
    ```
    make netcfg
    ```
-7. You can try to ping hosts from one another to see if they respond correctly. For example, in the default setting, there are three hosts: `h1`, `h2`, and `h3`. One can test if `h2` is reachable from `h1` using the following script:
+7. You can try to ping hosts from one another to see if they respond correctly. For example, in the default setting (see [Makefile](mininet/Makefile) in `mininet` folder), there are three hosts: `h1`, `h2`, and `h3`. One can test if `h2` is reachable from `h1` using the following script:
 	```
 	h1 ping h2
 	```
+8. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS)
+	
 
 ## Example Transmission
 
