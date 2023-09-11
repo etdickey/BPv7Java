@@ -108,13 +108,13 @@ Explanations for each step are as follows:
 This is a continuation of **Section III** (Analysis) of our paper.
 
 * [**Figure 1.** Scenario 100, 101, 111: Delay from application layer to application layer between sender and receiver, high density tests without the 110 test (which has high density of packets, high packet size, and low density of expected downs). Packets stopped being sent from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity_No110.png) 
-	This is also Figure 1 of our paper.
+	This is also **Figure 1** of our paper.
 * [**Figure 2.** Scenario 100, 101, 110, 111: Delay from application layer to application layer between sender and receiver, high density tests. Same as Figure 1 with the 110 test added. Packets stopped being sent from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity.png) 
-	This is also Figure 2 of our paper.
+	This is also **Figure 2** of our paper.
 * [**Figure 3.** Scenario 000, 001, 010, 011: Delay between application layers of sender and receiver, low density tests. Packets stopped sending from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png) 
-	This is also Figure 3 of our paper.
+	This is also **Figure 3** of our paper.
 
-The following figures are the graphs of the delay from application layer to application layer between sender and receiver, for each scenario.
+The following figures are also the graphs of the delay from application layer to application layer between sender and receiver, but for each scenario.
 * [**Figure 4.** Scenario 000: Low density, small packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png)
 * [**Figure 5.** Scenario 001: Low density, small packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png)
 * [**Figure 6.** Scenario 010: Low density, large packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png)
@@ -123,6 +123,12 @@ The following figures are the graphs of the delay from application layer to appl
 * [**Figure 9.** Scenario 101: High density, small packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png)
 * [**Figure 10.** Scenario 110: High density, large packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG110.png)
 * [**Figure 11.** Scenario 111: High density, large packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png)
+
+For [**Figure 1**](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity_No110.png), see [**Figure 8**](mininet/50s_sums_logs_and_graphs/EndToEndLONG100.png), [**Figure 9**](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png), and [**Figure 11**](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png).
+
+For [**Figure 2**](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity.png), see [**Figure 8**](mininet/50s_sums_logs_and_graphs/EndToEndLONG100.png), [**Figure 9**](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png), [**Figure 10.**](mininet/50s_sums_logs_and_graphs/EndToEndLONG110.png), and [**Figure 11**](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png).
+
+For [**Figure 3**](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png), see [**Figure 4**](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png), [**Figure 5**](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png), [**Figure 6**](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png), and [**Figure 7**](mininet/50s_sums_logs_and_graphs/EndToEndLONG011.png).
 
 
 
