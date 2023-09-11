@@ -141,7 +141,6 @@ Figure 1-3 are combinations of Figure 4-11. In particular,
 
 More accurate figure for **Figure 10 (Scenario 110)** can be found here: ![image](https://github.com/etdickey/BPv7Java/assets/29069044/257afb12-e87d-447a-881c-68e22d3dd844)
 This plot represents the case of **BPA Thrashing** where the queue in the forwarding host got so big that by the time a bundle queued up, it had already expired, and so they needed their lifetime extended by the sending host and to be resent. And this thrashing was under what we consider normal network loads.
-![image](https://github.com/etdickey/BPv7Java/assets/29069044/3ed207a0-3c11-41a0-b7a9-0e99f6f7c7cd)
 
 This also changes Figure 1 as follows ![image](https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f)
 
