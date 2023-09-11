@@ -4,6 +4,8 @@ This repository consists of the code implementing Bundle Protocol version 7 (BPv
 <i><a href="">Bundle Protocol version 7 Implementation with Configurable Faulty Network and Evaluation</a></i> published in [IEEE WiSEE 2023](https://2023.ieee-wisee.org/) at Aveiro, Portugal. 
 
 #### Contributors / Authors
+
+<center>
 <table>
   <tbody>
     <tr>
@@ -16,6 +18,7 @@ This repository consists of the code implementing Bundle Protocol version 7 (BPv
     </tr>
   </tbody>
 </table>
+</center>
 
 #### Description
 
@@ -63,11 +66,13 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
 
 ## Example Transmission
 
-This is a continuation of Section II-B (Implementation - Mininet) of our paper. 
+This is a continuation of **Section II-B** (Implementation - Mininet) of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like.
 
-The example transmission following the figure shown below (An example transmission from `Node A` to `Node B` through `Node F` the ‘Forwarder.’)
+<p align="center">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/b9964104-1904-4190-9757-f3402c34ef19" />
+</p>
 
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/c59483ce-641f-44fa-a7d5-19cd99034999)
+Each steps are explained in the following list:
 
 * **(1)** Sending the message: `send(a)`.
 * **(2)** User API sends the received message a to the BPA: `send(a)`.
@@ -114,7 +119,7 @@ This is a continuation of Section III (Analysis) of our paper.
 
 
 ## Missing Critical Features in RFC 9171
-This is the continuation of Section IV-C (Architectural Improvements - Missing Critical Features) and Section II-C-(1) (Implementation - Configuration - Routing and Name Lookup) of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC [4838](https://datatracker.ietf.org/doc/rfc4838/)/[5050](https://datatracker.ietf.org/doc/rfc5050/)/[9171](https://datatracker.ietf.org/doc/rfc9171/). 
+This is the continuation of **Section IV-C** (Architectural Improvements - Missing Critical Features) and **Section II-C-1** (Implementation - Configuration - Routing and Name Lookup) of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC [4838](https://datatracker.ietf.org/doc/rfc4838/)/[5050](https://datatracker.ietf.org/doc/rfc5050/)/[9171](https://datatracker.ietf.org/doc/rfc9171/). 
 
 #### Undefined Notion of Clock Accuracy and Method of Synchronization
 As described in Section 8 of RFC 9171, BPv7 makes use of absolute timestamps in many places, and includes provisions for nodes having inaccurate clocks. However, it states that nodes may be unaware that their clock is inaccurate and exhibit unexpected behavior, but does not say how to synchronize clocks within DTN, or how nodes can learn if their clocks are inaccurate. This is a major potential flaw and needs to be addressed in the future. Assuming that a network --- especially a (potentially) large unstable network with prevailing disconnectivity and asymmetric data rates like DTN --- is always time synchronized is a huge, or maybe unrealistic, assumption.
