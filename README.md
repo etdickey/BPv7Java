@@ -107,14 +107,16 @@ Explanations for each step are as follows:
 
 This is a continuation of **Section III** (Analysis) of our paper.
 
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/a5c2d8ab-eb52-4c41-a7d0-89f493549dc9)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/8c6f4180-e1ba-4cb3-a05f-2284645b6b5b)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/92f412a9-5fcb-402d-adda-78f6d772d454)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/5c7b537a-5c87-4e0f-ae95-48e2012f7334)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/d1ebe00d-37aa-49cd-b776-f99405f7ca04)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/890b9a87-c448-430c-8985-bcffb97227e3)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/010a255e-8150-41b8-81c9-2d5d77bf65ec)
-![image](https://github.com/etdickey/BPv7Java/assets/61432064/14ae5f12-c143-46af-a0ef-6fc16e9b93aa)
+The following figures are the graphs of the delay from application layer to application layer between sender and receiver, for each scenario.
+* **Figure 4.** Scenario 000: Low density, small packet sizes, low expected disruption density.
+* **Figure 5.** Scenario 001: Low density, small packet sizes, high expected disruption density.
+* **Figure 6.** Scenario 010: Low density, large packet sizes, low expected disruption density.
+* **Figure 7.** Scenario 011: Low density, large packet sizes, high expected disruption density.
+* **Figure 8.** Scenario 100: High density, small packet sizes, low expected disruption density.
+* **Figure 9.** Scenario 101: High density, small packet sizes, high expected disruption density.
+* **Figure 10.** Scenario 110: High density, large packet sizes, low expected disruption density.
+* **Figure 11.** Scenario 111: High density, large packet sizes, high expected disruption density.
+  
 
 
 
