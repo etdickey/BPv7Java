@@ -24,10 +24,9 @@ This repository consists of the code implementing Bundle Protocol version 7 (BPv
 
 This is a lightweight, easy-to-understand, framework specifically designed to simulate and test BPv7. It was implemented solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/), the IETF standardization document that defines and specifies BPv7. 
 
-**Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully RFC9171-compliant. JSON was chosen over CBOR for the ease of analysis and debugging process, as one of our goals was to create an easy-to-understand testbed for BPv7.
+**Disclaimer**: Due to the use of JSON over CBOR, this implementation is not fully [RFC9171](https://datatracker.ietf.org/doc/rfc9171/)-compliant. JSON was chosen over CBOR for the ease of analysis and debugging process, as one of our goals was to create an easy-to-understand testbed for BPv7.
 
-The src folder contains DTCP which has the code for Disruption-TCP (DTCP) a de facto convergence layer that we created for this research. Please refer to the paper (Section II-A) for details.
-The main BP code is in the BPv7 folder.
+The [src](src) folder is the main folder. It largely consists of two subfolders: [DTCP](src/DTCP) and [BPv7](src/BPv7). [DTCP](src/DTCP) folder contains DTCP which has the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this research. Please refer to **Section II-A** of our paper for details. The main BP code is in the [BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
 
 
 
@@ -134,10 +133,10 @@ Figure 1-3 are combinations of Figure 4-11. In particular,
 This is the continuation of **Section IV-C** (Architectural Improvements - Missing Critical Features) and **Section II-C-1** (Implementation - Configuration - Routing and Name Lookup) of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC [4838](https://datatracker.ietf.org/doc/rfc4838/)/[5050](https://datatracker.ietf.org/doc/rfc5050/)/[9171](https://datatracker.ietf.org/doc/rfc9171/). 
 
 #### Undefined Notion of Clock Accuracy and Method of Synchronization
-As described in Section 8 of RFC 9171, BPv7 makes use of absolute timestamps in many places, and includes provisions for nodes having inaccurate clocks. However, it states that nodes may be unaware that their clock is inaccurate and exhibit unexpected behavior, but does not say how to synchronize clocks within DTN, or how nodes can learn if their clocks are inaccurate. This is a major potential flaw and needs to be addressed in the future. Assuming that a network --- especially a (potentially) large unstable network with prevailing disconnectivity and asymmetric data rates like DTN --- is always time synchronized is a huge, or maybe unrealistic, assumption.
+As described in Section 8 of [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/), BPv7 makes use of absolute timestamps in many places, and includes provisions for nodes having inaccurate clocks. However, it states that nodes may be unaware that their clock is inaccurate and exhibit unexpected behavior, but does not say how to synchronize clocks within DTN, or how nodes can learn if their clocks are inaccurate. This is a major potential flaw and needs to be addressed in the future. Assuming that a network --- especially a (potentially) large unstable network with prevailing disconnectivity and asymmetric data rates like DTN --- is always time synchronized is a huge, or maybe unrealistic, assumption.
 
 #### Absence of Routing Method. 
-Information about routing and forwarding is provided in Sections 3.8 and 4.3 of RFC 4838, the first RFC describing the basic architecture of DTN. However, it provides only rough, high-level intuition on how routings in DTN can be modeled mathematically. There have not been any updates or new versions of the RFC since 4838 appeared. Although RFC 9171 and 5050 are strictly about a specific protocol, given that they assume the existence of a convergence layer protocol for handling node ID name resolution, some practical details about routing must at least be mentioned and described.
+Information about routing and forwarding is provided in Sections 3.8 and 4.3 of [RFC 4838](https://datatracker.ietf.org/doc/rfc4838/), the first RFC describing the basic architecture of DTN. However, it provides only rough, high-level intuition on how routings in DTN can be modeled mathematically. There have not been any updates or new versions of the RFC since [RFC 4838](https://datatracker.ietf.org/doc/rfc4838/) appeared. Although [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) and [RFC 5050](https://datatracker.ietf.org/doc/rfc5050/) are strictly about a specific protocol, given that they assume the existence of a convergence layer protocol for handling node ID name resolution, some practical details about routing must at least be mentioned and described.
 
 
 
