@@ -58,7 +58,7 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
 	```
 	h1 ping h2
 	```
-8. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS)
+8. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS) as needed, to simulate more complicated network topology. 
 	
 
 ## Example Transmission
