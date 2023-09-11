@@ -69,10 +69,10 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
 This is a continuation of **Section II-B** (Implementation - Mininet) of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like.
 
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/b9964104-1904-4190-9757-f3402c34ef19" />
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/b9964104-1904-4190-9757-f3402c34ef19" width="50%" height="50%"/>
 </p>
 
-Each steps are explained in the following list:
+Explanations for each step are as follows:
 
 * **(1)** Sending the message: `send(a)`.
 * **(2)** User API sends the received message a to the BPA: `send(a)`.
@@ -105,7 +105,7 @@ Each steps are explained in the following list:
 
 ## Individual Graphs
 
-This is a continuation of Section III (Analysis) of our paper.
+This is a continuation of **Section III** (Analysis) of our paper.
 
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/a5c2d8ab-eb52-4c41-a7d0-89f493549dc9)
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/8c6f4180-e1ba-4cb3-a05f-2284645b6b5b)
