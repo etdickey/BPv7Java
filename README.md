@@ -58,56 +58,45 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
 	```
 	h1 ping h2
 	```
-8. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS) as needed, to simulate more complicated network topology. 
+8. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS) as needed, to simulate more complicated network topology. The default setup is: three hosts (`h1`, `h2`, and `h3`) being connected to switch `s1` acting as a gateway with our DTCP forcing a topology of `h1 -- s1 -- h2`.
 	
 
 ## Example Transmission
 
-The example transmission following the figure shown below (An example transmission from Node A to Node B through Node F the ‘Forwarder.’)
+The example transmission following the figure shown below (An example transmission from `Node A` to `Node B` through `Node F` the ‘Forwarder.’)
 
 ![image](https://github.com/etdickey/BPv7Java/assets/61432064/c59483ce-641f-44fa-a7d5-19cd99034999)
-```markdown
-(1) Sending the message: send(a).
-(2) User API sends the received message a to the BPA: send(a).
-(3) BPA storing the received message a with its id as a key
-a_id=4 inside the send buffer send_buffer if there is a space
-available for it.
-(4) BPA’s send_buffer returns the key of a which is 4.
-(5) The sender thread SenderThread is spawned by BPA. The
-thread calls next_bundle function to retrieve a message that
-needs to be sent.
-(6) send_buffer returns a to SenderThread
-(7) SenderThread makes send_buffer mark a as sent.
-(8) SenderThread inquires DTCP via DTCP API whether the
-next node – Node F – is currently reachable or not:
-canReach(nodeID). If DTCP API returns No, run (8) again;
-if Yes, then move on to (9).
-(8.5) DTCP API checks whether Node F is reachable or not,
-then response back to SenderThread.
-(9) Once DTCP API sends Yes in (8), process a into a bundle and
-send: Send(Bundle(a)).
-(10) ANSF: Process Send(Bundle(a)) into network serializable
-format and send it over to TCP.
-(11) Transmit it to the next node via TCP.
-(12-13) ANSF.
-(14) Notify ListenerThread that a new packet/bundle has ar-
-rived: YouGotAMessage(Bundle(a)).
-(15) Send it to another function in BPA for decoding.
-(16) Decode bundle and realize it is destined for another node.
-Send delivery confirmation admin record if requested.
-(17) Message a gets stored in sending buffer SendBuffer with
-some key of Node F’s choice x.
-(18) SenderThread asks for the next message to be sent: getNextMsg
-(19) SenderThread receives the message a from sendBuffer.
-(20-29) Same as (8-17).
-(30) The application of Node B requests for a certain number of
-bytes n.
-(31) Reads data from the receiving buffer receiveBuffer: a[n]
-= getPayload(n)
-(32) receiveBuffer returns a[n].
-(33) Stores a[n] to a local buffer just in case.
-(34) Returns a[n] to the application.
-```
+
+* **(1)** Sending the message: `send(a)`.
+* **(2)** User API sends the received message a to the BPA: `send(a)`.
+* **(3)** BPA storing the received message a with its id as a key `a_id=4` inside the send buffer `send_buffer` if there is a space available for it.
+* **(4)** BPA's `send_buffer` returns the key of a which is `4`.
+* **(5)** The sender thread `SenderThread` is spawned by BPA. The thread calls `next_bundle` function to retrieve a message that needs to be sent.
+* **(6)** send_buffer returns a to SenderThread
+* **(7)** SenderThread makes send_buffer mark `a` as sent.
+* **(8)** SenderThread inquires DTCP via DTCP API whether the next node – `Node F` – is currently reachable or not: `canReach(nodeID)`.
+  
+	If DTCP API returns `No`, run (8) again; if `Yes`, then move on to (9).
+
+* **(8.5)** DTCP API checks whether `Node F` is reachable or not, then response back to `SenderThread`.
+* **(9)** Once DTCP API sends `Yes` in (8), process `a` into a bundle and send: `Send(Bundle(a))`.
+* **(10)** ANSF: Process `Send(Bundle(a))` into network serializable format and send it over to TCP.
+* **(11)** Transmit it to the next node via TCP.
+* **(12-13)** ANSF.
+* **(14)** Notify `ListenerThread` that a new packet/bundle has arrived: `YouGotAMessage(Bundle(a))`.
+* **(15)** Send it to another function in BPA for decoding.
+* **(16)** Decode bundle and realize it is destined for another node. Send delivery confirmation admin record if requested.
+* **(17)** Message a gets stored in the sending buffer `SendBuffer` with some key of `Node F`’s choice `x`.
+* **(18)** `SenderThread` asks for the next message to be sent: `getNextMsg`
+* **(19)** `SenderThread` receives the message `a` from `sendBuffer`.
+* **(20-29)** Same as **(8-17)**.
+* **(30)** The application of `Node B` requests for a certain number of bytes `n`.
+* **(31)** Reads data from the receiving buffer `receiveBuffer`: `a[n] = getPayload(n)`
+* **(32)** `receiveBuffer` returns `a[n]`.
+* **(33)** Stores `a[n]` to a local buffer just in case.
+* **(34)** Returns `a[n]` to the application.
+
+
 Absence of Routing Method. Information about routing and
 forwarding is provided in Sections 3.8 and 4.3 of RFC 4838, the first
 RFC describing the basic architecture of DTN. However, it provides
