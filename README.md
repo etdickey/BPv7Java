@@ -72,7 +72,7 @@ The video tutorial (demo video) is available in this link: https://youtu.be/aika
 	```
 9. One can modify the config files ([Makefile](mininet/Makefile) for Mininet and [netcfg](mininet/cfg/netcfg.json) for ONOS) as needed, to simulate more complicated network topology. The default setup is: three hosts (`h1`, `h2`, and `h3`) being connected to switch `s1` acting as a gateway. However, our DTCP forces a topology of `h1 -- h3 -- h2`, basically making `h3` act as a forwarding node.
 
-For more details, please refer to our demo video https://youtu.be/aika4nRm7wM or [mininet/Steps to run mininet.txt](mininet/Steps to run mininet.txt).
+For more details, please refer to our demo video https://youtu.be/aika4nRm7wM.
 	
 
 ## Example Transmission
