@@ -156,6 +156,8 @@ and this updates **Figure 1 (Scenario 100, 101, 111)** as follows:
 <img src="https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f" width="50%" height="50%">
 </p>
 
+For more simulation results, please see [mininet/5s_sims_logs_and_graphs](mininet/5s_sims_logs_and_graphs). This folder contains the results for the experiments where the packets were stopped being sent from the application layer at t=5s. 
+
 
 ## Missing Critical Features in RFC 9171
 This is the continuation of **Section IV-C** (Architectural Improvements - Missing Critical Features) and **Section II-C-1** (Implementation - Configuration - Routing and Name Lookup) of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC [4838](https://datatracker.ietf.org/doc/rfc4838/)/[5050](https://datatracker.ietf.org/doc/rfc5050/)/[9171](https://datatracker.ietf.org/doc/rfc9171/). 
