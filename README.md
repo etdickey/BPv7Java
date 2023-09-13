@@ -25,7 +25,7 @@ This repository consists of the code implementing Bundle Protocol version 7 (BPv
 This is a lightweight, easy-to-understand, framework specifically designed to simulate and test BPv7. It was implemented solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) (see the disclaimer below), the IETF standardization document that defines and specifies BPv7. 
 
 The [src](src) folder is the main folder that contains the implementation of BPv7 architecture. It largely consists of three subfolders: [DTCP](src/DTCP), [BPv7](src/BPv7), [Configs](src/Configs). 
-* The [src/DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project. It is our configurable faulty network CLA that is capable of simulating disruptions, both expected and unexpected ones. Please refer to **Section II-A** of our paper for details. 
+* The [src/DTCP](src/DTCP) folder contains the code for Disruption-TCP (DTCP), the de facto convergence layer that we created for this project. It is our configurable faulty network CLA that is capable of simulating disruptions, both expected and unexpected ones. Please refer to **Section II-A** [_Implementation - DTCP_] of our paper for details. 
 * The main BPv7 code is in the [src/BPv7](src/BPv7) folder; see [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) for more details.
 * Various parameters (e.g., bundle lifetime, sending delay range between bundles, etc.) can be set in the [src/Configs](src/Configs) folder. Moreover, simulation scenarios can be found and added in [src/Configs/resources](src/Configs/resources) folder.
 
@@ -77,7 +77,7 @@ For more details, please refer to our demo video https://youtu.be/aika4nRm7wM.
 
 ## Example Transmission
 
-This is a continuation of **Section II-B** (Implementation - Mininet) of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like.
+This is a continuation of **Section II-B** [_Implementation - Mininet_] of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like.
 
 <p align="center">
 <img src="https://github.com/etdickey/BPv7Java/assets/29069044/b9964104-1904-4190-9757-f3402c34ef19" width="50%" height="50%"/>
@@ -116,7 +116,7 @@ Explanations for each step are as follows:
 
 ## Individual Graphs
 
-This is a continuation of **Section III** (Analysis) of our paper. Here is the list of figures that appears on our paper:
+This is a continuation of **Section III** [_Analysis_] of our paper. Here is the list of figures that appear in our paper:
 * [**Figure 1.** Scenario 100, 101, 111: Delay from application layer to application layer between sender and receiver, high density tests without the 110 test (which has high density of packets, high packet size, and low density of expected downs). Packets stopped being sent from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity_No110.png) 
 	This is also **Figure 1** of our paper.
 * [**Figure 2.** Scenario 100, 101, 110, 111: Delay from application layer to application layer between sender and receiver, high density tests. Same as Figure 1 with the 110 test added. Packets stopped being sent from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity.png) 
@@ -124,7 +124,7 @@ This is a continuation of **Section III** (Analysis) of our paper. Here is the l
 * [**Figure 3.** Scenario 000, 001, 010, 011: Delay between application layers of sender and receiver, low density tests. Packets stopped sending from the application layer at t = 50s.](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png) 
 	This is also **Figure 3** of our paper.
 
-The following figures are also the graphs of the delay from application layer to application layer between sender and receiver (also packets stopped being sent from the application layer at t=50s), but **for each scenario**.
+The following figures are also the graphs of the delay from the application layer to the application layer between sender and receiver (also packets stopped being sent from the application layer at t=50s), but **for each scenario**.
 * [**Figure 4.** Scenario 000: Low density, small packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png)
 * [**Figure 5.** Scenario 001: Low density, small packet sizes, high expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png)
 * [**Figure 6.** Scenario 010: Low density, large packet sizes, low expected disruption density.](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png)
@@ -160,7 +160,10 @@ For more simulation results, please see [mininet/5s_sims_logs_and_graphs](minine
 
 
 ## Missing Critical Features in RFC 9171
-This is the continuation of **Section IV-C** (Architectural Improvements - Missing Critical Features) and **Section II-C-1** (Implementation - Configuration - Routing and Name Lookup) of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC [4838](https://datatracker.ietf.org/doc/rfc4838/)/[5050](https://datatracker.ietf.org/doc/rfc5050/)/[9171](https://datatracker.ietf.org/doc/rfc9171/). 
+This is the continuation of **Section IV-C** [_Architectural Improvements - Missing Critical Features_] and **Section II-C-1** [_Implementation - Configuration - Routing and Name Lookup_] of our paper. These were omitted in our paper as these are the deficiencies of the current BPv7 architecture regarding potential deployment issues that are closer to the implementation details than flaws of RFC [4838](https://datatracker.ietf.org/doc/rfc4838/)/[5050](https://datatracker.ietf.org/doc/rfc5050/)/[9171](https://datatracker.ietf.org/doc/rfc9171/). 
+
+**Disclaimer**: As we raised in the **Section I-A** [_Introduction - Problem_] of our paper, it was unclear (based on the previous implementations available online) whether the "disruption-tolerance" and other required services of DTNs are attributed to the BP alone, or there needs to be additional protocols/programs to fulfill every requirement of DTN. Per [RFC 4838](https://datatracker.ietf.org/doc/rfc4838/), a node that implements the bundle layer is called a DTN node, and currently (as of the date our paper was published) the only protocols available for the bundle layer are BP and BPSec (BP Security). **Section IV-B** [_Architectural Improvements - Missing Specifications_] and **Section IV-C** [_Architectural Improvements - Missing Critical Features_] of our paper are claiming that BPv7 by itself, solely based on [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/), could be insufficient for satisfying the requirements of DTN stated in [RFC 4838](https://datatracker.ietf.org/doc/rfc4838/) (hence, "missing" specifications/critical features); they do not undermine the validity of BPv7 as a legitimate network protocol or subvert the entire [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/) document. 
+
 
 #### Undefined Notion of Clock Accuracy and Method of Synchronization
 As described in Section 8 of [RFC 9171](https://datatracker.ietf.org/doc/rfc9171/), BPv7 makes use of absolute timestamps in many places, and includes provisions for nodes having inaccurate clocks. However, it states that nodes may be unaware that their clock is inaccurate and exhibit unexpected behavior, but does not say how to synchronize clocks within DTN, or how nodes can learn if their clocks are inaccurate. This is a major potential flaw and needs to be addressed in the future. Assuming that a network --- especially a (potentially) large unstable network with prevailing disconnectivity and asymmetric data rates like DTN --- is always time synchronized is a huge, or maybe unrealistic, assumption.
