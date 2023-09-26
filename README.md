@@ -141,20 +141,21 @@ Figure 1-3 are combinations of Figure 4-11. In particular,
 
 A more accurate figure for **Figure 10 (Scenario 110)** can be found below:
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/c4ed266b-0bf8-4071-b880-8d0877578406" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/d56a61cc-2669-49fc-8993-c42971b10422" width="50%" height="50%">
 </p>
 
 This plot represents the case of "**BPA Thrashing**" where the queue in the forwarding host got so big that by the time a bundle queued up, it had already expired, and so they needed their lifetime extended by the sending host and to be resent. Recall that packets were stopped being sent from the application layer at t=50s, and that thrashing was under what we consider normal network loads. This hence suggests that even a small-scaled DTN network may experience a performance issue under network traffic that is considered normal today.
 
 Similarly, here is a more accurate version of **Figure 11 (Scenario 111)**
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/f4a54738-1f2f-4270-ba3e-6e2edba2026d" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/f0e7e1ce-3385-4bda-890b-ad15fb0ea04a" width="50%" height="50%">
 </p>
 
 and this updates **Figure 1 (Scenario 100, 101, 111)** as follows:
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/922bbf73-0145-42d5-87e6-cfff014c5809" width="50%" height="50%">
 </p>
+
 
 For more simulation results, please see [mininet/5s_sims_logs_and_graphs](mininet/5s_sims_logs_and_graphs). This folder contains the results for the experiments where the packets were stopped being sent from the application layer at t=5s. 
 
