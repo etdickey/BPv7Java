@@ -79,12 +79,9 @@ For more details, please refer to our demo video https://youtu.be/aika4nRm7wM.
 
 This is a continuation of **Section II-B** [_Implementation - Mininet_] of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like.
 
-![example_transmission](readme_figs/Example_transmission.png)
-
 <p align="center">
-<img src="[https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f](https://github.com/etdickey/BPv7Java/assets/29069044/23171f53-07d0-4053-8e88-9c9400759c2c)" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/f6c5af17-e689-46e9-bc13-588e3010313c" width="50%" height="50%">
 </p>
-
 
 Explanations for each step are as follows:
 
