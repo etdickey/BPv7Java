@@ -77,10 +77,10 @@ For more details, please refer to our demo video https://youtu.be/aika4nRm7wM.
 
 ## Example Transmission
 
-This is a continuation of **Section II-B** [_Implementation - Mininet_] of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like.
+This is a continuation of **Section II-B** [_Implementation - Mininet_] of our paper. Here is how a transmission from `Node A` to `Node B` through `Node F` the 'Forwarder' would look like (also available in [click here](readme_figs/Example_transmission.png)).
 
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/b9964104-1904-4190-9757-f3402c34ef19" width="50%" height="50%"/>
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/f6c5af17-e689-46e9-bc13-588e3010313c" width="50%" height="50%">
 </p>
 
 Explanations for each step are as follows:
@@ -139,22 +139,23 @@ Figure 1-3 are combinations of Figure 4-11. In particular,
 * For [**Figure 2**](mininet/50s_sums_logs_and_graphs/EndToEndLONGHighDensity.png), see [**Figure 8**](mininet/50s_sums_logs_and_graphs/EndToEndLONG100.png), [**Figure 9**](mininet/50s_sums_logs_and_graphs/EndToEndLONG101.png), [**Figure 10**](mininet/50s_sums_logs_and_graphs/EndToEndLONG110.png), and [**Figure 11**](mininet/50s_sums_logs_and_graphs/EndToEndLONG111.png).
 * For [**Figure 3**](mininet/50s_sums_logs_and_graphs/EndToEndLONGLowDensity.png), see [**Figure 4**](mininet/50s_sums_logs_and_graphs/EndToEndLONG000.png), [**Figure 5**](mininet/50s_sums_logs_and_graphs/EndToEndLONG001.png), [**Figure 6**](mininet/50s_sums_logs_and_graphs/EndToEndLONG010.png), and [**Figure 7**](mininet/50s_sums_logs_and_graphs/EndToEndLONG011.png).
 
-A more accurate figure for **Figure 10 (Scenario 110)** can be found below:
+A more accurate figure for **Figure 10 (Scenario 110)** can be found below (or [click here](readme_figs/EndToEndLONG110_added_dots_ignore.png)):
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/c4ed266b-0bf8-4071-b880-8d0877578406" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/d56a61cc-2669-49fc-8993-c42971b10422" width="50%" height="50%">
 </p>
 
 This plot represents the case of "**BPA Thrashing**" where the queue in the forwarding host got so big that by the time a bundle queued up, it had already expired, and so they needed their lifetime extended by the sending host and to be resent. Recall that packets were stopped being sent from the application layer at t=50s, and that thrashing was under what we consider normal network loads. This hence suggests that even a small-scaled DTN network may experience a performance issue under network traffic that is considered normal today.
 
-Similarly, here is a more accurate version of **Figure 11 (Scenario 111)**
+Similarly, here is a more accurate version of **Figure 11 (Scenario 111)** (or [click here](readme_figs/EndToEndLONG1111_SR.png))
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/f4a54738-1f2f-4270-ba3e-6e2edba2026d" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/f0e7e1ce-3385-4bda-890b-ad15fb0ea04a" width="50%" height="50%">
 </p>
 
-and this updates **Figure 1 (Scenario 100, 101, 111)** as follows:
+and this updates **Figure 1 (Scenario 100, 101, 111)** as follows (or [click here](readme_figs/EndToEndLONGHighDensity_No110_NoSR.png)):
 <p align="center">
-<img src="https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f" width="50%" height="50%">
+<img src="https://github.com/etdickey/BPv7Java/assets/29069044/922bbf73-0145-42d5-87e6-cfff014c5809" width="50%" height="50%">
 </p>
+
 
 For more simulation results, please see [mininet/5s_sims_logs_and_graphs](mininet/5s_sims_logs_and_graphs). This folder contains the results for the experiments where the packets were stopped being sent from the application layer at t=5s. 
 
