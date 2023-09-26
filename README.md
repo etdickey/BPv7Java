@@ -81,6 +81,11 @@ This is a continuation of **Section II-B** [_Implementation - Mininet_] of our p
 
 ![example_transmission](readme_figs/Example_transmission.png)
 
+<p align="center">
+<img src="[https://github.com/etdickey/BPv7Java/assets/29069044/403326bf-ea81-4e75-9a08-e2dcb82df44f](https://github.com/etdickey/BPv7Java/assets/29069044/23171f53-07d0-4053-8e88-9c9400759c2c)" width="50%" height="50%">
+</p>
+
+
 Explanations for each step are as follows:
 
 * **(1)** Sending the message: `send(a)`.
