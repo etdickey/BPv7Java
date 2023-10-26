@@ -1,7 +1,7 @@
 # BPv7Java
 
 This repository consists of the code implementing Bundle Protocol version 7 (BPv7) and supplementary information for the paper 
-<i><a href="">Bundle Protocol version 7 Implementation with Configurable Faulty Network and Evaluation</a></i> published in [IEEE WiSEE 2023](https://2023.ieee-wisee.org/) at Aveiro, Portugal. 
+<i><a href="https://ieeexplore.ieee.org/document/10289381">Bundle Protocol version 7 Implementation with Configurable Faulty Network and Evaluation</a></i> published in [IEEE WiSEE 2023](https://2023.ieee-wisee.org/) at Aveiro, Portugal. 
 
 #### Contributors / Authors
 
